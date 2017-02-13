@@ -95,7 +95,7 @@ class MainViewController: UIViewController {
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         
-//        DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + 1.0, execute: <#T##() -> Void#>)
+        AudioRecorder.requestAuthorization()
     }
 
     override func didReceiveMemoryWarning() {
@@ -182,13 +182,16 @@ class MainViewController: UIViewController {
         
         recordState = .glancing
         
-        expandActionsConstainer()
-        
-        dataManager.currentData = data
-        
         updatePlayButton(title: .play)
         updateRecordingStateLabel(text: .finish)
         updateRecordingTimeIntervalLable(timeInterval: data.duration)
+        
+        playButton.isEnabled = true
+        sendButton.isEnabled = true
+        
+        expandActionsConstainer()
+        
+        dataManager.currentData = data
     }
     
     
@@ -234,6 +237,10 @@ class MainViewController: UIViewController {
         dataManager.upload(data: data)
     }
     
+    func canRecord() -> Bool {
+        return AudioRecorder.canRecord()
+    }
+    
     func startARecording() {
         
         let name = "\(Date.currentName).wav"
@@ -255,6 +262,10 @@ class MainViewController: UIViewController {
      When recordState is .idle, begin a recording, otherwise, cancel that operation
      */
     @IBAction func didTapRecordButton(_ sender: UIButton) {
+        
+        if !canRecord() {
+            return
+        }
         
         let resetToIdle = {
             self.recordState = .idle
@@ -281,6 +292,7 @@ class MainViewController: UIViewController {
         
         switch recordState {
         case .idle:
+            
             setRecord()
             /// reset data
             dataManager.currentData = nil

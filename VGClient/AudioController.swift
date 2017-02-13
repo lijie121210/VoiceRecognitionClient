@@ -335,6 +335,19 @@ class AudioRecorder: NSObject, AVAudioRecorderDelegate {
         }
     }
     
+    static func requestAuthorization() {
+        if AVAudioSession.sharedInstance().recordPermission() == .granted {
+            return
+        }
+        AVAudioSession.sharedInstance().requestRecordPermission { (permission) in
+            
+        }
+    }
+    
+    static func canRecord() -> Bool {
+        return AVAudioSession.sharedInstance().recordPermission() == .granted
+    }
+    
     func createRecorder(at path: URL) -> AVAudioRecorder? {
         do {
             let recorder = try AVAudioRecorder(url: path, settings: AudioSettings)
