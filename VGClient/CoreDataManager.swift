@@ -127,13 +127,7 @@ class CoreDataManager: NSObject {
         let item = CoreDataManager.default.insertEntity(AudioRecordItem.self)
         item.createDate = data.recordDate as NSDate
         item.duration = data.duration
-        item.localURL = data.dataURL.absoluteString
-        
-        let objects = CoreDataManager.default.managedObjectContext.insertedObjects
-        
-        for obj in objects {
-            print((obj as! AudioRecordItem).localURL ?? "nil url")
-        }
+        item.filename = data.filename
         
         saveContext()
     }

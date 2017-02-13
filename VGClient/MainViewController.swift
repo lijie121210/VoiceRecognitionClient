@@ -33,9 +33,12 @@ enum PromptText {
         case recording = "正在录制"
         case finish = "录制完成"
         case playing = "正在播放"
-        case fail = "录制失败"
+        case recordfail = "录制失败"
+        case playfail = "播放失败"
     }
 }
+
+
 
 class MainViewController: UIViewController {
     
@@ -116,6 +119,8 @@ class MainViewController: UIViewController {
     /// Set send button hidden and only show record button on the screen.
     func shrinkActionsConstainer() {
         
+        tableView.isUserInteractionEnabled = true
+        
         recordButton.setTitle("开始", for: .normal)
         
         UIView.animate(withDuration: 0.2) { 
@@ -132,6 +137,8 @@ class MainViewController: UIViewController {
     /// Show record button on left and send button on right
     func expandActionsConstainer() {
         
+        tableView.isUserInteractionEnabled = false
+
         recordButton.setTitle("取消", for: .normal)
         
         UIView.animate(withDuration: 0.2) {
@@ -171,8 +178,21 @@ class MainViewController: UIViewController {
         playButton.setTitle(title.rawValue, for: .normal)
     }
     
+    func glance(data: AudioData) {
+        
+        recordState = .glancing
+        
+        expandActionsConstainer()
+        
+        dataManager.currentData = data
+        
+        updatePlayButton(title: .play)
+        updateRecordingStateLabel(text: .finish)
+        updateRecordingTimeIntervalLable(timeInterval: data.duration)
+    }
     
-    func successedARecording(result: (URL, Date, TimeInterval)) {
+    
+    func successedARecording(result: (String, Date, TimeInterval)) {
         
         let originCount = dataManager.datas.count
         
@@ -194,7 +214,7 @@ class MainViewController: UIViewController {
         
         dataManager.updateCurrentData(newData: nil)
         
-        updateRecordingStateLabel(text: .fail)
+        updateRecordingStateLabel(text: .recordfail)
         updatePlayButton(title: .play)
         updateRecordingTimeIntervalLable(timeInterval: 0)
         
@@ -208,6 +228,25 @@ class MainViewController: UIViewController {
         
         shrinkActionsConstainer()
     }
+    
+    func sendARecording(data: AudioData) {
+        
+        dataManager.upload(data: data)
+    }
+    
+    func startARecording() {
+        
+        let name = "\(Date.currentName).wav"
+        let localURL = AudioDataManager.dataURL(with: name)
+        
+        recorder.startRecording(filename: name, storageURL: localURL)
+    }
+    
+    func play(record: AudioData, completion: ( (AudioPlayer, Bool) -> () )? = nil) {
+        
+        player.startPlaying(url: record.localURL, completion: completion)
+    }
+    
     
     /// Record button
     
@@ -233,10 +272,6 @@ class MainViewController: UIViewController {
             
             self.updateRecordingStateLabel(text: .recording)
         }
-        let recordWork = DispatchWorkItem {
-            
-            self.recorder.startRecording(at: AudioDataManager.newDataURL(with: "\(Date.currentName).wav"))
-        }
         
         playButton.isEnabled = true
         sendButton.isEnabled = true
@@ -250,7 +285,7 @@ class MainViewController: UIViewController {
             /// reset data
             dataManager.currentData = nil
             /// start a recording
-            DispatchQueue.main.async(execute: recordWork)
+            DispatchQueue.main.async(execute: startARecording)
 
         case .recording:
             
@@ -288,7 +323,7 @@ class MainViewController: UIViewController {
             updateRecordingStateLabel(text: .finish)
 
             updatePlayButton(title: .play)
-        case .holding:
+        case .holding, .glancing:
             
             if let data = dataManager.currentData {
                 /// change to playing
@@ -300,15 +335,15 @@ class MainViewController: UIViewController {
                 updatePlayButton(title: .stop)
                 
                 /// start playing a record
-                player.startPlaying(url: data.dataURL, completion: { (p, f) in
+                
+                play(record: data, completion: { (p, f) in
                     self.recordState = .holding
                     
-                    self.updateRecordingStateLabel(text: .finish)
-
+                    self.updateRecordingStateLabel(text: f ? .finish : .playfail)
+                    
                     self.updatePlayButton(title: .play)
                 })
             }
-            
         case .playing:
             
             recordState = .holding
@@ -318,7 +353,6 @@ class MainViewController: UIViewController {
             updateRecordingStateLabel(text: .finish)
 
             updatePlayButton(title: .play)
-            
         default:
             break
         }
@@ -351,12 +385,6 @@ class MainViewController: UIViewController {
         sendARecording(data: data)
     }
     
-    func sendARecording(data: AudioData) {
-        
-        print("send")
-    }
-    
-    
 }
 
 
@@ -367,6 +395,8 @@ extension MainViewController: UITableViewDataSource, UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
+        
+        glance(data: dataManager.datas[indexPath.row])
     }
     
     func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
@@ -413,7 +443,7 @@ extension MainViewController: UITableViewDataSource, UITableViewDelegate {
         button.setTitleColor( .darkGray, for: .normal)
         button.titleLabel?.font = UIFont.systemFont(ofSize: 26)
         button.contentHorizontalAlignment = .left
-        
+        button.backgroundColor = UIColor(white: 1, alpha: 0.6)
         return button
     }
     
@@ -424,7 +454,7 @@ extension MainViewController: UITableViewDataSource, UITableViewDelegate {
 
 
 extension MainViewController: AudioRecorderDelegate {
-    internal func audioRecorder(_ recorder: AudioRecorder, isFinished result: (URL, Date, TimeInterval)?) {
+    internal func audioRecorder(_ recorder: AudioRecorder, isFinished result: (String, Date, TimeInterval)?) {
         if let r = result {
             
             successedARecording(result: r)

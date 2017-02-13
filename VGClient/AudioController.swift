@@ -129,13 +129,13 @@ struct AudioDataManager {
             }
         }
         let resultDatas = result.map {
-            return AudioData(dataURL: URL(string: $0.localURL!)!, duration: $0.duration,recordDate: $0.createDate as! Date)
+            return AudioData(filename: $0.filename!, duration: $0.duration,recordDate: $0.createDate as! Date)
         }
         
         datas.append(contentsOf: resultDatas)
     }
     
-    mutating func append(newData: (URL, Date, TimeInterval)?) {
+    mutating func append(newData: (String, Date, TimeInterval)?) {
         
         let data = updateCurrentData(newData: newData)
 
@@ -148,11 +148,11 @@ struct AudioDataManager {
     
     
     @discardableResult
-    mutating func updateCurrentData(newData: (URL, Date, TimeInterval)?) -> AudioData? {
+    mutating func updateCurrentData(newData: (String, Date, TimeInterval)?) -> AudioData? {
         var data: AudioData? = nil
         
         if let r = newData {
-            data = AudioData(dataURL: r.0, duration: r.2, recordDate: r.1)
+            data = AudioData(filename: r.0, duration: r.2, recordDate: r.1)
         }
         
         currentData = data
@@ -170,7 +170,7 @@ struct AudioDataManager {
         let data = datas[index]
         
         do {
-            try FileManager.default.removeItem(at: data.dataURL)
+            try FileManager.default.removeItem(at: data.localURL)
         } catch {
             print(#function, "Fail to remove. <\(error.localizedDescription)>")
             return false
@@ -184,9 +184,9 @@ struct AudioDataManager {
     }
     
     
-    @discardableResult
-    mutating func removeLast() -> AudioData {
-        return datas.removeLast()
+    func upload(data: AudioData, completion: ( (Bool) -> () )? = nil) {
+        
+        
     }
     
     
@@ -212,32 +212,32 @@ extension AudioDataManager {
         }
     }
     
-    static func newDataURL(with fileName: String) -> URL {
+    static func dataURL(with fileName: String) -> URL {
         return dataStorageDirectory.appendingPathComponent(fileName)
     }
 }
 
 struct AudioData: Equatable {
     
-    let dataURL: URL
+    let filename: String
     let duration: TimeInterval
     let recordDate: Date
     
     var translation: String? = nil
     
-    var data: Data? {
-        return try? Data(contentsOf: dataURL)
+    var localURL: URL {
+        return AudioDataManager.dataURL(with: self.filename)
     }
     
-    init(dataURL: URL, duration: TimeInterval, recordDate: Date) {
-        self.dataURL = dataURL
+    init(filename: String, duration: TimeInterval, recordDate: Date) {
+        self.filename = filename
         self.duration = duration
         self.recordDate = recordDate
     }
 }
 
 func ==(lhs: AudioData, rhs: AudioData) -> Bool {
-    return lhs.dataURL == rhs.dataURL && lhs.duration == rhs.duration && lhs.recordDate == rhs.recordDate
+    return lhs.filename == rhs.filename && lhs.duration == rhs.duration && lhs.recordDate == rhs.recordDate
 }
 
 
@@ -254,7 +254,7 @@ protocol AudioRecorderDelegate {
     func audioRecorder(_ recorder: AudioRecorder, timeDuration currentTime: TimeInterval)
     
     /// called when stopped recording , including cancelling
-    func audioRecorder(_ recorder: AudioRecorder, isFinished result: (URL, Date, TimeInterval)? )
+    func audioRecorder(_ recorder: AudioRecorder, isFinished result: (String, Date, TimeInterval)? )
     
     /// called when cancelled recording
     func audioRecorder(_ recorder: AudioRecorder, isCancelled reason: String)
@@ -291,7 +291,7 @@ class AudioRecorder: NSObject, AVAudioRecorderDelegate {
     private var startTime: TimeInterval = 0
     private var endTime: TimeInterval = 0
     private var timeInterval: TimeInterval = 0
-    
+    private var filename: String? = nil
     private var isCancelled: Bool = false
     
     private var recordDuration: TimeInterval {
@@ -365,7 +365,10 @@ class AudioRecorder: NSObject, AVAudioRecorderDelegate {
     /// Start a recording
     
     @discardableResult
-    func startRecording(at storageURL: URL) -> Bool {
+    func startRecording(filename: String, storageURL: URL) -> Bool {
+        
+        self.filename = filename
+        
         /// reset cancel flag
         isCancelled = false
         
@@ -436,7 +439,7 @@ class AudioRecorder: NSObject, AVAudioRecorderDelegate {
         }
         
         timeInterval = 0
-        
+        filename = nil
         isCancelled = true
         
         recorder.deleteRecording()
@@ -448,13 +451,13 @@ class AudioRecorder: NSObject, AVAudioRecorderDelegate {
     
     func audioRecorderDidFinishRecording(_ recorder: AVAudioRecorder, successfully flag: Bool) {
         
-        guard flag, !isCrossMiniDurationLimit, !isCancelled else {
+        guard flag, !isCrossMiniDurationLimit, !isCancelled, let name = filename else {
             
             delegate?.audioRecorder(self, isFinished: nil)
             return
         }
         
-        delegate?.audioRecorder(self, isFinished: (recorder.url, Date(timeIntervalSince1970: startTime), timeInterval: timeInterval))
+        delegate?.audioRecorder(self, isFinished: (name, Date(timeIntervalSince1970: startTime), timeInterval: timeInterval))
     }
     
     func audioRecorderBeginInterruption(_ recorder: AVAudioRecorder) {
@@ -506,25 +509,39 @@ class AudioPlayer: NSObject, AVAudioPlayerDelegate {
         if (player != nil && player.isPlaying) {
             stopPlaying()
         }
-        
-        completionHandler = completion
-        
+        if !FileManager.default.fileExists(atPath: url.path) {
+            
+            completion?(self, false)
+            
+            print("AudioPlayer: file not exists")
+
+            return
+        }
         do {
             try AVAudioSession.sharedInstance().setCategory(AVAudioSessionCategorySoloAmbient)
             
             player = try AVAudioPlayer(contentsOf: url)
-        } catch{
-            return print("AudioPlayer: initilization error or set session category")
+            
+        } catch {
+            
+            completion?(self, false)
+            
+            print("AudioPlayer: initilization error or set session category")
+            return
         }
         
+        completionHandler = completion
+
         player.delegate = self
         player.play()
     }
     
     /// This method will not trigger audioPlayerDidFinishPlaying(_:, _:)
     func stopPlaying() {
-        player.stop()
-        player.delegate = nil
+        if let p = player {
+            p.stop()
+            p.delegate = nil
+        }
         player = nil
         completionHandler = nil
     }
