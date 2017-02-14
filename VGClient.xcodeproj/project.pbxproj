@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		1818B9BD1E53254600EF2054 /* background.PNG in Resources */ = {isa = PBXBuildFile; fileRef = 1818B9BC1E53254600EF2054 /* background.PNG */; };
 		189418891E4EDEB000207358 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 189418881E4EDEB000207358 /* AppDelegate.swift */; };
 		1894188B1E4EDEB000207358 /* MainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1894188A1E4EDEB000207358 /* MainViewController.swift */; };
 		1894188E1E4EDEB000207358 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 1894188C1E4EDEB000207358 /* Main.storyboard */; };
@@ -43,6 +44,7 @@
 
 /* Begin PBXFileReference section */
 		0C865D15E6268636F6CE4685 /* Pods_VGClientUITests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_VGClientUITests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		1818B9BC1E53254600EF2054 /* background.PNG */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = background.PNG; sourceTree = "<group>"; };
 		189418851E4EDEB000207358 /* VGClient.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = VGClient.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		189418881E4EDEB000207358 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		1894188A1E4EDEB000207358 /* MainViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainViewController.swift; sourceTree = "<group>"; };
@@ -135,6 +137,7 @@
 				189418941E4EDEB000207358 /* LaunchScreen.storyboard */,
 				189418971E4EDEB000207358 /* Info.plist */,
 				1894188F1E4EDEB000207358 /* VGClient.xcdatamodeld */,
+				1818B9BC1E53254600EF2054 /* background.PNG */,
 			);
 			path = VGClient;
 			sourceTree = "<group>";
@@ -299,6 +302,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				189418961E4EDEB000207358 /* LaunchScreen.storyboard in Resources */,
+				1818B9BD1E53254600EF2054 /* background.PNG in Resources */,
 				189418931E4EDEB000207358 /* Assets.xcassets in Resources */,
 				1894188E1E4EDEB000207358 /* Main.storyboard in Resources */,
 			);

@@ -32,6 +32,14 @@ extension Date {
         
         return res
     }
+    
+    var recordDescription: String {
+        
+        return DateFormatter.localizedString(from: self,
+                                             dateStyle: .long,
+                                             timeStyle: .long)
+            .replacingOccurrences(of: "GMT+8", with: "")
+    }
 }
 
 
@@ -184,12 +192,26 @@ struct AudioDataManager {
     }
     
     
+    
     func upload(data: AudioData, completion: ( (Bool) -> () )? = nil) {
         
         
     }
     
     
+}
+
+extension AudioDataManager {
+    
+    func play(record: AudioData, completion: ( (AudioPlayer, Bool) -> () )? = nil) {
+        
+        AudioPlayer.sharedPlayer.startPlaying(url: record.localURL, completion: completion)
+    }
+    
+    func stopPlaying() {
+        
+        AudioPlayer.sharedPlayer.stopPlaying()
+    }
 }
 
 extension AudioDataManager {
@@ -385,9 +407,11 @@ class AudioRecorder: NSObject, AVAudioRecorderDelegate {
         /// reset cancel flag
         isCancelled = false
         
-        /// create new recorder
-        guard let r = createRecorder(at: storageURL) else {
-            return false
+        guard
+            activeAudioSession(),
+            let r = createRecorder(at: storageURL) else {
+                print(#function, "activeAudioSession fail")
+                return false
         }
         recorder = r
         recorder.prepareToRecord()
@@ -431,6 +455,8 @@ class AudioRecorder: NSObject, AVAudioRecorderDelegate {
 
         recorder.stop()
         
+        deactivateAudioSession()
+        
         operationQueue.cancelAllOperations()
         
         /// if set miniDurationLimit value, check...
@@ -446,8 +472,9 @@ class AudioRecorder: NSObject, AVAudioRecorderDelegate {
     func cancelRecording() {
         
         if recorder.isRecording {
-            recorder.stop()
             
+            recorder.stop()
+            deactivateAudioSession()
             operationQueue.cancelAllOperations()
         }
         

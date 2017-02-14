@@ -9,10 +9,6 @@
 import UIKit
 
 
-
-
-
-
 enum RecordState: Int, Equatable {
     case idle
     case recording
@@ -22,6 +18,11 @@ enum RecordState: Int, Equatable {
 }
 
 enum PromptText {
+    
+    enum RecordButtonTitle: String {
+        case begin = "开始"
+        case cancel = "取消"
+    }
     
     enum PlayButtonTitle: String {
         case play = "播放"
@@ -75,7 +76,7 @@ class MainViewController: UIViewController {
         /// setup views
         setupPlayButton()
         
-        shrinkActionsConstainer()
+        hideRecordPromptContainerView()
         
         /// setup data
         
@@ -105,54 +106,17 @@ class MainViewController: UIViewController {
     
     /// Views
     
-    /// Set up play button.
     func setupPlayButton() {
-        
         playButton.backgroundColor = UIColor.white
-        playButton.layer.cornerRadius = 15.0
+        playButton.layer.cornerRadius = 20.0
         playButton.layer.shadowColor = UIColor.lightGray.cgColor
         playButton.layer.shadowOffset = CGSize(width: 0, height: 2)
         playButton.layer.shadowRadius = 10.0
         playButton.layer.shadowOpacity = 0.3
     }
     
-    /// Set send button hidden and only show record button on the screen.
-    func shrinkActionsConstainer() {
-        
-        tableView.isUserInteractionEnabled = true
-        
-        recordButton.setTitle("开始", for: .normal)
-        
-        UIView.animate(withDuration: 0.2) { 
-            self.actionsSepatatorView.alpha = 0.0
-            self.sendButtonWidthConstraint.constant = 0.0
-            self.actionsContainerWidthConstraint.constant = 60.0
-            self.actionsBottomConstraint.constant = 8.0
-            
-            self.actionsContainerView.layoutIfNeeded()
-            self.actionsContainerView.setCornerRadius(radius: 30.0)
-        }
-    }
+    /// Update text of buttons and labels
     
-    /// Show record button on left and send button on right
-    func expandActionsConstainer() {
-        
-        tableView.isUserInteractionEnabled = false
-
-        recordButton.setTitle("取消", for: .normal)
-        
-        UIView.animate(withDuration: 0.2) {
-            self.actionsSepatatorView.alpha = 1.0
-            self.sendButtonWidthConstraint.constant = 60.0
-            self.actionsContainerWidthConstraint.constant = 120.0
-            self.actionsBottomConstraint.constant = 188.0
-            
-            self.actionsContainerView.layoutIfNeeded()
-            self.actionsContainerView.setCornerRadius(radius: 15.0)
-        }
-    }
-    
-    /// Update text of recording time interval label with timeInterval
     func updateRecordingTimeIntervalLable(timeInterval: TimeInterval) {
         
         if recordingTimeInterval == Int(timeInterval) {
@@ -166,32 +130,85 @@ class MainViewController: UIViewController {
         
         DispatchQueue.main.async(execute: work)
     }
-    
-    
     func updateRecordingStateLabel(text: PromptText.StateLabelTitle) {
         
         stateLabel.text = text.rawValue
     }
-    
+    func updateRecordButton(title: PromptText.RecordButtonTitle) {
+        
+        recordButton.setTitle(title.rawValue, for: .normal)
+    }
     func updatePlayButton(title: PromptText.PlayButtonTitle) {
         
         playButton.setTitle(title.rawValue, for: .normal)
     }
     
+    ///
+    
+    func showRecordPromptContainerView() {
+        
+        tableView.isUserInteractionEnabled = false
+        playButton.isEnabled = true
+        sendButton.isEnabled = true
+        
+        updateRecordButton(title: .cancel)
+        updatePlayButton(title: .stop)
+        updateRecordingStateLabel(text: .finish)
+        updateRecordingTimeIntervalLable(timeInterval: 0.0)
+        
+        actionsContainerView.setCornerRadius(radius: 20.0, animated: true)
+
+        UIView.animate(withDuration: 0.1) {
+            
+            self.actionsSepatatorView.alpha = 1.0
+        }
+        
+        UIView.animate(withDuration: 0.5) {
+            self.sendButtonWidthConstraint.constant = 80.0
+            self.actionsContainerWidthConstraint.constant = 160.0
+            self.actionsBottomConstraint.constant = 288.0
+            
+            self.view.layoutIfNeeded()
+        }
+    }
+    
+    func hideRecordPromptContainerView() {
+        
+        tableView.isUserInteractionEnabled = true
+        playButton.isEnabled = false
+        sendButton.isEnabled = false
+        
+        updateRecordButton(title: .begin)
+
+        actionsContainerView.setCornerRadius(radius: 40.0, animated: true)
+
+        UIView.animate(withDuration: 0.1) {
+            
+            self.actionsSepatatorView.alpha = 0.0
+        }
+        
+        UIView.animate(withDuration: 0.4) {
+            self.sendButtonWidthConstraint.constant = 0.0
+            self.actionsContainerWidthConstraint.constant = 80.0
+            self.actionsBottomConstraint.constant = 8.0
+            
+            self.view.layoutIfNeeded()
+            
+        }
+    }
+    
+    
+    
     func glance(data: AudioData) {
         
         recordState = .glancing
         
-        updatePlayButton(title: .play)
-        updateRecordingStateLabel(text: .finish)
-        updateRecordingTimeIntervalLable(timeInterval: data.duration)
-        
-        playButton.isEnabled = true
-        sendButton.isEnabled = true
-        
-        expandActionsConstainer()
+        showRecordPromptContainerView()
         
         dataManager.currentData = data
+        
+        updatePlayButton(title: .play)
+        updateRecordingTimeIntervalLable(timeInterval: data.duration)
     }
     
     
@@ -229,7 +246,7 @@ class MainViewController: UIViewController {
         
         recordState = .idle
         
-        shrinkActionsConstainer()
+        hideRecordPromptContainerView()
     }
     
     func sendARecording(data: AudioData) {
@@ -240,8 +257,31 @@ class MainViewController: UIViewController {
     func canRecord() -> Bool {
         return AudioRecorder.canRecord()
     }
+        
+    func play(record: AudioData, completion: ( (AudioPlayer, Bool) -> () )? = nil) {
+        
+        dataManager.play(record: record, completion: completion)
+    }
     
-    func startARecording() {
+    func stopPlaying() {
+        
+        dataManager.stopPlaying()
+    }
+    
+    /// Start to record a new data
+    
+    func startRecording() {
+        
+        recordState = .recording
+        
+        showRecordPromptContainerView()
+        
+        DispatchQueue.main.async(execute: __startRecording)
+    }
+    
+    func __startRecording() {
+        
+        dataManager.currentData = nil
         
         let name = "\(Date.currentName).wav"
         let localURL = AudioDataManager.dataURL(with: name)
@@ -249,11 +289,19 @@ class MainViewController: UIViewController {
         recorder.startRecording(filename: name, storageURL: localURL)
     }
     
-    func play(record: AudioData, completion: ( (AudioPlayer, Bool) -> () )? = nil) {
+    /// Cancel the recording
+    
+    func cancelRecording() {
         
-        player.startPlaying(url: record.localURL, completion: completion)
+        recorder.cancelRecording()
     }
     
+    /// Stop the recording
+    
+    func stopRecording() {
+        
+        recorder.stopRecording()
+    }
     
     /// Record button
     
@@ -264,86 +312,37 @@ class MainViewController: UIViewController {
     @IBAction func didTapRecordButton(_ sender: UIButton) {
         
         if !canRecord() {
-            return
+            return print(#function, "can not record")
         }
-        
-        let resetToIdle = {
-            self.recordState = .idle
-            
-            /// hide recording prompt view.
-            self.shrinkActionsConstainer()
-            
-            self.updateRecordingStateLabel(text: .cancel)
-        }
-        let setRecord = {
-            self.recordState = .recording
-            
-            /// show up recording prompt view.
-            self.expandActionsConstainer()
-            
-            self.updateRecordingStateLabel(text: .recording)
-        }
-        
-        playButton.isEnabled = true
-        sendButton.isEnabled = true
-        
-        updatePlayButton(title: .stop)
-        updateRecordingTimeIntervalLable(timeInterval: 0)
         
         switch recordState {
-        case .idle:
             
-            setRecord()
-            /// reset data
-            dataManager.currentData = nil
-            /// start a recording
-            DispatchQueue.main.async(execute: startARecording)
-
-        case .recording:
+        case .idle: return startRecording()
             
-            recorder.cancelRecording()
-            resetToIdle()
-        case .holding:
+        case .recording: cancelRecording()
             
-            resetToIdle()
-        case .playing:
+        case .playing: stopPlaying()
             
-            player.stopPlaying()
-            resetToIdle()
-        case .glancing:
-            
-            resetToIdle()
+        case .holding, .glancing: break
         }
         
+        recordState = .idle
+        
+        hideRecordPromptContainerView()
     }
     
     
     @IBAction func didTapPlayButton(_ sender: UIButton) {
         
-        let recordWork = DispatchWorkItem {
-            self.recorder.stopRecording()
-        }
-        
         switch recordState {
-        case .recording:
-            /// change to glancing
-            recordState = .holding
-            
-            /// stop recording
-            DispatchQueue.main.async(execute: recordWork)
-            
-            updateRecordingStateLabel(text: .finish)
-
-            updatePlayButton(title: .play)
+        
         case .holding, .glancing:
             
             if let data = dataManager.currentData {
-                /// change to playing
+                
                 recordState = .playing
 
                 updateRecordingStateLabel(text: .playing)
-    
-                /// change playing to stopping state
                 updatePlayButton(title: .stop)
                 
                 /// start playing a record
@@ -352,38 +351,40 @@ class MainViewController: UIViewController {
                     self.recordState = .holding
                     
                     self.updateRecordingStateLabel(text: f ? .finish : .playfail)
-                    
                     self.updatePlayButton(title: .play)
                 })
+            } else {
+                
+                updateRecordingStateLabel(text: .playfail)
             }
-        case .playing:
             
-            recordState = .holding
+            return
             
-            player.stopPlaying()
-
-            updateRecordingStateLabel(text: .finish)
-
-            updatePlayButton(title: .play)
-        default:
-            break
+        case .recording: stopRecording()
+            
+        case .playing: stopPlaying()
+            
+        default: break
         }
+        
+        recordState = .holding
+        
+        updateRecordingStateLabel(text: .finish)
+        updatePlayButton(title: .play)
     }
     
     @IBAction func didTapSendButton(_ sender: UIButton) {
         
         switch recordState {
-        case .recording:
-            DispatchQueue.main.async { self.recorder.stopRecording() }
-        case .playing:
-            player.stopPlaying()
-        default:
-            break
+            
+        case .recording: DispatchQueue.main.async { self.recorder.stopRecording() }
+            
+        case .playing: player.stopPlaying()
+            
+        default: break
         }
         
-        shrinkActionsConstainer()
-        updateRecordingStateLabel(text: .finish)
-        updatePlayButton(title: .play)
+        hideRecordPromptContainerView()
         
         /// change to idle
         recordState = .idle
@@ -437,31 +438,33 @@ extension MainViewController: UITableViewDataSource, UITableViewDelegate {
         
         let data = dataManager.datas[indexPath.row]
         
-        cell.textLabel?.text = data.recordDate.description
+        cell.textLabel?.text = data.recordDate.recordDescription
         
         cell.detailTextLabel?.text = data.duration.dateDescription()
         
         return cell
     }
-    
+    func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
+        
+        let label: UILabel = {
+            let v = UILabel()
+            v.text = "已录制"
+            v.font = UIFont.systemFont(ofSize: 26)
+            v.textColor = .black
+            return v
+        }()
+        
+        return label
+    }
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return 60.0
-    }
-    
-    func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
-
-        let button = UIButton(frame: CGRect(x: 0, y: 0, width: tableView.bounds.height, height: 60))
-        button.setTitle("  已录制", for: .normal)
-        button.setTitleColor( .darkGray, for: .normal)
-        button.titleLabel?.font = UIFont.systemFont(ofSize: 26)
-        button.contentHorizontalAlignment = .left
-        button.backgroundColor = UIColor(white: 1, alpha: 0.6)
-        return button
     }
     
     func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
         return 60.0
     }
+    
+    
 }
 
 
@@ -477,7 +480,6 @@ extension MainViewController: AudioRecorderDelegate {
     }
 
     internal func audioRecorder(_ recorder: AudioRecorder, isCancelled reason: String) {
-        print("audioRecorder: isCancelled")
         
         failedARecording()
     }

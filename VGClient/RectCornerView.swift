@@ -15,7 +15,7 @@ class RectCornerView: UIView {
     @IBInspectable var isTopRightCorner: Bool = true
     @IBInspectable var isBottomLeftCorner: Bool = false
     @IBInspectable var isBottomRightCorner: Bool = false
-    @IBInspectable var cornerRadius: CGFloat = 15.0
+    @IBInspectable var cornerRadius: CGFloat = 20.0
     @IBInspectable var fillColor: UIColor = .white
     
     var rectCorner: UIRectCorner {
@@ -74,11 +74,19 @@ class RectCornerView: UIView {
         ctx.fillPath()
     }
     
-    func setCornerRadius(radius: CGFloat) {
+    func setCornerRadius(radius: CGFloat, animated: Bool = true) {
         
         cornerRadius = radius
         
-        setNeedsDisplay()
+        if animated {
+            UIView.animate(withDuration: 0.2) {
+                
+                self.setNeedsDisplay()
+            }
+        } else {
+            setNeedsDisplay()
+        }
+        
     }
     
     func setFillColor(color: UIColor) {
