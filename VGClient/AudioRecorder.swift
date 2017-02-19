@@ -99,15 +99,6 @@ class AudioRecorder: NSObject, AVAudioRecorderDelegate {
         }
     }
     
-    static func requestAuthorization() {
-        if AVAudioSession.sharedInstance().recordPermission() == .granted {
-            return
-        }
-        AVAudioSession.sharedInstance().requestRecordPermission { (permission) in
-            
-        }
-    }
-    
     static func canRecord() -> Bool {
         return AVAudioSession.sharedInstance().recordPermission() == .granted
     }

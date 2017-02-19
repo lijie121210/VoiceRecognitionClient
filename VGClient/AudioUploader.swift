@@ -88,11 +88,11 @@ class AudioClientSocket: NSObject, GCDAsyncSocketDelegate {
         static let data = 2
     }
     
-    var socket: GCDAsyncSocket!
-    var heartbeatTimer: DispatchSourceTimer?
-    var writingCompletionHandler: AudioClientCompletionHandler?
-    var writingProgressionHandler: AudioClientProgressHandler?
-    var writingSerializedData: SerializedData?
+    fileprivate var socket: GCDAsyncSocket!
+    fileprivate var heartbeatTimer: DispatchSourceTimer?
+    fileprivate var writingCompletionHandler: AudioClientCompletionHandler?
+    fileprivate var writingProgressionHandler: AudioClientProgressHandler?
+    fileprivate var writingSerializedData: SerializedData?
     
     deinit {
         socket.disconnect()
@@ -144,6 +144,10 @@ class AudioClientSocket: NSObject, GCDAsyncSocketDelegate {
     }
     
     /// Socket stack
+    
+    var isConnected: Bool {
+        return socket.isConnected
+    }
     
     func connect() {
         guard !socket.isConnected else {
@@ -244,6 +248,10 @@ class AudioUploader: NSObject {
     
     func connect() {
         clientSocket.connect()
+    }
+    
+    var isConnected: Bool {
+        return clientSocket.isConnected
     }
     
     func disconnect() {

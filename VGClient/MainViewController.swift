@@ -96,9 +96,13 @@ class MainViewController: UIViewController {
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         
-        AudioRecorder.requestAuthorization()
+        AudioDataManager.requestAudioSessionAuthorization()
         
-        dataManager.initConnection()
+        if #available(iOS 10.0, *) {
+            AudioDataManager.requestSpeechAuthorization()
+        }
+        
+        AudioDataManager.initConnection()
     }
 
     override func didReceiveMemoryWarning() {
@@ -253,7 +257,7 @@ class MainViewController: UIViewController {
     
     func sendARecording(data: AudioData) {
         
-        dataManager.upload(data: data, progression: { (p) in
+        AudioDataManager.upload(data: data, progression: { (p) in
             
             print(self, #function, p)
             

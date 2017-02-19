@@ -9,7 +9,7 @@
 import Foundation
 import AVFoundation
 import CoreData
-
+import Speech
 
 struct AudioData: Equatable {
     
@@ -60,6 +60,7 @@ struct AudioDataManager {
                 print(#function, error.localizedDescription)
             }
         }
+        
         let resultDatas = result.map {
             return AudioData(filename: $0.filename!, duration: $0.duration,recordDate: $0.createDate as! Date)
         }
@@ -118,12 +119,17 @@ struct AudioDataManager {
 
 extension AudioDataManager {
     
-    func initConnection() {
+    static func initConnection() {
         
         AudioUploader.default.connect()
     }
     
-    func upload(data: AudioData, progression: AudioClientProgressHandler?, completion: AudioClientCompletionHandler?) {
+    static var isConnected: Bool {
+        
+        return AudioUploader.default.isConnected
+    }
+    
+    static func upload(data: AudioData, progression: AudioClientProgressHandler?, completion: AudioClientCompletionHandler?) {
         
         AudioUploader.default.upload(data: data, progression: progression, completion: completion)
     }
@@ -131,6 +137,15 @@ extension AudioDataManager {
 }
 
 extension AudioDataManager {
+    
+    static func requestAudioSessionAuthorization() {
+        if AVAudioSession.sharedInstance().recordPermission() == .granted {
+            return
+        }
+        AVAudioSession.sharedInstance().requestRecordPermission { (permission) in
+            
+        }
+    }
     
     func play(record: AudioData, completion: ( (AudioPlayer, Bool) -> () )? = nil) {
         
@@ -168,6 +183,62 @@ extension AudioDataManager {
     }
 }
 
+@available(iOS 10.0, *)
+extension AudioDataManager {
+    
+    static func requestSpeechAuthorization() {
+        if SFSpeechRecognizer.authorizationStatus() == .authorized {
+            return
+        }
+        SFSpeechRecognizer.requestAuthorization { (status) in
+        
+        }
+    }
+    
+    static func recognize(speech url: URL, progression: ((String?) -> ())? = nil, completion: @escaping (String?) -> () ) {
+        
+        guard let recognizer = SFSpeechRecognizer() else {
+            
+            print(self, #function, "speech recognizer can not use in current locale.")
+            
+            completion(nil)
+            
+            return
+        }
+        if !recognizer.isAvailable {
+            
+            print(self, #function, "speech recognizer is not Available.")
+            
+            completion(nil)
+            
+            return
+        }
+        let request = SFSpeechURLRecognitionRequest(url: url)
+        
+        recognizer.recognitionTask(with: request) { (result: SFSpeechRecognitionResult?, error) in
+            
+            guard let result = result else {
+                
+                print(self, #function, error?.localizedDescription ?? "unknown error")
+                
+                completion(nil)
+                
+                return
+            }
+            
+            print(self, #function, result.bestTranscription.formattedString)
 
+            if result.isFinal {
+                
+                completion(result.bestTranscription.formattedString)
+            } else {
+                
+                progression?(result.bestTranscription.formattedString)
+            }
+        }
+        
+        
+    }
+}
 
 
