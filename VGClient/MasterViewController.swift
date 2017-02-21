@@ -45,6 +45,8 @@ class MasterViewController: UIViewController {
         dataManager.loadLocalData()
         
         recordList?.reloadDataSource(data: dataManager.datas)
+        
+        
     }
     
     override func didReceiveMemoryWarning() {

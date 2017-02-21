@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		1818B9BD1E53254600EF2054 /* background.PNG in Resources */ = {isa = PBXBuildFile; fileRef = 1818B9BC1E53254600EF2054 /* background.PNG */; };
+		1838560C1E5C65F90094C811 /* DispatchQueueTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1838560B1E5C65F90094C811 /* DispatchQueueTests.swift */; };
 		185500351E59827400DADEF7 /* AudioPlayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 185500341E59827400DADEF7 /* AudioPlayer.swift */; };
 		185500371E5982A600DADEF7 /* AudioRecorder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 185500361E5982A600DADEF7 /* AudioRecorder.swift */; };
 		185500391E59832300DADEF7 /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 185500381E59832300DADEF7 /* Extensions.swift */; };
@@ -28,7 +29,7 @@
 		189418BE1E5159AF00207358 /* CoreDataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 189418BD1E5159AF00207358 /* CoreDataManager.swift */; };
 		189418CC1E5197F500207358 /* RectCornerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 189418CB1E5197F500207358 /* RectCornerView.swift */; };
 		189418D01E51E60E00207358 /* AudioUploader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 189418CF1E51E60E00207358 /* AudioUploader.swift */; };
-		18D1CAEC1E5C29F30029A6F9 /* AudioModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18D1CAEB1E5C29F30029A6F9 /* AudioModel.swift */; };
+		18D1CAEC1E5C29F30029A6F9 /* AudioDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18D1CAEB1E5C29F30029A6F9 /* AudioDataSource.swift */; };
 		63C1FC1BD26B63E7F768193B /* Pods_VGClient.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C662A5A8E0CDADBF09F6851F /* Pods_VGClient.framework */; };
 		662A97DBF4DDE4773C71FEA2 /* Pods_VGClientTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D43BB5E3486CDFD5E6648240 /* Pods_VGClientTests.framework */; };
 		DFE65B3F591F8C82B32C7D1E /* Pods_VGClientUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0C865D15E6268636F6CE4685 /* Pods_VGClientUITests.framework */; };
@@ -54,6 +55,7 @@
 /* Begin PBXFileReference section */
 		0C865D15E6268636F6CE4685 /* Pods_VGClientUITests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_VGClientUITests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		1818B9BC1E53254600EF2054 /* background.PNG */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = background.PNG; sourceTree = "<group>"; };
+		1838560B1E5C65F90094C811 /* DispatchQueueTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DispatchQueueTests.swift; sourceTree = "<group>"; };
 		185500341E59827400DADEF7 /* AudioPlayer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AudioPlayer.swift; sourceTree = "<group>"; };
 		185500361E5982A600DADEF7 /* AudioRecorder.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AudioRecorder.swift; sourceTree = "<group>"; };
 		185500381E59832300DADEF7 /* Extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
@@ -80,7 +82,7 @@
 		189418BD1E5159AF00207358 /* CoreDataManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CoreDataManager.swift; sourceTree = "<group>"; };
 		189418CB1E5197F500207358 /* RectCornerView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RectCornerView.swift; sourceTree = "<group>"; };
 		189418CF1E51E60E00207358 /* AudioUploader.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AudioUploader.swift; sourceTree = "<group>"; };
-		18D1CAEB1E5C29F30029A6F9 /* AudioModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AudioModel.swift; sourceTree = "<group>"; };
+		18D1CAEB1E5C29F30029A6F9 /* AudioDataSource.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AudioDataSource.swift; sourceTree = "<group>"; };
 		2ADC62D835192411D4530FEC /* Pods-VGClientUITests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-VGClientUITests.release.xcconfig"; path = "Pods/Target Support Files/Pods-VGClientUITests/Pods-VGClientUITests.release.xcconfig"; sourceTree = "<group>"; };
 		86574B37F98F44263F9285A8 /* Pods-VGClientTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-VGClientTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-VGClientTests/Pods-VGClientTests.release.xcconfig"; sourceTree = "<group>"; };
 		8B6B9DBE1A784B330C39EA60 /* Pods-VGClient.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-VGClient.release.xcconfig"; path = "Pods/Target Support Files/Pods-VGClient/Pods-VGClient.release.xcconfig"; sourceTree = "<group>"; };
@@ -151,7 +153,7 @@
 				185500401E5A888A00DADEF7 /* DashboardViewController.swift */,
 				185500421E5A895E00DADEF7 /* AuthorityViewController.swift */,
 				189418CB1E5197F500207358 /* RectCornerView.swift */,
-				18D1CAEB1E5C29F30029A6F9 /* AudioModel.swift */,
+				18D1CAEB1E5C29F30029A6F9 /* AudioDataSource.swift */,
 				189418BD1E5159AF00207358 /* CoreDataManager.swift */,
 				189418BB1E5057F300207358 /* AudioDataManager.swift */,
 				185500361E5982A600DADEF7 /* AudioRecorder.swift */,
@@ -173,6 +175,7 @@
 			isa = PBXGroup;
 			children = (
 				189418A01E4EDEB000207358 /* VGClientTests.swift */,
+				1838560B1E5C65F90094C811 /* DispatchQueueTests.swift */,
 				189418A21E4EDEB000207358 /* Info.plist */,
 			);
 			path = VGClientTests;
@@ -494,7 +497,7 @@
 				189418CC1E5197F500207358 /* RectCornerView.swift in Sources */,
 				189418BE1E5159AF00207358 /* CoreDataManager.swift in Sources */,
 				189418891E4EDEB000207358 /* AppDelegate.swift in Sources */,
-				18D1CAEC1E5C29F30029A6F9 /* AudioModel.swift in Sources */,
+				18D1CAEC1E5C29F30029A6F9 /* AudioDataSource.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -503,6 +506,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				189418A11E4EDEB000207358 /* VGClientTests.swift in Sources */,
+				1838560C1E5C65F90094C811 /* DispatchQueueTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

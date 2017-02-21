@@ -132,36 +132,81 @@ class CoreDataManager: NSObject {
         saveContext()
     }
     
-    func remove(data: AudioData) {
+    func insert(data: AudioData) {
         
-        var result = [AudioRecordItem]()
+        let context = managedObjectContext
+        context.perform {
+            
+            let item = self.insertEntity(AudioRecordItem.self, context: context)
+            item.createDate = data.recordDate as NSDate
+            item.duration = data.duration
+            item.filename = data.filename
+            
+            do {
+                try context.save()
+            } catch {
+                print(self, #function, error.localizedDescription)
+            }
+        }
+    }
+    
+    @discardableResult
+    func remove(data: AudioData) -> Bool {
         
-        let request = NSFetchRequest<AudioRecordItem>(entityName: "AudioRecordItem")
-        request.predicate = NSPredicate(format: "createDate = %@", data.recordDate as NSDate)
-
-        let context = CoreDataManager.default.managedObjectContext
+        var result = true
         
+        let context = managedObjectContext
         context.performAndWait {
             do {
-                result = try context.fetch( request )
+                let request = NSFetchRequest<AudioRecordItem>(entityName: "AudioRecordItem")
+                request.predicate = NSPredicate(format: "createDate = %@", data.recordDate as NSDate)
+                
+                /// fetch
+                let result = try context.fetch( request )
+                
+                /// delete
+                result.forEach { context.delete( $0 ) }
+                
+                /// save
+                try context.save()
             } catch {
                 print(#function, error.localizedDescription)
+                result = false
             }
         }
         
-        result.forEach { item in
-            
-            context.performAndWait { context.delete(item) }
-        }
-        
-        saveContext()
+        return result
     }
     
+    func asyncRemove(data: AudioData, completion: @escaping (Bool) -> ()) {
+        
+        let context = managedObjectContext
+        context.perform {
+            do {
+                let request = NSFetchRequest<AudioRecordItem>(entityName: "AudioRecordItem")
+                request.predicate = NSPredicate(format: "createDate = %@", data.recordDate as NSDate)
+                
+                /// fetch
+                let result = try context.fetch(request)
+                
+                /// delete
+                result.forEach { context.delete($0) }
+                
+                /// save
+                try context.save()
+                
+                completion(true)
+                
+            } catch {
+                print(#function, error.localizedDescription)
+                completion(false)
+            }
+        }
+    }
 
     func insertEntity<T: NSManagedObject>(_ : T.Type, context: NSManagedObjectContext = CoreDataManager.default.managedObjectContext) -> T {
         
-        let entity = NSEntityDescription.insertNewObject(forEntityName: "\(T.self)",
-            into: context) as! T
+        let entity = NSEntityDescription.insertNewObject(forEntityName: "\(T.self)", into: context) as! T
         
         do {
             try context.obtainPermanentIDs(for: [entity])
@@ -172,5 +217,33 @@ class CoreDataManager: NSObject {
         return entity
     }
     
+    func fetch<T: NSManagedObject>() -> [T] {
+        var result = [T]()
+        let request = NSFetchRequest<T>(entityName: "\(T.self)")
+        let context = managedObjectContext
+        context.performAndWait {
+            do {
+                result = try context.fetch(request)
+            } catch {
+                print(#function, error.localizedDescription)
+            }
+        }
+        return result
+    }
+    
+    func asyncFetch<T: NSManagedObject>(completion: @escaping (Bool, [T]) -> ()) {
+        
+        let request = NSFetchRequest<T>(entityName: "\(T.self)")
+        let context = managedObjectContext
+        
+        context.perform {
+            do {
+                completion(true, try context.fetch( request ))
+            } catch {
+                print(#function, error.localizedDescription)
+                completion(false, [])
+            }
+        }
+    }
     
 }

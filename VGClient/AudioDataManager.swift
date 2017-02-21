@@ -11,32 +11,6 @@ import AVFoundation
 import CoreData
 import Speech
 
-struct AudioData: Equatable {
-    
-    let filename: String
-    let duration: TimeInterval
-    let recordDate: Date
-    
-    var translation: String? = nil
-    
-    var localURL: URL {
-        return AudioDataManager.dataURL(with: self.filename)
-    }
-    
-    var data: Data? {
-        return try? Data(contentsOf: localURL)
-    }
-    
-    init(filename: String, duration: TimeInterval, recordDate: Date) {
-        self.filename = filename
-        self.duration = duration
-        self.recordDate = recordDate
-    }
-}
-
-func ==(lhs: AudioData, rhs: AudioData) -> Bool {
-    return lhs.filename == rhs.filename && lhs.duration == rhs.duration && lhs.recordDate == rhs.recordDate
-}
 
 
 
