@@ -81,7 +81,7 @@ fileprivate let AudioServerPort: UInt16 = 9632
 typealias AudioClientCompletionHandler = (Bool) -> ()
 typealias AudioClientProgressHandler = (Float) -> ()
 
-class AudioClientSocket: NSObject, GCDAsyncSocketDelegate {
+class AudioClient: NSObject, GCDAsyncSocketDelegate {
     
     public struct Tag {
         static let heartbeat = 1
@@ -237,11 +237,11 @@ class AudioUploader: NSObject {
     
     static let `default`: AudioUploader = AudioUploader()
     
-    let clientSocket: AudioClientSocket
+    let clientSocket: AudioClient
     
     private override init() {
         
-        clientSocket = AudioClientSocket()
+        clientSocket = AudioClient()
         
         super.init()
     }

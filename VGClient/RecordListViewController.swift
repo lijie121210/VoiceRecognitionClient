@@ -17,7 +17,13 @@ class RecordListCell: UICollectionViewCell {
     @IBOutlet weak var translateLabel: UILabel!
     @IBOutlet weak var translationLabel: UILabel!
     @IBOutlet weak var widthConstraint: NSLayoutConstraint!
-
+    @IBOutlet weak var actionsStackView: UIStackView!
+    @IBOutlet weak var deletionButton: UIButton!
+    @IBOutlet weak var playButton: UIButton!
+    @IBOutlet weak var sendButton: UIButton!
+    
+    private var isTargeted: Bool = false
+    
     override func awakeFromNib() {
         super.awakeFromNib()
         
@@ -38,6 +44,17 @@ class RecordListCell: UICollectionViewCell {
          */
         widthConstraint.constant = UIScreen.main.bounds.width - 40.0
     }
+    
+    func addTarget(target: Any?, deleteAction: Selector, playAction: Selector, sendAction: Selector, for event: UIControlEvents) {
+        guard isTargeted == false else {
+            return
+        }
+        isTargeted = true
+        
+        deletionButton.addTarget(target, action: deleteAction, for: event)
+        playButton.addTarget(target, action: playAction, for: event)
+        sendButton.addTarget(target, action: sendAction, for: event)
+    }
 }
 
 class RecordListHeader: UICollectionReusableView {
@@ -56,55 +73,142 @@ class RecordListFooter: UICollectionReusableView {
 /// Show local records in a list
 class RecordListViewController: UIViewController {
 
+    /// Reuse identifiers wrapper
     struct ID {
-        
-        /// Reuse identifiers
-        static let cell = "RecordListCell"
-        static let header = "RecordListHeader"
-        static let footer = "RecordListFooter"
-        
-        /// Kinds
-        static let headerKind = UICollectionElementKindSectionHeader
-        static let footerKind = UICollectionElementKindSectionFooter
+        static let cell = "\(RecordListCell.self)"
+        static let header = "\(RecordListHeader.self)"
+        static let footer = "\(RecordListFooter.self)"
     }
     
     @IBOutlet weak var recordCollectionView: UICollectionView!
+    
+    /// self.parent is the containing view controller, and will be set a value after didMove(_:) method called.
+    fileprivate var masterParent: MasterViewController? {
+        return parent as? MasterViewController
+    }
     
     fileprivate var flowLayout: UICollectionViewFlowLayout {
         return recordCollectionView.collectionViewLayout as! UICollectionViewFlowLayout
     }
     
-    fileprivate var dataManager: AudioDataManager = AudioDataManager()
+    fileprivate var dataSource: [AudioData] = []
 
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        
         let w = recordCollectionView.bounds.width * 0.5
         let h: CGFloat = recordCollectionView.bounds.height * 0.5
         
         flowLayout.estimatedItemSize = CGSize(width: w, height: h)
-        
-        dataManager.loadLocalData()
     }
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        
+    }
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        
+    }
+
+    /// Api for Master view controller
     
-    override func didMove(toParentViewController parent: UIViewController?) {
-        print(self, #function, view.bounds.width, recordCollectionView.bounds.width)
-
-        if parent == nil {
-            
-            /// release source
-            
-        } else {
-            
-            /// move on new parent view controller
-
+    /// Reload collection view with new data source. This method can be called to set the data source.
+    func reloadDataSource(data: [AudioData]) {
+        
+        dataSource.append(contentsOf: data)
+        
+        DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) { 
+            self.recordCollectionView.reloadData()
         }
     }
     
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
+    /// - param head : Indicates where the data source should insert new data into the front.
+    func insert(data: AudioData, at head: Bool = true) {
+        /// this is the insertion position if head == false.
+        var position = dataSource.count
+        
+        if head {
+            dataSource.insert(data, at: 0)
+            
+            /// change to the front end
+            position = 0
+        } else {
+            dataSource.append(data)
+        }
+        
+        /// update record list view
+        recordCollectionView.insertItems(at: [IndexPath(item: position, section: 0)])
     }
+    
+    
+}
 
+extension RecordListViewController: UICollectionViewDelegate, UICollectionViewDelegateFlowLayout {
+    
+    /** Those actions need to call methods of parent view controller, and get result through blocks.
+     
+     */
+    fileprivate struct ActionSelectors {
+        static var deletion: Selector {
+            return #selector(RecordListViewController.deleteRecord(sender:with:))
+        }
+        static var playing: Selector {
+            return #selector(RecordListViewController.playRecord(sender:with:))
+        }
+        static var sending: Selector {
+            return #selector(RecordListViewController.sendRecord(sender:with:))
+        }
+    }
+    
+    fileprivate func indexPath(of event: UIEvent?) -> IndexPath? {
+        guard
+            let list = recordCollectionView,
+            let touch = event?.allTouches?.first,
+            let index = list.indexPathForItem(at: touch.location(in: list)) else {
+                return nil
+        }
+        return index
+    }
+    
+    func deleteRecord(sender: Any, with event: UIEvent?) {
+        guard let index = indexPath(of: event) else {
+            return
+        }
+        dataSource.remove(at: index.item)
+        
+        recordCollectionView.deleteItems(at: [index])
+        
+        masterParent?.deletingItem(at: index, with: dataSource[index.item])
+    }
+    
+    func playRecord(sender: Any, with event: UIEvent?) {
+        guard let index = indexPath(of: event) else {
+            return
+        }
+        
+        masterParent?.playItem(at: index, with: dataSource[index.item], progression: { (progress) in
+            
+            print(self, #function, progress)
+            
+        }, completion: { (finish) in
+            
+            print(self, #function, finish)
+            
+        })
+    }
+    
+    func sendRecord(sender: Any, with event: UIEvent?) {
+        guard let index = indexPath(of: event) else {
+            return
+        }
+        
+        masterParent?.sendItem(at: index, with: dataSource[index.item], completion: { (finish) in
+            
+            print(self, #function, finish)
+
+        })
+    }
+    
 }
 
 extension RecordListViewController: UICollectionViewDataSource {
@@ -114,52 +218,50 @@ extension RecordListViewController: UICollectionViewDataSource {
     }
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return dataManager.datas.count
+        return dataSource.count
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        
+        let data = dataSource[indexPath.item]
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: ID.cell, for: indexPath) as! RecordListCell
-        cell.dateLabel.text = Date().recordDescription
-        cell.durationLabel.text = "00:01:03"
-        cell.translateLabel.text = "译文"
-
-        let translation = "This recipe demonstrates how to create table view cells, where the cell height is determined by the cell's content using Auto Layout. In this example, each cell's height is determined by the text view's intrinsic content size--the more text in the text view, the taller the cell. \nFor Auto Layout to calculate the text view's intrinsic content size, you must disable scrolling and then constrain the view's width (in this case, by pinning it to the superview's leading and trailing margins). Auto Layout then calculates an intrinsic height for the given width. "
         
-        var str = "For Auto Layout to calculate the text view's intrinsic content size, you must disable scrolling and then constrain the view's width (in this case, by pinning it to the superview's leading and trailing margins). Auto Layout then calculates an intrinsic height for the given width"
-        switch indexPath.item % 3 {
-        case 0:
-            str = translation + str
-        case 1:
-            str = "indexPath: \(indexPath.section) - \(indexPath.item)"
-        default: break
+        cell.dateLabel.text = data.recordDate.recordDescription
+        cell.durationLabel.text = data.duration.dateDescription()
+        cell.translateLabel.text = "识别结果"
+
+        /// Since the translation of data maybe nil, so we need to adjust translation label's text color.
+        if let translation = data.translation {
+            cell.translationLabel.textColor = .black
+            cell.translationLabel.text = translation
+        } else {
+            cell.translationLabel.textColor = .lightGray
+            cell.translationLabel.text = "无识别结果"
         }
-        cell.translationLabel.text = str
+        
+        /// shrink the label to fit it's content
         cell.translationLabel.sizeToFit()
+        
+        /// bind actions to self
+        cell.addTarget(target: self,
+                       deleteAction: ActionSelectors.deletion,
+                       playAction: ActionSelectors.playing,
+                       sendAction: ActionSelectors.sending,
+                       for: .touchUpInside)
         
         return cell
     }
     
     func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
-        
+        /// Section Header
         if kind == UICollectionElementKindSectionHeader {
-            let header = collectionView.dequeueReusableSupplementaryView(ofKind: ID.headerKind, withReuseIdentifier: ID.headerKind, for: indexPath) as! RecordListHeader
-            
+            let header = collectionView.dequeueReusableSupplementaryView(ofKind: UICollectionElementKindSectionHeader, withReuseIdentifier: ID.header, for: indexPath) as! RecordListHeader
             header.titleLabel.text = "已录制"
-            
             return header
         }
-        
-        let footer = collectionView.dequeueReusableSupplementaryView(ofKind: ID.footerKind, withReuseIdentifier: ID.footer, for: indexPath) as! RecordListFooter
-        
-        footer.detailLabel.text = "no more ..."
-        
+        /// Section Footer
+        let footer = collectionView.dequeueReusableSupplementaryView(ofKind: UICollectionElementKindSectionFooter, withReuseIdentifier: ID.footer, for: indexPath) as! RecordListFooter
+        footer.detailLabel.text = dataSource.isEmpty ? "no record" : "no more"
         return footer
     }
 }
 
-extension RecordListViewController: UICollectionViewDelegate, UICollectionViewDelegateFlowLayout {
-    
-    
-    
-}

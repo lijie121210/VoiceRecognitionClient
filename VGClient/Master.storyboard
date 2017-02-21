@@ -32,7 +32,7 @@
                                     <constraint firstAttribute="width" relation="lessThanOrEqual" constant="640" id="u76-om-Rkd"/>
                                 </constraints>
                                 <connections>
-                                    <segue destination="udc-6Y-RVg" kind="embed" id="NW3-uV-dQC"/>
+                                    <segue destination="udc-6Y-RVg" kind="embed" identifier="RecordListViewController" id="NW3-uV-dQC"/>
                                 </connections>
                             </containerView>
                             <containerView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Nmq-yB-9dC">
@@ -42,7 +42,7 @@
                                     <constraint firstAttribute="width" relation="lessThanOrEqual" constant="600" id="cUZ-YA-ji2"/>
                                 </constraints>
                                 <connections>
-                                    <segue destination="GgV-kV-3Dt" kind="embed" id="EGP-Zd-Y3W"/>
+                                    <segue destination="GgV-kV-3Dt" kind="embed" identifier="DashboardViewController" id="EGP-Zd-Y3W"/>
                                 </connections>
                             </containerView>
                             <containerView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="bSo-bU-afT">
@@ -51,7 +51,7 @@
                                     <constraint firstAttribute="width" relation="lessThanOrEqual" constant="640" id="PeQ-Gm-zcX"/>
                                 </constraints>
                                 <connections>
-                                    <segue destination="fbs-zG-8gw" kind="embed" id="ewP-i5-Nh7"/>
+                                    <segue destination="fbs-zG-8gw" kind="embed" identifier="AuthorityViewController" id="ewP-i5-Nh7"/>
                                 </connections>
                             </containerView>
                         </subviews>
@@ -139,25 +139,48 @@
                                                             <nil key="highlightedColor"/>
                                                         </label>
                                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" textAlignment="natural" lineBreakMode="wordWrap" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" preferredMaxLayoutWidth="200" translatesAutoresizingMaskIntoConstraints="NO" id="LfE-vR-Zzc">
-                                                            <rect key="frame" x="40" y="144.5" width="241" height="92.5"/>
-                                                            <color key="backgroundColor" red="0.80000001190000003" green="0.40000000600000002" blue="1" alpha="1" colorSpace="calibratedRGB"/>
-                                                            <mutableString key="text">This recipe demonstrates how to create table view cells, where the cell height is determined by the cell's content using Auto Layout. In this example, each cell's height is determined by the text view's intrinsic content size--the more text in the text view, the taller the cell. \nFor Auto Layout to calculate the text view's intrinsic content size, you must disable scrolling and then constrain the view's width (in this case, by pinning it to the superview's leading and trailing margins). Auto Layout then calculates an intrinsic height for the given width.</mutableString>
+                                                            <rect key="frame" x="40" y="144.5" width="241" height="44.5"/>
+                                                            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                                            <string key="text">This recipe demonstrates how to create table view cells, where the cell height is determined by the cell's content using Auto Layout. In this example, each cell's height is determined by the text view's intrinsic content size--the more text in the text view, the taller the cell. \nFor Auto Layout to calculate the text view's intrinsic content size, you must disable scrolling and then constrain the view's width (in this case, by pinning it to the superview's leading and trailing margins). Auto Layout then calculates an intrinsic height for the given width.</string>
                                                             <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                             <nil key="textColor"/>
                                                             <nil key="highlightedColor"/>
                                                         </label>
+                                                        <stackView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" distribution="fillEqually" translatesAutoresizingMaskIntoConstraints="NO" id="GsR-Qo-RRZ">
+                                                            <rect key="frame" x="20" y="209" width="281" height="40"/>
+                                                            <subviews>
+                                                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="5gd-Da-gCT">
+                                                                    <rect key="frame" x="0.0" y="0.0" width="93.5" height="40"/>
+                                                                    <state key="normal" image="delete"/>
+                                                                </button>
+                                                                <button opaque="NO" contentMode="scaleAspectFit" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="5zS-nh-TVy">
+                                                                    <rect key="frame" x="93.5" y="0.0" width="94" height="40"/>
+                                                                    <state key="normal" image="play"/>
+                                                                </button>
+                                                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="nEZ-N1-nMj">
+                                                                    <rect key="frame" x="187.5" y="0.0" width="93.5" height="40"/>
+                                                                    <state key="normal" image="send"/>
+                                                                </button>
+                                                            </subviews>
+                                                            <constraints>
+                                                                <constraint firstAttribute="height" constant="40" id="aZK-eq-GtW"/>
+                                                            </constraints>
+                                                        </stackView>
                                                     </subviews>
                                                     <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                     <constraints>
                                                         <constraint firstAttribute="trailing" secondItem="tbS-nH-ccf" secondAttribute="trailing" constant="20" id="5rp-Ra-964"/>
                                                         <constraint firstItem="9G1-lI-4hM" firstAttribute="leading" secondItem="YXP-z5-3bm" secondAttribute="leading" constant="20" id="5vz-Tt-hkI"/>
+                                                        <constraint firstAttribute="bottom" secondItem="GsR-Qo-RRZ" secondAttribute="bottom" constant="8" id="88m-mL-zSo"/>
                                                         <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="254" id="A83-bL-yO0"/>
                                                         <constraint firstAttribute="trailing" secondItem="JQ3-LD-dTS" secondAttribute="trailing" constant="20" id="DCJ-GK-6lJ"/>
-                                                        <constraint firstAttribute="bottom" secondItem="LfE-vR-Zzc" secondAttribute="bottom" constant="20" id="Es8-Lu-8ut"/>
+                                                        <constraint firstItem="GsR-Qo-RRZ" firstAttribute="leading" secondItem="YXP-z5-3bm" secondAttribute="leading" constant="20" id="DZv-Uq-Tpl"/>
                                                         <constraint firstItem="tbS-nH-ccf" firstAttribute="top" secondItem="9G1-lI-4hM" secondAttribute="bottom" constant="20" id="UCF-Tm-mUp"/>
+                                                        <constraint firstItem="GsR-Qo-RRZ" firstAttribute="centerX" secondItem="YXP-z5-3bm" secondAttribute="centerX" id="Wca-g4-zfe"/>
                                                         <constraint firstItem="9G1-lI-4hM" firstAttribute="top" secondItem="JQ3-LD-dTS" secondAttribute="bottom" constant="20" id="Xpb-CD-uPg"/>
                                                         <constraint firstItem="JQ3-LD-dTS" firstAttribute="top" secondItem="YXP-z5-3bm" secondAttribute="top" constant="20" id="aVh-6l-rXj"/>
                                                         <constraint firstItem="tbS-nH-ccf" firstAttribute="leading" secondItem="YXP-z5-3bm" secondAttribute="leading" constant="20" id="bwI-uV-Nju"/>
+                                                        <constraint firstItem="GsR-Qo-RRZ" firstAttribute="top" secondItem="LfE-vR-Zzc" secondAttribute="bottom" constant="20" id="gyn-OK-Dyh"/>
                                                         <constraint firstAttribute="trailing" secondItem="LfE-vR-Zzc" secondAttribute="trailing" constant="40" id="jy8-ye-QQZ"/>
                                                         <constraint firstItem="JQ3-LD-dTS" firstAttribute="leading" secondItem="YXP-z5-3bm" secondAttribute="leading" constant="20" id="kNY-fK-HWg"/>
                                                         <constraint firstAttribute="trailing" secondItem="9G1-lI-4hM" secondAttribute="trailing" constant="20" id="mcT-rx-Hu3"/>
@@ -194,9 +217,13 @@
                                             <constraint firstItem="YXP-z5-3bm" firstAttribute="top" secondItem="byo-o8-SuB" secondAttribute="topMargin" constant="8" id="zRJ-Fg-tCd"/>
                                         </constraints>
                                         <connections>
+                                            <outlet property="actionsStackView" destination="GsR-Qo-RRZ" id="A0b-Pi-E7T"/>
                                             <outlet property="containerView" destination="YXP-z5-3bm" id="kDv-Sk-Fr1"/>
                                             <outlet property="dateLabel" destination="JQ3-LD-dTS" id="FCz-0P-HxY"/>
+                                            <outlet property="deletionButton" destination="5gd-Da-gCT" id="d6g-j3-RgH"/>
                                             <outlet property="durationLabel" destination="9G1-lI-4hM" id="P39-sl-0xp"/>
+                                            <outlet property="playButton" destination="5zS-nh-TVy" id="BHk-nh-Rvu"/>
+                                            <outlet property="sendButton" destination="nEZ-N1-nMj" id="ZT1-TR-271"/>
                                             <outlet property="translateLabel" destination="tbS-nH-ccf" id="9fa-wn-jJ5"/>
                                             <outlet property="translationLabel" destination="LfE-vR-Zzc" id="u11-Lq-zrX"/>
                                             <outlet property="widthConstraint" destination="A83-bL-yO0" id="0bu-EW-r4s"/>
@@ -208,13 +235,13 @@
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="已录制" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Mtg-v3-c8C">
-                                            <rect key="frame" x="28" y="13.5" width="61.5" height="24"/>
-                                            <fontDescription key="fontDescription" type="system" pointSize="20"/>
+                                            <rect key="frame" x="28" y="11.5" width="73" height="29"/>
+                                            <fontDescription key="fontDescription" type="system" pointSize="24"/>
                                             <nil key="textColor"/>
                                             <nil key="highlightedColor"/>
                                         </label>
                                     </subviews>
-                                    <color key="backgroundColor" red="0.80000001190000003" green="0.40000000600000002" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                     <constraints>
                                         <constraint firstItem="Mtg-v3-c8C" firstAttribute="leading" secondItem="Dqh-yC-C7M" secondAttribute="leadingMargin" constant="20" id="IoA-PE-u4B"/>
                                         <constraint firstItem="Mtg-v3-c8C" firstAttribute="centerY" secondItem="Dqh-yC-C7M" secondAttribute="centerY" id="OXN-20-4L9"/>
@@ -234,7 +261,7 @@
                                             <nil key="highlightedColor"/>
                                         </label>
                                     </subviews>
-                                    <color key="backgroundColor" red="0.80000001190000003" green="0.40000000600000002" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                     <constraints>
                                         <constraint firstItem="i5x-45-9qe" firstAttribute="centerX" secondItem="qpE-Vt-P5m" secondAttribute="centerX" id="2I8-lJ-J3B"/>
                                         <constraint firstItem="i5x-45-9qe" firstAttribute="centerY" secondItem="qpE-Vt-P5m" secondAttribute="centerY" id="zH4-hc-rzY"/>
@@ -308,5 +335,8 @@
     </scenes>
     <resources>
         <image name="background.PNG" width="600" height="800"/>
+        <image name="delete" width="16" height="20"/>
+        <image name="play" width="22" height="22"/>
+        <image name="send" width="16" height="19"/>
     </resources>
 </document>

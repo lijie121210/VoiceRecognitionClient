@@ -28,6 +28,7 @@
 		189418BE1E5159AF00207358 /* CoreDataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 189418BD1E5159AF00207358 /* CoreDataManager.swift */; };
 		189418CC1E5197F500207358 /* RectCornerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 189418CB1E5197F500207358 /* RectCornerView.swift */; };
 		189418D01E51E60E00207358 /* AudioUploader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 189418CF1E51E60E00207358 /* AudioUploader.swift */; };
+		18D1CAEC1E5C29F30029A6F9 /* AudioModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18D1CAEB1E5C29F30029A6F9 /* AudioModel.swift */; };
 		63C1FC1BD26B63E7F768193B /* Pods_VGClient.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C662A5A8E0CDADBF09F6851F /* Pods_VGClient.framework */; };
 		662A97DBF4DDE4773C71FEA2 /* Pods_VGClientTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D43BB5E3486CDFD5E6648240 /* Pods_VGClientTests.framework */; };
 		DFE65B3F591F8C82B32C7D1E /* Pods_VGClientUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0C865D15E6268636F6CE4685 /* Pods_VGClientUITests.framework */; };
@@ -79,6 +80,7 @@
 		189418BD1E5159AF00207358 /* CoreDataManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CoreDataManager.swift; sourceTree = "<group>"; };
 		189418CB1E5197F500207358 /* RectCornerView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RectCornerView.swift; sourceTree = "<group>"; };
 		189418CF1E51E60E00207358 /* AudioUploader.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AudioUploader.swift; sourceTree = "<group>"; };
+		18D1CAEB1E5C29F30029A6F9 /* AudioModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AudioModel.swift; sourceTree = "<group>"; };
 		2ADC62D835192411D4530FEC /* Pods-VGClientUITests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-VGClientUITests.release.xcconfig"; path = "Pods/Target Support Files/Pods-VGClientUITests/Pods-VGClientUITests.release.xcconfig"; sourceTree = "<group>"; };
 		86574B37F98F44263F9285A8 /* Pods-VGClientTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-VGClientTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-VGClientTests/Pods-VGClientTests.release.xcconfig"; sourceTree = "<group>"; };
 		8B6B9DBE1A784B330C39EA60 /* Pods-VGClient.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-VGClient.release.xcconfig"; path = "Pods/Target Support Files/Pods-VGClient/Pods-VGClient.release.xcconfig"; sourceTree = "<group>"; };
@@ -149,6 +151,7 @@
 				185500401E5A888A00DADEF7 /* DashboardViewController.swift */,
 				185500421E5A895E00DADEF7 /* AuthorityViewController.swift */,
 				189418CB1E5197F500207358 /* RectCornerView.swift */,
+				18D1CAEB1E5C29F30029A6F9 /* AudioModel.swift */,
 				189418BD1E5159AF00207358 /* CoreDataManager.swift */,
 				189418BB1E5057F300207358 /* AudioDataManager.swift */,
 				185500361E5982A600DADEF7 /* AudioRecorder.swift */,
@@ -491,6 +494,7 @@
 				189418CC1E5197F500207358 /* RectCornerView.swift in Sources */,
 				189418BE1E5159AF00207358 /* CoreDataManager.swift in Sources */,
 				189418891E4EDEB000207358 /* AppDelegate.swift in Sources */,
+				18D1CAEC1E5C29F30029A6F9 /* AudioModel.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -645,7 +649,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				DEVELOPMENT_TEAM = LMFYAZF64N;
 				INFOPLIST_FILE = VGClient/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.HTIOT.VGClient;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -660,7 +664,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				DEVELOPMENT_TEAM = LMFYAZF64N;
 				INFOPLIST_FILE = VGClient/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.HTIOT.VGClient;
 				PRODUCT_NAME = "$(TARGET_NAME)";
