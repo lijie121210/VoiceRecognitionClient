@@ -162,7 +162,7 @@ class MainViewController: UIViewController {
         updateRecordingStateLabel(text: .finish)
         updateRecordingTimeIntervalLable(timeInterval: 0.0)
         
-        actionsContainerView.setCornerRadius(radius: 20.0, animated: true)
+        actionsContainerView.setCornerRadius(x: 20.0, y: 20.0)
 
         UIView.animate(withDuration: 0.1) {
             
@@ -185,8 +185,8 @@ class MainViewController: UIViewController {
         sendButton.isEnabled = false
         
         updateRecordButton(title: .begin)
-
-        actionsContainerView.setCornerRadius(radius: 40.0, animated: true)
+        
+        actionsContainerView.setCornerRadius(x: 40.0, y: 40.0)
 
         UIView.animate(withDuration: 0.1) {
             

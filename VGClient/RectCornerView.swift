@@ -8,17 +8,36 @@
 
 import UIKit
 
+@IBDesignable
 class RectCornerView: UIView {
     
-    @IBInspectable var isShadowing: Bool = true
+    struct Shadow {
+        let color: UIColor
+        let radius: CGFloat
+        let opacity: Float
+        let offset: CGSize
+    }
+    
+    /// Background
+    @IBInspectable var fillColor: UIColor = .white
+
+    /// Corner
+    @IBInspectable var cornerRadiusX: CGFloat = 20.0
+    @IBInspectable var cornerRadiusY: CGFloat = 20.0
     @IBInspectable var isTopLeftCorner: Bool = true
     @IBInspectable var isTopRightCorner: Bool = true
     @IBInspectable var isBottomLeftCorner: Bool = false
     @IBInspectable var isBottomRightCorner: Bool = false
-    @IBInspectable var cornerRadius: CGFloat = 20.0
-    @IBInspectable var fillColor: UIColor = .white
     
-    var rectCorner: UIRectCorner {
+    /// Shadow
+    @IBInspectable var isShadowEnabled: Bool = true
+    @IBInspectable var shadowColor: UIColor = .darkGray
+    @IBInspectable var shadowRadius: CGFloat = 15.0
+    @IBInspectable var shadowOpacity: Float = 0.4
+    @IBInspectable var shadowOffsetX: CGFloat = 0
+    @IBInspectable var shadowOffsetY: CGFloat = -2
+    
+    private var rectCorner: UIRectCorner {
         var corner = UIRectCorner.allCorners
         if !isTopLeftCorner {
             corner.remove(UIRectCorner.topLeft)
@@ -34,6 +53,9 @@ class RectCornerView: UIView {
         }
         return corner
     }
+    
+    
+    /// Life cycle
     
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -56,7 +78,7 @@ class RectCornerView: UIView {
     func initialization() {
         backgroundColor = UIColor.clear
         
-        if isShadowing {
+        if isShadowEnabled {
             addShadow()
         }
     }
@@ -67,27 +89,15 @@ class RectCornerView: UIView {
         }
         let path = UIBezierPath(roundedRect: bounds,
                                 byRoundingCorners: rectCorner,
-                                cornerRadii: CGSize(width: cornerRadius, height: cornerRadius))
+                                cornerRadii: CGSize(width: cornerRadiusX, height: cornerRadiusY))
         ctx.beginPath()
         ctx.addPath(path.cgPath)
         ctx.setFillColor(fillColor.cgColor)
         ctx.fillPath()
     }
     
-    func setCornerRadius(radius: CGFloat, animated: Bool = true) {
-        
-        cornerRadius = radius
-        
-        if animated {
-            UIView.animate(withDuration: 0.2) {
-                
-                self.setNeedsDisplay()
-            }
-        } else {
-            setNeedsDisplay()
-        }
-        
-    }
+    
+    /// Background
     
     func setFillColor(color: UIColor) {
         
@@ -96,11 +106,49 @@ class RectCornerView: UIView {
         setNeedsDisplay()
     }
     
-    func addShadow() {
-        layer.shadowColor = UIColor.darkGray.cgColor
-        layer.shadowOffset = CGSize(width: 0, height: -2)
-        layer.shadowRadius = 15
-        layer.shadowOpacity = 0.4
+    /// Corner
+    
+    func setCornerRadiusX(radius: CGFloat) {
+        
+        cornerRadiusX = radius
+        
+        setNeedsDisplay()
     }
     
+    func setCornerRadius(x: CGFloat, y: CGFloat) {
+        cornerRadiusX = x
+        cornerRadiusY = y
+        
+        setNeedsDisplay()
+    }
+    
+    func setCornerRadiusY(radius: CGFloat) {
+        
+        cornerRadiusY = radius
+        
+        setNeedsDisplay()
+    }
+    
+    /// Shadow
+    func addShadow() {
+        layer.shadowColor = shadowColor.cgColor
+        layer.shadowOffset = CGSize(width: shadowOffsetX, height: shadowOffsetY)
+        layer.shadowRadius = shadowRadius
+        layer.shadowOpacity = shadowOpacity
+    }
+    
+    func setShadow(shadow: Shadow) {
+        shadowColor = shadow.color
+        shadowRadius = shadow.radius
+        shadowOpacity = shadow.opacity
+        shadowOffsetX = shadow.offset.width
+        shadowOffsetY = shadow.offset.height
+        
+        addShadow()
+    }
+    
+    func removeShadow() {
+        layer.shadowColor = nil
+        layer.shadowOpacity = 0.0
+    }
 }
