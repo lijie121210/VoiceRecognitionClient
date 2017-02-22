@@ -10,8 +10,7 @@
 		1818B9BD1E53254600EF2054 /* background.PNG in Resources */ = {isa = PBXBuildFile; fileRef = 1818B9BC1E53254600EF2054 /* background.PNG */; };
 		1838560C1E5C65F90094C811 /* DispatchQueueTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1838560B1E5C65F90094C811 /* DispatchQueueTests.swift */; };
 		1838560E1E5C79180094C811 /* AudioData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1838560D1E5C79180094C811 /* AudioData.swift */; };
-		185500351E59827400DADEF7 /* AudioPlayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 185500341E59827400DADEF7 /* AudioPlayer.swift */; };
-		185500371E5982A600DADEF7 /* AudioRecorder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 185500361E5982A600DADEF7 /* AudioRecorder.swift */; };
+		185500371E5982A600DADEF7 /* AudioOperator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 185500361E5982A600DADEF7 /* AudioOperator.swift */; };
 		185500391E59832300DADEF7 /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 185500381E59832300DADEF7 /* Extensions.swift */; };
 		1855003D1E5A86CF00DADEF7 /* MasterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1855003C1E5A86CF00DADEF7 /* MasterViewController.swift */; };
 		1855003F1E5A886200DADEF7 /* RecordListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1855003E1E5A886200DADEF7 /* RecordListViewController.swift */; };
@@ -58,8 +57,7 @@
 		1818B9BC1E53254600EF2054 /* background.PNG */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = background.PNG; sourceTree = "<group>"; };
 		1838560B1E5C65F90094C811 /* DispatchQueueTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DispatchQueueTests.swift; sourceTree = "<group>"; };
 		1838560D1E5C79180094C811 /* AudioData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AudioData.swift; sourceTree = "<group>"; };
-		185500341E59827400DADEF7 /* AudioPlayer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AudioPlayer.swift; sourceTree = "<group>"; };
-		185500361E5982A600DADEF7 /* AudioRecorder.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AudioRecorder.swift; sourceTree = "<group>"; };
+		185500361E5982A600DADEF7 /* AudioOperator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AudioOperator.swift; sourceTree = "<group>"; };
 		185500381E59832300DADEF7 /* Extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
 		1855003C1E5A86CF00DADEF7 /* MasterViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MasterViewController.swift; sourceTree = "<group>"; };
 		1855003E1E5A886200DADEF7 /* RecordListViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RecordListViewController.swift; sourceTree = "<group>"; };
@@ -158,8 +156,7 @@
 				189418BB1E5057F300207358 /* AudioDataManager.swift */,
 				1838560D1E5C79180094C811 /* AudioData.swift */,
 				18D1CAEB1E5C29F30029A6F9 /* AudioDataSource.swift */,
-				185500361E5982A600DADEF7 /* AudioRecorder.swift */,
-				185500341E59827400DADEF7 /* AudioPlayer.swift */,
+				185500361E5982A600DADEF7 /* AudioOperator.swift */,
 				189418CF1E51E60E00207358 /* AudioUploader.swift */,
 				185500381E59832300DADEF7 /* Extensions.swift */,
 				1894188C1E4EDEB000207358 /* Main.storyboard */,
@@ -486,12 +483,11 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				185500371E5982A600DADEF7 /* AudioRecorder.swift in Sources */,
+				185500371E5982A600DADEF7 /* AudioOperator.swift in Sources */,
 				189418911E4EDEB000207358 /* VGClient.xcdatamodeld in Sources */,
 				1855003D1E5A86CF00DADEF7 /* MasterViewController.swift in Sources */,
 				1894188B1E4EDEB000207358 /* MainViewController.swift in Sources */,
 				189418D01E51E60E00207358 /* AudioUploader.swift in Sources */,
-				185500351E59827400DADEF7 /* AudioPlayer.swift in Sources */,
 				1838560E1E5C79180094C811 /* AudioData.swift in Sources */,
 				185500391E59832300DADEF7 /* Extensions.swift in Sources */,
 				185500411E5A888A00DADEF7 /* DashboardViewController.swift in Sources */,
