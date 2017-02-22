@@ -9,251 +9,333 @@
 import Foundation
 import AVFoundation
 
-protocol AudioRecorderDelegate {
-    
-    /// Calls are very frequent
-    func audioRecorder(_ recorder: AudioRecorder, averagePower power: Float)
-    
-    /// Calls are very frequent
-    func audioRecorder(_ recorder: AudioRecorder, timeDuration currentTime: TimeInterval)
-    
-    /// called when stopped recording , including cancelling
-    func audioRecorder(_ recorder: AudioRecorder, isFinished result: (String, Date, TimeInterval)? )
-    
-    /// called when cancelled recording
-    func audioRecorder(_ recorder: AudioRecorder, isCancelled reason: String)
-}
 
-
+/// pcm little-endian 16khz 16bit mono
 private let AudioSettings: [String: AnyObject] = [AVLinearPCMIsFloatKey: NSNumber(value: false),
                                                   AVLinearPCMIsBigEndianKey: NSNumber(value: false),
                                                   AVLinearPCMBitDepthKey: NSNumber(value: 16),
                                                   AVFormatIDKey: NSNumber(value: kAudioFormatLinearPCM),
-                                                  AVNumberOfChannelsKey: NSNumber(value: 1), AVSampleRateKey: NSNumber(value: 16000),
+                                                  AVNumberOfChannelsKey: NSNumber(value: 1),
+                                                  AVSampleRateKey: NSNumber(value: 16000),
                                                   AVEncoderAudioQualityKey: NSNumber(value: AVAudioQuality.high.rawValue)]
 
 
-class AudioRecorder: NSObject, AVAudioRecorderDelegate {
+public class AudioOperator: NSObject, AVAudioRecorderDelegate, AVAudioPlayerDelegate {
     
-    /// set a limit value
-    var miniDurationLimit: TimeInterval = 0
+    /// hold the timer for updating recorder / player meters.
+    fileprivate var updatingTimer: DispatchSourceTimer?
     
-    /// responsible to release it after using
-    var delegate: AudioRecorderDelegate?
     
-    var recorder: AVAudioRecorder!
+    /// Recorder
     
-    var isRecording: Bool {
+    fileprivate var recorder: AVAudioRecorder?
+    
+    public var isRecording: Bool {
         if let r = recorder {
             return r.isRecording
         } else {
             return false
         }
     }
-    let documentDirectory = NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true).first!
     
-    private var startTime: TimeInterval = 0
-    private var endTime: TimeInterval = 0
-    private var timeInterval: TimeInterval = 0
-    private var filename: String? = nil
-    private var isCancelled: Bool = false
+    public var filename: String? = nil
+    public var endTime: TimeInterval = 0.0
     
-    private var recordDuration: TimeInterval {
-        return endTime - startTime
-    }
+    /// Get information about the operation via Block
+    public var averagePowerReport: ((AudioOperator, Float) -> ())?
+    public var timeIntervalReport: ((AudioOperator, TimeInterval) -> ())?
+    public var failureHandler: ((AudioOperator, Error?) -> ())?
+    public var completionHandler: ((AudioOperator, Bool, AudioData?) -> ())?
     
-    private var isCrossMiniDurationLimit: Bool {
-        return (miniDurationLimit > 0 && recordDuration < miniDurationLimit)
-    }
+    /// Get information about the operation via Observer keypath
+    public var currentTime: TimeInterval = 0.0
+    public var currentPower: Float = 0.0
+    public var startTime: TimeInterval = 0.0
     
-    private var operationQueue: OperationQueue!
+    /// Player
     
-    override init() {
-        operationQueue = OperationQueue()
-        super.init()
-    }
+    fileprivate var player: AVAudioPlayer?
+
     
-    convenience init(delegate: AudioRecorderDelegate) {
-        self.init()
+    /// Set AVAudioSession active or inactive.
+    
+    /// Note that activating an audio session is a synchronous (blocking) operation
+    public static func activeAudioSession(completion: ((Bool) -> ())? = nil) {
         
-        self.delegate = delegate
-    }
-    
-    @discardableResult
-    func activeAudioSession() -> Bool {
-        do {
-            try AVAudioSession.sharedInstance().setActive(true)
-            try AVAudioSession.sharedInstance().setCategory(AVAudioSessionCategoryRecord)
-            return true
-        } catch {
-            print("setCategory fail or setActive fail")
-            return false
+        let item = DispatchWorkItem { 
+            var result = false
+            do {
+                try AVAudioSession.sharedInstance().setActive(true)
+                try AVAudioSession.sharedInstance().setCategory(AVAudioSessionCategoryPlayAndRecord)
+                result = true
+            } catch {
+                print(self, #function, error.localizedDescription)
+            }
+            completion?(result)
         }
+        
+        /// dispatch on global queue.
+        DispatchQueue.global().async(execute: item)
     }
     
-    func deactivateAudioSession() {
+    public static func deactivateAudioSession() {
         do {
             try AVAudioSession.sharedInstance().setActive(false, with: .notifyOthersOnDeactivation)
         } catch {
-            return print("setActive fail or read recorder.url")
+            return print(self, #function, error.localizedDescription)
         }
     }
     
-    static func canRecord() -> Bool {
+    /// check record permission
+    public static func canRecord() -> Bool {
         return AVAudioSession.sharedInstance().recordPermission() == .granted
     }
     
-    func createRecorder(at path: URL) -> AVAudioRecorder? {
-        do {
-            let recorder = try AVAudioRecorder(url: path, settings: AudioSettings)
-            recorder.delegate = self
-            recorder.isMeteringEnabled = true
-            return recorder
-        } catch {
-            print("init AVAudioRecorder")
-            return nil
+    
+    /// Updating meters of recorder or player
+    
+    /// event runs on a background thread, and wakes those delegate or blocks on main thread.
+    fileprivate func startUpdating(eventHandler: DispatchWorkItem) {
+        /// cancel existed timer
+        if let _ = updatingTimer {
+            stopUpdating()
+        }
+        
+        /// create new timer
+        let event = eventHandler
+        let queue = DispatchQueue(label: "com.vg.mointor", attributes: .concurrent)
+        let timer = DispatchSource.makeTimerSource(queue: queue)
+        timer.scheduleRepeating(deadline: .now(), interval: .milliseconds(200), leeway: .milliseconds(50))
+        timer.setEventHandler(handler: event)
+        
+        /// start the timer
+        timer.resume()
+        
+        /// hold the timer
+        updatingTimer = timer
+    }
+    
+    fileprivate func stopUpdating() {
+        
+        updatingTimer?.cancel()
+        updatingTimer = nil
+    }
+    
+    /// updating
+    fileprivate func sendAction(power: Float, time: TimeInterval) {
+        self.timeIntervalReport?(self, time)
+        self.averagePowerReport?(self, power)
+        
+        self.currentTime = time
+        self.currentPower = power
+    }
+    
+    /** event handler for recording.
+     update values of currentTime and currentPower.
+     trigger timeIntervalReport and averagePowerReport.
+     */
+    fileprivate func updatingRecordEventHandler() {
+        
+        let r = self.recorder!
+        
+        if !r.isRecording {
+            return
+        }
+        
+        if !r.isMeteringEnabled {
+            r.isMeteringEnabled = true
+        }
+        
+        /// call to refresh meter values.
+        r.updateMeters()
+        
+        /// dispatch on main queue.
+        DispatchQueue.main.async {
+            self.sendAction(power: r.averagePower(forChannel: 0), time: r.currentTime)
         }
     }
     
-    /// Dispatch perform
-    
-    func performRecording(withDelay: TimeInterval) {
-        perform(#selector(AudioRecorder.__startRecord),
-                with: self,
-                afterDelay: withDelay)
-    }
-    
-    func performCancelRecording() {
-        NSObject.cancelPreviousPerformRequests(withTarget: self,
-                                               selector: #selector(AudioRecorder.__startRecord),
-                                               object: self)
-    }
-    
-    
-    /// Start a recording
-    
+    /** Start a recording.
+     At this time, you should have set delegate or block to get information.
+     */
     @discardableResult
-    func startRecording(filename: String, storageURL: URL) -> Bool {
+    public func startRecording(filename: String, storageURL: URL) -> Bool {
+        
+        stopRecording()
+        
+        /// create a recorder
+        do {
+            recorder = try AVAudioRecorder(url: storageURL, settings: AudioSettings)
+        } catch {
+            print(self, #function, error.localizedDescription)
+            return false
+        }
+        recorder!.delegate = self
+        recorder!.isMeteringEnabled = true
+        
+        if !recorder!.record() {
+            return false
+        }
+        
+        startTime = Date().timeIntervalSince1970
+        
+        startUpdating(eventHandler: DispatchWorkItem(block: updatingRecordEventHandler ))
         
         self.filename = filename
+
+        return true
+    }
+    
+    /// Stop a recording. 
+    /// This method will be the last time to set attribute value,
+    /// after that, it will stop the recorder and trigger the delegate method of the recorder.
+    public func stopRecording() {
         
-        /// reset cancel flag
-        isCancelled = false
-        
-        guard
-            activeAudioSession(),
-            let r = createRecorder(at: storageURL) else {
-                print(#function, "activeAudioSession fail")
-                return false
+        guard let r = recorder, r.isRecording else {
+            return
         }
-        recorder = r
-        recorder.prepareToRecord()
         
-        /// schadule recording request
-        performRecording(withDelay: 0.25)
+        /// set attribute value finally.
+        endTime = Date().timeIntervalSince1970
+        currentTime = r.currentTime
+
+        /// this will trigger delegate methods
+        r.stop()
+        
+        stopUpdating()
+    }
+    
+    /// call on Interruption
+    fileprivate func cancelRecordIfNedd() {
+        
+        if let r = recorder {
+            /// this ensures that when calling stop(), the delegate will not trigger
+            r.delegate = nil
+            /// will not send message to delegate
+            r.stop()
+            /// remove the file if necessary
+            r.deleteRecording()
+        }
+        
+        stopUpdating()
+    }
+    
+    // AVAudioRecorderDelegate
+    
+    public func audioRecorderDidFinishRecording(_ recorder: AVAudioRecorder, successfully flag: Bool) {
+        
+        guard let name = filename, flag else {
+            DispatchQueue.main.async { self.failureHandler?(self, nil) }
+            return
+        }
+        
+        let data = AudioData(filename: name, duration: currentTime, recordDate: Date(timeIntervalSince1970: startTime))
+        
+        DispatchQueue.main.async { self.completionHandler?(self, true, data) }
+    }
+    
+    public func audioRecorderBeginInterruption(_ recorder: AVAudioRecorder) {
+        
+        cancelRecordIfNedd()
+        
+        DispatchQueue.main.async { self.failureHandler?(self, nil) }
+    }
+    
+    public func audioRecorderEncodeErrorDidOccur(_ recorder: AVAudioRecorder, error: Error?) {
+        
+        DispatchQueue.main.async { self.failureHandler?(self, error) }
+    }
+    
+    
+    /// Playing
+    
+    /** Event handler for playing
+     */
+    fileprivate func updatingPlayEventHandler() {
+        
+        let p = self.player!
+        
+        if !p.isPlaying {
+            return
+        }
+        
+        if !p.isMeteringEnabled {
+            p.isMeteringEnabled = true
+        }
+        
+        /// call to refresh meter values.
+        p.updateMeters()
+        
+        /// dispatch on main queue.
+        DispatchQueue.main.async {
+            self.sendAction(power: p.averagePower(forChannel: 0), time: p.currentTime)
+        }
+    }
+    
+    func startPlaying(url: URL) -> Bool {
+        
+        stopPlaying()
+        
+        do {
+            player = try AVAudioPlayer(contentsOf: url)
+        } catch {
+            print(self, #function, error.localizedDescription)
+            return false
+        }
+        player!.delegate = self
+
+        if !player!.play() {
+            print(self, #function, "fail to play")
+            return false
+        }
+        
+        startUpdating(eventHandler: DispatchWorkItem(block: updatingPlayEventHandler))
         
         return true
     }
     
-    func __startRecord() {
-        /// start time counting
-        startTime = Date().timeIntervalSince1970
+    /// This method will not trigger audioPlayerDidFinishPlaying(_:, _:)
+    public func stopPlaying() {
         
-        recorder.record()
-        
-        operationQueue.addOperation( BlockOperation(block: updateMeters) )
-    }
-    
-    func updateMeters() {
-        repeat {
-            recorder.updateMeters()
-            
-            delegate?.audioRecorder(self, timeDuration: recorder.currentTime)
-            
-            timeInterval = recorder.currentTime
-            
-            delegate?.audioRecorder(self, averagePower: recorder.averagePower(forChannel: 0))
-            
-            Thread.sleep(forTimeInterval: 0.2)
-            
-        } while(recorder.isRecording)
-    }
-    
-    /// Stop a recording
-    func stopRecording() {
-        
-        endTime = Date().timeIntervalSince1970
-        
-        timeInterval = recorder.currentTime
-        
-        recorder.stop()
-        
-        deactivateAudioSession()
-        
-        operationQueue.cancelAllOperations()
-        
-        /// if set miniDurationLimit value, check...
-        if isCrossMiniDurationLimit {
-            
-            timeInterval = 0
-            
-            recorder.deleteRecording()
-        }
-    }
-    
-    /// Cancel a recording
-    func cancelRecording() {
-        
-        if recorder.isRecording {
-            
-            recorder.stop()
-            deactivateAudioSession()
-            operationQueue.cancelAllOperations()
-        }
-        
-        timeInterval = 0
-        filename = nil
-        isCancelled = true
-        
-        recorder.deleteRecording()
-        
-        delegate?.audioRecorder(self, isCancelled: "cancelRecording")
-    }
-    
-    // MARK: audio delegate
-    
-    func audioRecorderDidFinishRecording(_ recorder: AVAudioRecorder, successfully flag: Bool) {
-        
-        guard flag, !isCrossMiniDurationLimit, !isCancelled, let name = filename else {
-            
-            delegate?.audioRecorder(self, isFinished: nil)
+        guard let p = player, p.isPlaying else {
             return
         }
         
-        delegate?.audioRecorder(self, isFinished: (name, Date(timeIntervalSince1970: startTime), timeInterval: timeInterval))
+        p.stop()
+        
+        stopUpdating()
     }
     
-    func audioRecorderBeginInterruption(_ recorder: AVAudioRecorder) {
+    /// call on Interruption
+    fileprivate func cancelPlayIfNedd() {
         
-        print("audioRecorderBeginInterruption")
-        
-        cancelRecording()
-    }
-    
-    func audioRecorderEndInterruption(_ recorder: AVAudioRecorder, withOptions flags: Int) {
-        
-        print("audioRecorderEndInterruption")
-    }
-    
-    func audioRecorderEncodeErrorDidOccur(_ recorder: AVAudioRecorder, error: Error?) {
-        
-        delegate?.audioRecorder(self, isCancelled: error?.localizedDescription ?? "audioRecorderEncodeErrorDidOccur")
-        
-        guard let e = error else {
-            return
+        if let p = player {
+            /// this ensures that when calling stop(), the delegate will not trigger
+            p.delegate = nil
+            /// will not send message to delegate
+            p.stop()
         }
-        print("audioRecorderEncodeErrorDidOccur, ", e.localizedDescription)
         
+        stopUpdating()
+    }
+    
+    /// AVAudioPlayerDelegate
+    
+    public func audioPlayerDidFinishPlaying(_ player: AVAudioPlayer, successfully flag: Bool) {
+        
+        DispatchQueue.main.async { self.completionHandler?(self, flag, nil) }
+    }
+    
+    public func audioPlayerBeginInterruption(_ player: AVAudioPlayer) {
+        
+        cancelPlayIfNedd()
+        
+        DispatchQueue.main.async { self.failureHandler?(self, nil) }
+    }
+    
+    public func audioPlayerDecodeErrorDidOccur(_ player: AVAudioPlayer, error: Error?) {
+        
+        DispatchQueue.main.async { self.failureHandler?(self, error) }
     }
     
 }

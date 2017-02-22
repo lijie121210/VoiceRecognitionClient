@@ -121,7 +121,7 @@ class CoreDataManager: NSObject {
         }
     }
     
-    
+    @available(iOS, introduced: 9.0, deprecated: 9.0, message: " context thread ")
     func append(data: AudioData) {
         
         let item = CoreDataManager.default.insertEntity(AudioRecordItem.self)
@@ -132,6 +132,8 @@ class CoreDataManager: NSObject {
         saveContext()
     }
     
+    /// insert a AudioRecordItem record
+
     func insert(data: AudioData) {
         
         let context = managedObjectContext
@@ -149,6 +151,8 @@ class CoreDataManager: NSObject {
             }
         }
     }
+    
+    /// Remove a AudioRecordItem record
     
     @discardableResult
     func remove(data: AudioData) -> Bool {
@@ -204,6 +208,8 @@ class CoreDataManager: NSObject {
         }
     }
 
+    /// insert
+    
     func insertEntity<T: NSManagedObject>(_ : T.Type, context: NSManagedObjectContext = CoreDataManager.default.managedObjectContext) -> T {
         
         let entity = NSEntityDescription.insertNewObject(forEntityName: "\(T.self)", into: context) as! T
@@ -216,6 +222,8 @@ class CoreDataManager: NSObject {
         
         return entity
     }
+    
+    /// fetch
     
     func fetch<T: NSManagedObject>() -> [T] {
         var result = [T]()
