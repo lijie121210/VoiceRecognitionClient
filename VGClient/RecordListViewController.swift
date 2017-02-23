@@ -11,6 +11,11 @@ import UIKit
 
 class RecordListCell: UICollectionViewCell {
     
+    enum PlayImage: String, Equatable {
+        case play = "play"
+        case stop = "stop"
+    }
+    
     @IBOutlet weak var containerView: RectCornerView!
     @IBOutlet weak var dateLabel: UILabel!
     @IBOutlet weak var durationLabel: UILabel!
@@ -21,8 +26,7 @@ class RecordListCell: UICollectionViewCell {
     @IBOutlet weak var deletionButton: UIButton!
     @IBOutlet weak var playButton: UIButton!
     @IBOutlet weak var sendButton: UIButton!
-    
-    private var isTargeted: Bool = false
+    @IBOutlet weak var progressView: UIProgressView!
     
     override func awakeFromNib() {
         super.awakeFromNib()
@@ -45,6 +49,8 @@ class RecordListCell: UICollectionViewCell {
         widthConstraint.constant = UIScreen.main.bounds.width - 40.0
     }
     
+    private var isTargeted: Bool = false
+
     func addTarget(target: Any?, deleteAction: Selector, playAction: Selector, sendAction: Selector, for event: UIControlEvents) {
         guard isTargeted == false else {
             return
@@ -54,6 +60,24 @@ class RecordListCell: UICollectionViewCell {
         deletionButton.addTarget(target, action: deleteAction, for: event)
         playButton.addTarget(target, action: playAction, for: event)
         sendButton.addTarget(target, action: sendAction, for: event)
+    }
+    
+    var isProgressViewVisible: Bool = false {
+        didSet {
+            progressView.isHidden = !isProgressViewVisible
+        }
+    }
+    
+    func update(playImage named: PlayImage) {
+        
+        let image = UIImage(named: named.rawValue)
+        
+        playButton.setImage(image, for: .normal)
+    }
+    
+    func update(playProgress time: TimeInterval) {
+        
+        progressView.progress = Float(time)
     }
 }
 
@@ -73,19 +97,7 @@ class RecordListFooter: UICollectionReusableView {
 /// Show local records in a list
 class RecordListViewController: UIViewController {
 
-    /// Reuse identifiers wrapper
-    struct ID {
-        static let cell = "\(RecordListCell.self)"
-        static let header = "\(RecordListHeader.self)"
-        static let footer = "\(RecordListFooter.self)"
-    }
-    
     @IBOutlet weak var recordCollectionView: UICollectionView!
-    
-    /// self.parent is the containing view controller, and will be set a value after didMove(_:) method called.
-    fileprivate var masterParent: MasterViewController? {
-        return parent as? MasterViewController
-    }
     
     fileprivate var flowLayout: UICollectionViewFlowLayout {
         return recordCollectionView.collectionViewLayout as! UICollectionViewFlowLayout
@@ -93,6 +105,8 @@ class RecordListViewController: UIViewController {
     
     fileprivate var dataSource: [AudioData] = []
 
+    fileprivate var playingIndex: IndexPath? = nil
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -101,46 +115,78 @@ class RecordListViewController: UIViewController {
         
         flowLayout.estimatedItemSize = CGSize(width: w, height: h)
     }
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-        
-    }
-    override func viewDidAppear(_ animated: Bool) {
-        super.viewDidAppear(animated)
-        
-    }
 
     /// Api for Master view controller
+    
+    var isActionEnabled: Bool = true {
+        didSet {
+            self.recordCollectionView.isUserInteractionEnabled = isActionEnabled
+        }
+    }
     
     /// Reload collection view with new data source. This method can be called to set the data source.
     func reloadDataSource(data: [AudioData]) {
         
-        dataSource.append(contentsOf: data)
+        dataSource.removeAll()
         
-        DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) { 
-            self.recordCollectionView.reloadData()
-        }
+        data.forEach { self.insert(data: $0) }
     }
     
     /// - param head : Indicates where the data source should insert new data into the front.
     func insert(data: AudioData, at head: Bool = true) {
         /// this is the insertion position if head == false.
-        var position = dataSource.count
+        var position: Int
         
         if head {
             dataSource.insert(data, at: 0)
-            
-            /// change to the front end
             position = 0
         } else {
             dataSource.append(data)
+            position = dataSource.count
         }
         
         /// update record list view
-        recordCollectionView.insertItems(at: [IndexPath(item: position, section: 0)])
+        recordCollectionView.performBatchUpdates({
+            self.recordCollectionView.insertItems(at: [IndexPath(item: position, section: 0)])
+        }, completion: nil)
     }
     
+    /// Maybe successful, or maybe failed
+    func playDidComplete() {
+        
+        guard
+            let index = playingIndex,
+            let cell = recordCollectionView.cellForItem(at: index) as? RecordListCell
+            else {
+                print(self, #function, "caused by scrolling")
+                return
+        }
+        
+        recordCollectionView.isScrollEnabled = true
+        
+        playingIndex = nil
+        
+        cell.update(playProgress: 0.01)
+
+        cell.isProgressViewVisible = false
+        
+        cell.update(playImage: .play)
+    }
     
+    func update(playState time: TimeInterval) {
+        
+        guard
+            let index = playingIndex,
+            let cell = recordCollectionView.cellForItem(at: index) as? RecordListCell
+            else {
+                return print(self, #function, "cased by scrolling")
+        }
+        let data = dataSource[index.item]
+        let duration = data.duration
+        let progress = time / duration
+        print(self, #function, time, duration, progress)
+        cell.update(playProgress: progress)
+    }
 }
 
 extension RecordListViewController: UICollectionViewDelegate, UICollectionViewDelegateFlowLayout {
@@ -170,63 +216,89 @@ extension RecordListViewController: UICollectionViewDelegate, UICollectionViewDe
         return index
     }
     
-    func deleteRecord(sender: Any, with event: UIEvent?) {
-        guard let index = indexPath(of: event) else {
+    @objc fileprivate func deleteRecord(sender: Any, with event: UIEvent?) {
+        
+        guard let master = masterParent, let index = indexPath(of: event) else {
             return
         }
-        dataSource.remove(at: index.item)
         
-        recordCollectionView.deleteItems(at: [index])
-        
-        masterParent?.deletingItem(at: index, with: dataSource[index.item])
+        master.deletingItem(at: index, with: dataSource[index.item]) { finish in
+            if !finish {
+                return print("fail to remove <\(index)>")
+            }
+            
+            self.dataSource.remove(at: index.item)
+            
+            self.recordCollectionView.deleteItems(at: [index])
+        }
     }
     
-    func playRecord(sender: Any, with event: UIEvent?) {
-        guard let index = indexPath(of: event) else {
-            return
+    @objc fileprivate func playRecord(sender: Any, with event: UIEvent?) {
+        
+        guard
+            let master = masterParent,
+            let index = indexPath(of: event),
+            let cell = recordCollectionView.cellForItem(at: index) as? RecordListCell
+            else {
+                return print(self, #function, "play can not start")
         }
         
-        masterParent?.playItem(at: index, with: dataSource[index.item], progression: { (progress) in
-            
-            print(self, #function, progress)
-            
-        }, completion: { (finish) in
-            
-            print(self, #function, finish)
-            
-        })
-    }
-    
-    func sendRecord(sender: Any, with event: UIEvent?) {
-        guard let index = indexPath(of: event) else {
-            return
-        }
-        
-        masterParent?.sendItem(at: index, with: dataSource[index.item], completion: { (finish) in
-            
-            print(self, #function, finish)
+        playDidComplete()
 
-        })
+        recordCollectionView.isScrollEnabled = false
+
+        if let playingIndex = playingIndex, playingIndex == index {
+            
+            master.stopPlayItem(at: index, with: dataSource[index.item])
+
+        } else {
+
+            let start = master.playItem(at: index, with: dataSource[index.item])
+            
+            guard start else { return }
+            
+            /// set this value should after asked master!
+            playingIndex = index
+            
+            cell.isProgressViewVisible = true
+            cell.update(playImage: .stop)
+            cell.update(playProgress: 0.01)
+        }
+        
+        
+    }
+    
+    @objc fileprivate func sendRecord(sender: Any, with event: UIEvent?) {
+        
+        guard let master = masterParent, let index = indexPath(of: event) else {
+            return
+        }
+        
+        master.sendItem(at: index, with: dataSource[index.item])
     }
     
 }
 
 extension RecordListViewController: UICollectionViewDataSource {
     
-    func numberOfSections(in collectionView: UICollectionView) -> Int {
-        return 1
+    /// Reuse identifiers wrapper
+    struct ID {
+        static let cell = "\(RecordListCell.self)"
+        static let header = "\(RecordListHeader.self)"
+        static let footer = "\(RecordListFooter.self)"
     }
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+
         return dataSource.count
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let data = dataSource[indexPath.item]
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: ID.cell, for: indexPath) as! RecordListCell
-        
+
         cell.dateLabel.text = data.recordDate.recordDescription
-        cell.durationLabel.text = data.duration.dateDescription()
+        cell.durationLabel.text = data.duration.timeDescription
         cell.translateLabel.text = "识别结果"
 
         /// Since the translation of data maybe nil, so we need to adjust translation label's text color.
@@ -252,15 +324,17 @@ extension RecordListViewController: UICollectionViewDataSource {
     }
     
     func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
+
         /// Section Header
         if kind == UICollectionElementKindSectionHeader {
             let header = collectionView.dequeueReusableSupplementaryView(ofKind: UICollectionElementKindSectionHeader, withReuseIdentifier: ID.header, for: indexPath) as! RecordListHeader
             header.titleLabel.text = "已录制"
             return header
         }
+        
         /// Section Footer
         let footer = collectionView.dequeueReusableSupplementaryView(ofKind: UICollectionElementKindSectionFooter, withReuseIdentifier: ID.footer, for: indexPath) as! RecordListFooter
-        footer.detailLabel.text = dataSource.isEmpty ? "no record" : "no more"
+        footer.detailLabel.text = dataSource.isEmpty ? "no record" : ""
         return footer
     }
 }

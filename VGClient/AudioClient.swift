@@ -78,10 +78,10 @@ public func ==(lhs: SerializedData, rhs: SerializedData) -> Bool {
 fileprivate let AudioServerHost: String = "10.164.54.125"
 fileprivate let AudioServerPort: UInt16 = 9632
 
-typealias AudioClientCompletionHandler = (Bool) -> ()
-typealias AudioClientProgressHandler = (Float) -> ()
+public typealias AudioClientCompletionHandler = (Bool) -> ()
+public typealias AudioClientProgressHandler = (Float) -> ()
 
-class AudioClient: NSObject, GCDAsyncSocketDelegate {
+public class AudioClient: NSObject, GCDAsyncSocketDelegate {
     
     public struct Tag {
         static let heartbeat = 1
@@ -112,14 +112,14 @@ class AudioClient: NSObject, GCDAsyncSocketDelegate {
         heartbeatTimer = nil
     }
     
-    override init() {
+    public override init() {
         super.init()
         
         socket = GCDAsyncSocket(delegate: self, delegateQueue: DispatchQueue(label: "com.vg.client.\(Date().timeIntervalSince1970)"))
     }
     
     /// Heartbeat timer
-    func beginHeartbeatTimer() {
+    fileprivate func beginHeartbeatTimer() {
         
         let heartbeatQueue = DispatchQueue(label: "com.vg.client.heartbeat.\(Date().timeIntervalSince1970)", attributes: .concurrent)
 
@@ -138,18 +138,18 @@ class AudioClient: NSObject, GCDAsyncSocketDelegate {
         heartbeatTimer = timer
     }
     
-    func endHeartbeatTimer() {
+    fileprivate func endHeartbeatTimer() {
         heartbeatTimer?.cancel()
         heartbeatTimer = nil
     }
     
     /// Socket stack
     
-    var isConnected: Bool {
+    public var isConnected: Bool {
         return socket.isConnected
     }
     
-    func connect() {
+    public func connect() {
         guard !socket.isConnected else {
             print(self, #function,"already connecting to ", socket.connectedHost ?? "unknown host.")
             return
@@ -161,14 +161,14 @@ class AudioClient: NSObject, GCDAsyncSocketDelegate {
         }
     }
     
-    func disconnect() {
+    public func disconnect() {
         socket.disconnect()
     }
     
     /// Write data
     
     /// The progression and completion handler default is nil
-    func write(data: Data, type: SerializedData.DType, progression: AudioClientProgressHandler? = nil, completion: AudioClientCompletionHandler? = nil) {
+    public func write(data: Data, type: SerializedData.DType, progression: AudioClientProgressHandler? = nil, completion: AudioClientCompletionHandler? = nil) {
         
         let serializedData = SerializedData(pack: data, type: type)
 
@@ -183,7 +183,7 @@ class AudioClient: NSObject, GCDAsyncSocketDelegate {
     
     /// GCDAsyncSocket delegate
     
-    func socket(_ sock: GCDAsyncSocket, didWriteDataWithTag tag: Int) {
+    public func socket(_ sock: GCDAsyncSocket, didWriteDataWithTag tag: Int) {
         
         guard tag == Tag.data, let completion = writingCompletionHandler else {
             return
@@ -198,7 +198,7 @@ class AudioClient: NSObject, GCDAsyncSocketDelegate {
         writingProgressionHandler = nil
     }
     
-    func socket(_ sock: GCDAsyncSocket, didWritePartialDataOfLength partialLength: UInt, tag: Int) {
+    public func socket(_ sock: GCDAsyncSocket, didWritePartialDataOfLength partialLength: UInt, tag: Int) {
         
         guard
             tag == Tag.data,
@@ -214,14 +214,14 @@ class AudioClient: NSObject, GCDAsyncSocketDelegate {
         progression(progress)
     }
     
-    func socket(_ sock: GCDAsyncSocket, didConnectToHost host: String, port: UInt16) {
+    public func socket(_ sock: GCDAsyncSocket, didConnectToHost host: String, port: UInt16) {
         
         /// Begin heartbeat timer
         beginHeartbeatTimer()
     }
     
-    func socketDidDisconnect(_ sock: GCDAsyncSocket, withError err: Error?) {
-        print(self, #function, "socket did disconnect with error : ", err?.localizedDescription ?? "unkunown error.")
+    public func socketDidDisconnect(_ sock: GCDAsyncSocket, withError err: Error?) {
+        print(self, #function, err?.localizedDescription ?? "unkunown error.")
         
         /// Unsure where to put writing failure code
         if let completion = writingCompletionHandler {
@@ -230,47 +230,5 @@ class AudioClient: NSObject, GCDAsyncSocketDelegate {
         
         /// End hearbeat timer
         endHeartbeatTimer()
-    }
-}
-
-
-
-class AudioUploader: NSObject {
-    
-    static let `default`: AudioUploader = AudioUploader()
-    
-    let clientSocket: AudioClient
-    
-    private override init() {
-        
-        clientSocket = AudioClient()
-        
-        super.init()
-    }
-    
-    func connect() {
-        clientSocket.connect()
-    }
-    
-    var isConnected: Bool {
-        return clientSocket.isConnected
-    }
-    
-    func disconnect() {
-        clientSocket.disconnect()
-    }
-    
-    func upload(data: AudioData, progression: AudioClientProgressHandler?, completion: AudioClientCompletionHandler?) {
-        
-        guard let d = data.data else {
-            
-            print(self, #function, "read no audio data")
-            
-            completion?(false)
-            
-            return
-        }
-        
-        clientSocket.write(data: d, type: .audio, progression: progression, completion: completion)
     }
 }

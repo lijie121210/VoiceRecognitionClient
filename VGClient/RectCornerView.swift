@@ -9,9 +9,9 @@
 import UIKit
 
 @IBDesignable
-class RectCornerView: UIView {
+public class RectCornerView: UIView {
     
-    struct Shadow {
+    public struct Shadow {
         let color: UIColor
         let radius: CGFloat
         let opacity: Float
@@ -19,23 +19,23 @@ class RectCornerView: UIView {
     }
     
     /// Background
-    @IBInspectable var fillColor: UIColor = .white
+    @IBInspectable public var fillColor: UIColor = .white
 
     /// Corner
-    @IBInspectable var cornerRadiusX: CGFloat = 20.0
-    @IBInspectable var cornerRadiusY: CGFloat = 20.0
-    @IBInspectable var isTopLeftCorner: Bool = true
-    @IBInspectable var isTopRightCorner: Bool = true
-    @IBInspectable var isBottomLeftCorner: Bool = false
-    @IBInspectable var isBottomRightCorner: Bool = false
+    @IBInspectable public var cornerRadiusX: CGFloat = 20.0
+    @IBInspectable public var cornerRadiusY: CGFloat = 20.0
+    @IBInspectable public var isTopLeftCorner: Bool = true
+    @IBInspectable public var isTopRightCorner: Bool = true
+    @IBInspectable public var isBottomLeftCorner: Bool = false
+    @IBInspectable public var isBottomRightCorner: Bool = false
     
     /// Shadow
-    @IBInspectable var isShadowEnabled: Bool = true
-    @IBInspectable var shadowColor: UIColor = .darkGray
-    @IBInspectable var shadowRadius: CGFloat = 15.0
-    @IBInspectable var shadowOpacity: Float = 0.4
-    @IBInspectable var shadowOffsetX: CGFloat = 0
-    @IBInspectable var shadowOffsetY: CGFloat = -2
+    @IBInspectable public var isShadowEnabled: Bool = true
+    @IBInspectable public var shadowColor: UIColor = .darkGray
+    @IBInspectable public var shadowRadius: CGFloat = 15.0
+    @IBInspectable public var shadowOpacity: Float = 0.4
+    @IBInspectable public var shadowOffsetX: CGFloat = 0
+    @IBInspectable public var shadowOffsetY: CGFloat = -2
     
     private var rectCorner: UIRectCorner {
         var corner = UIRectCorner.allCorners
@@ -57,25 +57,25 @@ class RectCornerView: UIView {
     
     /// Life cycle
     
-    override init(frame: CGRect) {
+    public override init(frame: CGRect) {
         super.init(frame: frame)
         
         initialization()
     }
     
-    required init?(coder aDecoder: NSCoder) {
+    public required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
         
         initialization()
     }
     
-    override func awakeFromNib() {
+    public override func awakeFromNib() {
         super.awakeFromNib()
         
         initialization()
     }
     
-    func initialization() {
+    fileprivate func initialization() {
         backgroundColor = UIColor.clear
         
         if isShadowEnabled {
@@ -83,7 +83,7 @@ class RectCornerView: UIView {
         }
     }
     
-    override func draw(_ rect: CGRect) {
+    public override func draw(_ rect: CGRect) {
         guard let ctx = UIGraphicsGetCurrentContext() else {
             return
         }
@@ -99,7 +99,7 @@ class RectCornerView: UIView {
     
     /// Background
     
-    func setFillColor(color: UIColor) {
+    public func setFillColor(color: UIColor) {
         
         fillColor = color
         
@@ -108,21 +108,21 @@ class RectCornerView: UIView {
     
     /// Corner
     
-    func setCornerRadiusX(radius: CGFloat) {
+    public func setCornerRadiusX(radius: CGFloat) {
         
         cornerRadiusX = radius
         
         setNeedsDisplay()
     }
     
-    func setCornerRadius(x: CGFloat, y: CGFloat) {
+    public func setCornerRadius(x: CGFloat, y: CGFloat) {
         cornerRadiusX = x
         cornerRadiusY = y
         
         setNeedsDisplay()
     }
     
-    func setCornerRadiusY(radius: CGFloat) {
+    public func setCornerRadiusY(radius: CGFloat) {
         
         cornerRadiusY = radius
         
@@ -130,14 +130,14 @@ class RectCornerView: UIView {
     }
     
     /// Shadow
-    func addShadow() {
+    fileprivate func addShadow() {
         layer.shadowColor = shadowColor.cgColor
         layer.shadowOffset = CGSize(width: shadowOffsetX, height: shadowOffsetY)
         layer.shadowRadius = shadowRadius
         layer.shadowOpacity = shadowOpacity
     }
     
-    func setShadow(shadow: Shadow) {
+    public func setShadow(shadow: Shadow) {
         shadowColor = shadow.color
         shadowRadius = shadow.radius
         shadowOpacity = shadow.opacity
@@ -147,7 +147,7 @@ class RectCornerView: UIView {
         addShadow()
     }
     
-    func removeShadow() {
+    public func removeShadow() {
         layer.shadowColor = nil
         layer.shadowOpacity = 0.0
     }

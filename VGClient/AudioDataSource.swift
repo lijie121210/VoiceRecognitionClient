@@ -54,21 +54,21 @@ public class AudioDataSource {
         }
     }
     
-    /// Load data from local database.
-    public func loadLocalData(completion: @escaping (Bool, [AudioData]) -> ()) {
+    /// Load data from local database. need to dispatch to main in completion.
+    public func loadLocalData(completion: @escaping ([AudioData]) -> ()) {
         
-        let workitem = {
-
-            let items: [AudioRecordItem] = CoreDataManager.default.fetch()
+        CoreDataManager.default.asyncFetch(completion: { (finish, items: [AudioRecordItem]) in
             
-            let result = items.map { AudioData(filename: $0.filename!, duration: $0.duration, recordDate: $0.createDate as! Date) }
+            let workitem = {
+                let result = items.map { AudioData(filename: $0.filename!, duration: $0.duration, recordDate: $0.createDate as! Date) }
+                
+                self.datas.append(contentsOf: result)
+                
+                completion(result)
+            }
             
-            self.datas.append(contentsOf: result)
-            
-            completion(true, result)
-        }
-        
-        dispatchOnQueue(execute: workitem)
+            self.dispatchOnQueue(execute: workitem)
+        })
     }
     
     /// The code will be executed synchronously, and the self.datas will be set after execution.
@@ -84,6 +84,17 @@ public class AudioDataSource {
         }
         
         syncDispatchOnQueue(execute: workitem)
+    }
+    
+    public var numberOfData: Int {
+        var num = 0
+        
+        let work = {
+            num = self.datas.count
+        }
+        syncDispatchOnQueue(execute: work)
+        
+        return num
     }
     
     public func append(data: AudioData) {
