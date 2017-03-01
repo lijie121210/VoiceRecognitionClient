@@ -38,7 +38,20 @@ class MasterViewController: UIViewController {
     @IBOutlet weak var dashboardTopConstraint: NSLayoutConstraint!
     @IBOutlet weak var authorityTopConstraint: NSLayoutConstraint!
     
+    /// Add a UISwipeGestureRecognizer
+    @IBOutlet weak var backgroundImageView: UIImageView!
     
+    fileprivate lazy var swipe: UISwipeGestureRecognizer = {
+        let s = UISwipeGestureRecognizer(target: self, action: #selector(MasterViewController.didSwipeRight(sender:)))
+        s.direction = .right
+        return s
+    }()
+    
+    @objc fileprivate func didSwipeRight(sender: Any?) {
+        UIView.animate(withDuration: 0.25) { 
+            self.backgroundImageView.isHidden = !self.backgroundImageView.isHidden
+        }
+    }
     
     /// It needs to be responsible for the full operation of the data, including access, playing and sending
     fileprivate var dataSource: AudioDataSource = AudioDataSource()
@@ -60,6 +73,8 @@ class MasterViewController: UIViewController {
         
         /// setup original layout
         resetLayout()
+        
+        view.addGestureRecognizer(swipe)
     }
     
     override func viewDidAppear(_ animated: Bool) {
