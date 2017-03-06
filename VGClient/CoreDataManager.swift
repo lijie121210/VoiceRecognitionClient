@@ -22,7 +22,11 @@ class CoreDataManager: NSObject {
         
         initDBDirectory()
 
-        managedObjectContext.name = "CoreDataManager_Context"
+        let context = managedObjectContext
+        
+        if context.name == nil {
+            context.name = "CoreDataManager_Context"
+        }
     }
     
     /// create specific folder
@@ -128,7 +132,8 @@ class CoreDataManager: NSObject {
         item.createDate = data.recordDate as NSDate
         item.duration = data.duration
         item.filename = data.filename
-        
+        item.translation = data.translation
+
         saveContext()
     }
     
@@ -143,6 +148,7 @@ class CoreDataManager: NSObject {
             item.createDate = data.recordDate as NSDate
             item.duration = data.duration
             item.filename = data.filename
+            item.translation = data.translation
             
             do {
                 try context.save()

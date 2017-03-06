@@ -334,7 +334,7 @@ extension RecordListViewController: UICollectionViewDataSource {
         
         /// Section Footer
         let footer = collectionView.dequeueReusableSupplementaryView(ofKind: UICollectionElementKindSectionFooter, withReuseIdentifier: ID.footer, for: indexPath) as! RecordListFooter
-        footer.detailLabel.text = dataSource.isEmpty ? "no record" : ""
+        footer.detailLabel.text = dataSource.isEmpty ? "" : ""
         return footer
     }
 }

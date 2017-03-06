@@ -41,17 +41,6 @@ class MasterViewController: UIViewController {
     /// Add a UISwipeGestureRecognizer
     @IBOutlet weak var backgroundImageView: UIImageView!
     
-    fileprivate lazy var swipe: UISwipeGestureRecognizer = {
-        let s = UISwipeGestureRecognizer(target: self, action: #selector(MasterViewController.didSwipeRight(sender:)))
-        s.direction = .right
-        return s
-    }()
-    
-    @objc fileprivate func didSwipeRight(sender: Any?) {
-        UIView.animate(withDuration: 0.25) { 
-            self.backgroundImageView.isHidden = !self.backgroundImageView.isHidden
-        }
-    }
     
     /// It needs to be responsible for the full operation of the data, including access, playing and sending
     fileprivate var dataSource: AudioDataSource = AudioDataSource()
@@ -74,7 +63,8 @@ class MasterViewController: UIViewController {
         /// setup original layout
         resetLayout()
         
-        view.addGestureRecognizer(swipe)
+        updateViewFromSettings()
+        
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -94,11 +84,13 @@ class MasterViewController: UIViewController {
                         AudioOperator.requestSpeechAuthorization(completion: { (result) in
                             
                             if result {
-                                self.showDashboard()
+                                DispatchQueue.main.async(execute: self.showDashboard)
                             }
                         })
                     })
                 }
+            } else {
+                ///
             }
         }
         
@@ -112,8 +104,50 @@ class MasterViewController: UIViewController {
         super.didReceiveMemoryWarning()
         
     }
+    
+    @IBAction func didTapSettingButton(_ sender: UIButton) {
+        
+        self.showAuthority()
+
+    }
+    
 }
 
+
+/// Adding convenience calculation attribute
+///
+/** There is no need to increase the reference to children controllers, check them at any time.
+ s: the master view controller; c: a view controller of a container view which will be added to s.
+ When the master loading container views from the storyboard, the order is :
+ --> s.prepare(for:sender:)
+ --> c.viewDidLoad()
+ --> s.addChildViewController
+ --> c.didMove(toParentViewController:)
+ after the s loaded all it's children view controllers
+ --> s.viewDidLoad
+ --> s.viewWillAppear
+ --> c.viewWillAppear
+ --> s.viewDidAppear
+ --> c.viewDidAppear
+ */
+extension MasterViewController {
+    
+    
+    fileprivate var recordList: RecordListViewController? {
+        
+        return childViewControllers.filter { $0 is RecordListViewController }.first as? RecordListViewController
+    }
+    
+    fileprivate var dashboard: DashboardViewController? {
+        
+        return childViewControllers.filter { $0 is DashboardViewController }.first as? DashboardViewController
+    }
+    
+    fileprivate var authority: AuthorityViewController? {
+        
+        return childViewControllers.filter { $0 is AuthorityViewController }.first as? AuthorityViewController
+    }
+}
 
 
 /// Communication with Recordlist
@@ -158,8 +192,6 @@ extension MasterViewController {
         send(data: data)
     }
 }
-
-
 
 
 /// Communication with Dashboard
@@ -232,42 +264,27 @@ extension MasterViewController {
             self.send(data: data)
         }
     }
+    
 }
 
 
-/// Adding convenience calculation attribute
-///
-/** There is no need to increase the reference to children controllers, check them at any time.
- s: the master view controller; c: a view controller of a container view which will be added to s.
- When the master loading container views from the storyboard, the order is :
- --> s.prepare(for:sender:)
- --> c.viewDidLoad()
- --> s.addChildViewController
- --> c.didMove(toParentViewController:)
- after the s loaded all it's children view controllers
- --> s.viewDidLoad
- --> s.viewWillAppear
- --> c.viewWillAppear
- --> s.viewDidAppear
- --> c.viewDidAppear
- */
+
+/// Communication with Authority
 extension MasterViewController {
     
-    
-    fileprivate var recordList: RecordListViewController? {
+    func attemptToCancelSetting() {
         
-        return childViewControllers.filter { $0 is RecordListViewController }.first as? RecordListViewController
+        hideAuthority()
+        
+        updateViewFromSettings()
     }
     
-    fileprivate var dashboard: DashboardViewController? {
+    func updateViewFromSettings() {
         
-        return childViewControllers.filter { $0 is DashboardViewController }.first as? DashboardViewController
+        backgroundImageView.isHidden = AudioDefaultValue.default.isHiddenBackgroundImage
+        
     }
     
-    fileprivate var authority: AuthorityViewController? {
-        
-        return childViewControllers.filter { $0 is AuthorityViewController }.first as? AuthorityViewController
-    }
 }
 
 
@@ -286,7 +303,6 @@ extension MasterViewController {
             
             print(self, #function, finish)
         }
-        
     }
 }
 
@@ -304,6 +320,11 @@ extension MasterViewController {
             self.audioOperator = nil
         }
         
+        let updateDataSourceAndView = { (data: AudioData) in
+            self.dataSource.append(data: data)
+            self.recordList?.insert(data: data)
+        }
+        
         audioOperator = AudioOperator(averagePowerReport: { (_, power) in
             
         }, timeIntervalReport: { (_, time) in
@@ -314,25 +335,17 @@ extension MasterViewController {
             
             self.recordDidEnd()
             
-            guard var data = data else {
-                return
-            }
+            guard var data = data else { return }
+            
             if #available(iOS 10.0, *) {
                 AudioOperator.recognize(speech: data.localURL, completion: { (text) in
                     
                     data.translation = text
                     
-                    self.dataSource.append(data: data)
-                    
-                    DispatchQueue.main.async {
-                        self.recordList?.insert(data: data)
-                    }
+                    DispatchQueue.main.async { updateDataSourceAndView(data) }
                 })
             } else {
-                
-                self.dataSource.append(data: data)
-                
-                self.recordList?.insert(data: data)
+                updateDataSourceAndView(data)
             }
             
             

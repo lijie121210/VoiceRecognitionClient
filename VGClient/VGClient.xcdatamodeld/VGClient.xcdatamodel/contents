@@ -4,8 +4,9 @@
         <attribute name="createDate" optional="YES" attributeType="Date" usesScalarValueType="NO" syncable="YES"/>
         <attribute name="duration" optional="YES" attributeType="Double" defaultValueString="0.0" usesScalarValueType="YES" syncable="YES"/>
         <attribute name="filename" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="translation" optional="YES" attributeType="String" syncable="YES"/>
     </entity>
     <elements>
-        <element name="AudioRecordItem" positionX="-63" positionY="-18" width="128" height="90"/>
+        <element name="AudioRecordItem" positionX="-63" positionY="-18" width="128" height="105"/>
     </elements>
 </model>

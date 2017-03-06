@@ -30,7 +30,19 @@ public class AudioDataSource {
     
     fileprivate var key: DispatchSpecificKey<String> = DispatchSpecificKey<String>()
     
-    init() {        
+    
+    public var numberOfData: Int {
+        var num = 0
+        
+        let work = {
+            num = self.datas.count
+        }
+        syncDispatchOnQueue(execute: work)
+        
+        return num
+    }
+    
+    public init() {        
         queue.setSpecific(key: key, value: "com.vg.client.onqueue.key")
     }
     
@@ -60,7 +72,10 @@ public class AudioDataSource {
         CoreDataManager.default.asyncFetch(completion: { (finish, items: [AudioRecordItem]) in
             
             let workitem = {
-                let result = items.map { AudioData(filename: $0.filename!, duration: $0.duration, recordDate: $0.createDate as! Date) }
+                let result = items.map { AudioData(filename: $0.filename!,
+                                                   duration: $0.duration,
+                                                   recordDate: $0.createDate as! Date,
+                                                   translation: $0.translation) }
                 
                 self.datas.append(contentsOf: result)
                 
@@ -78,23 +93,15 @@ public class AudioDataSource {
             
             let items: [AudioRecordItem] = CoreDataManager.default.fetch()
             
-            let result = items.map { AudioData(filename: $0.filename!, duration: $0.duration, recordDate: $0.createDate as! Date) }
+            let result = items.map { AudioData(filename: $0.filename!,
+                                               duration: $0.duration,
+                                               recordDate: $0.createDate as! Date,
+                                               translation: $0.translation) }
             
             self.datas.append(contentsOf: result)
         }
         
         syncDispatchOnQueue(execute: workitem)
-    }
-    
-    public var numberOfData: Int {
-        var num = 0
-        
-        let work = {
-            num = self.datas.count
-        }
-        syncDispatchOnQueue(execute: work)
-        
-        return num
     }
     
     public func append(data: AudioData) {
@@ -157,5 +164,14 @@ public class AudioDataSource {
         }
         
         dispatchOnQueue(execute: workitem)
+    }
+    
+    public func update(translation: String) {
+        
+        let item = {
+            
+        }
+        
+        dispatchOnQueue(execute: item)
     }
 }
