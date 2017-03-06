@@ -28,6 +28,7 @@
 		189418D01E51E60E00207358 /* AudioClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 189418CF1E51E60E00207358 /* AudioClient.swift */; };
 		18D1CAEC1E5C29F30029A6F9 /* AudioDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18D1CAEB1E5C29F30029A6F9 /* AudioDataSource.swift */; };
 		18D27B471E6D45B200488F80 /* AudioDefaultValue.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18D27B461E6D45B200488F80 /* AudioDefaultValue.swift */; };
+		18D27B491E6D727800488F80 /* OrbitView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18D27B481E6D727800488F80 /* OrbitView.swift */; };
 		63C1FC1BD26B63E7F768193B /* Pods_VGClient.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C662A5A8E0CDADBF09F6851F /* Pods_VGClient.framework */; };
 		662A97DBF4DDE4773C71FEA2 /* Pods_VGClientTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D43BB5E3486CDFD5E6648240 /* Pods_VGClientTests.framework */; };
 		DFE65B3F591F8C82B32C7D1E /* Pods_VGClientUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0C865D15E6268636F6CE4685 /* Pods_VGClientUITests.framework */; };
@@ -79,6 +80,7 @@
 		189418CF1E51E60E00207358 /* AudioClient.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AudioClient.swift; sourceTree = "<group>"; };
 		18D1CAEB1E5C29F30029A6F9 /* AudioDataSource.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AudioDataSource.swift; sourceTree = "<group>"; };
 		18D27B461E6D45B200488F80 /* AudioDefaultValue.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AudioDefaultValue.swift; sourceTree = "<group>"; };
+		18D27B481E6D727800488F80 /* OrbitView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OrbitView.swift; sourceTree = "<group>"; };
 		2ADC62D835192411D4530FEC /* Pods-VGClientUITests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-VGClientUITests.release.xcconfig"; path = "Pods/Target Support Files/Pods-VGClientUITests/Pods-VGClientUITests.release.xcconfig"; sourceTree = "<group>"; };
 		86574B37F98F44263F9285A8 /* Pods-VGClientTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-VGClientTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-VGClientTests/Pods-VGClientTests.release.xcconfig"; sourceTree = "<group>"; };
 		8B6B9DBE1A784B330C39EA60 /* Pods-VGClient.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-VGClient.release.xcconfig"; path = "Pods/Target Support Files/Pods-VGClient/Pods-VGClient.release.xcconfig"; sourceTree = "<group>"; };
@@ -138,6 +140,7 @@
 				185500401E5A888A00DADEF7 /* DashboardViewController.swift */,
 				185500421E5A895E00DADEF7 /* AuthorityViewController.swift */,
 				189418CB1E5197F500207358 /* RectCornerView.swift */,
+				18D27B481E6D727800488F80 /* OrbitView.swift */,
 			);
 			name = "View layer";
 			sourceTree = "<group>";
@@ -515,6 +518,7 @@
 				1838560E1E5C79180094C811 /* AudioData.swift in Sources */,
 				185500411E5A888A00DADEF7 /* DashboardViewController.swift in Sources */,
 				1855003F1E5A886200DADEF7 /* RecordListViewController.swift in Sources */,
+				18D27B491E6D727800488F80 /* OrbitView.swift in Sources */,
 				185500431E5A895E00DADEF7 /* AuthorityViewController.swift in Sources */,
 				189418CC1E5197F500207358 /* RectCornerView.swift in Sources */,
 				189418BE1E5159AF00207358 /* CoreDataManager.swift in Sources */,

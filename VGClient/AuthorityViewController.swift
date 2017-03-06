@@ -22,6 +22,12 @@ class AuthorityViewController: UIViewController {
         isHiddenBackgroundImageSwitch.isOn = AudioDefaultValue.default.isHiddenBackgroundImage
         
         speechRecognitionEngineSegmentedControl.selectedSegmentIndex = AudioDefaultValue.default.speechRecognitionEngine.rawValue
+        
+        if #available(iOS 10.0, *) {
+            speechRecognitionEngineSegmentedControl.setEnabled(true, forSegmentAt: 0)
+        } else {
+            speechRecognitionEngineSegmentedControl.setEnabled(false, forSegmentAt: 0)
+        }
     }
     
     @IBAction func isHiddenBackgroundImageSwitchValueDidChange(_ sender: Any) {

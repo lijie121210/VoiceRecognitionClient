@@ -24,7 +24,6 @@ class DashboardViewController: UIViewController {
     /// this stack view contains those three buttons
     @IBOutlet weak var cancelButton: UIButton!
     @IBOutlet weak var finishButton: UIButton!
-    @IBOutlet weak var sendButton: UIButton!
     
     fileprivate var recordingTimeInterval: Int = -1
     
@@ -41,8 +40,8 @@ class DashboardViewController: UIViewController {
     fileprivate func changeButtonState(isEnabled: Bool) {
         cancelButton.isEnabled = isEnabled
         finishButton.isEnabled = isEnabled
-        sendButton.isEnabled = isEnabled
     }
+    
     fileprivate func disabledAllButtons() {
         
         changeButtonState(isEnabled: false)
@@ -139,10 +138,10 @@ extension DashboardViewController {
         case finishImage = "stop"
         
         enum ConsoleTitle: String {
-            case recording = "正在录制"
-            case cancel = "取消录制"
-            case finish = "录制完成"
-            case recordfail = "录制失败"
+            case recording = "正在倾听"
+            case cancel = "取消"
+            case finish = "完成"
+            case recordfail = "失败"
             case audition = "正在试听"
             case disaudition = "无法试听"
             case failaudition = "停止试听"

@@ -249,6 +249,17 @@ extension AudioOperator {
         stopUpdating()
     }
     
+    @discardableResult
+    public static func delete(recordedItem localURL: URL) -> Bool {
+        do {
+            try FileManager.default.removeItem(at: localURL)
+            return true
+        } catch {
+            print(#function, "Fail to remove. <\(error.localizedDescription)>")
+            return false
+        }
+    }
+    
     /// call on Interruption
     fileprivate func cancelRecordIfNeed() {
         
