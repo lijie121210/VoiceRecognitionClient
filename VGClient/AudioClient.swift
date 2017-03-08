@@ -9,13 +9,19 @@
 import UIKit
 import CocoaAsyncSocket
 
+public func ==(lhs: SerializedData, rhs: SerializedData) -> Bool {
+    return lhs.json == rhs.json && lhs.type == rhs.type && lhs.size == rhs.size && lhs.data == rhs.data
+}
+public func ==(lhs: Response, rhs: Response) -> Bool {
+    return lhs.data == rhs.data && lhs.json == rhs.json && lhs.message == rhs.message && lhs.state == rhs.state
+}
 
 public struct SerializedData: Equatable {
     
     public enum DType: String, Equatable {
-        case heartbeat = "heartbeat"
-        case image = "image"
-        case text = "text"
+        case heartbeat = "hea"
+        case image = "img"
+        case text = "txt"
         case audio = "wav"
     }
     
@@ -53,11 +59,16 @@ public struct SerializedData: Equatable {
         
         var package = [String:String]()
         package[DKey.type] = type.rawValue
-        package[DKey.size] = type == DType.heartbeat ? String(0) : String(data.count)
+        package[DKey.size] = String(format: "%019d", type == DType.heartbeat ? 0 : data.count)
         
         /// Create the header data from dictionary and append end mark.
         var packagedata = try! JSONSerialization.data(withJSONObject: package, options: .prettyPrinted)
+        
+        print(#function, packagedata.count)
+
         packagedata.append(GCDAsyncSocket.crlfData())
+        
+        print(#function, packagedata.count)
         
         /// Append real data. So heartbeat data should be Data().
         packagedata.append(data)
@@ -68,34 +79,97 @@ public struct SerializedData: Equatable {
         self.data = packagedata
     }
     
+    func string(from integer: Int) -> String {
+        let str = String(integer)
+        let len = str.lengthOfBytes(using: .utf8)
+        let max = String(Int.max).lengthOfBytes(using: .utf8)
+        var format = String(repeating: "0", count: max)
+        let startIndex = format.index(format.endIndex, offsetBy: 0 - len)
+        format.replaceSubrange(startIndex..<format.endIndex, with: str)
+        return format
+    }
 }
 
-public func ==(lhs: SerializedData, rhs: SerializedData) -> Bool {
-    return lhs.json == rhs.json && lhs.type == rhs.type && lhs.size == rhs.size && lhs.data == rhs.data
+
+public struct Response: Equatable {
+    
+    struct Key {
+        static let state = "state"
+        static let message = "message"
+        static let data = "data"
+    }
+    
+    enum State: Int {
+        case fail
+        case success
+    }
+    
+    let json: [String : String]
+    let state: State
+    let data: String
+    let message: String
+    
+    init?(response: Data) {
+        guard
+            let res = try? JSONSerialization.jsonObject(with: response, options: .mutableContainers),
+            let d = res as? [String:String],
+            let s = d[Key.state],
+            let sraw = Int(s),
+            let state = State(rawValue: sraw),
+            let message = d[Key.message],
+            let data = d[Key.data] else {
+                return nil
+        }
+        self.json = d
+        self.state = state
+        self.data = data
+        self.message = message
+    }
 }
-
-
-fileprivate let AudioServerHost: String = "10.164.54.125"
-fileprivate let AudioServerPort: UInt16 = 9632
 
 public typealias AudioClientCompletionHandler = (Bool) -> ()
 public typealias AudioClientProgressHandler = (Float) -> ()
+public typealias AudioClientRecognitionHandler = (String?) -> ()
 
 public class AudioClient: NSObject, GCDAsyncSocketDelegate {
+    
+    public struct Server {
+        static let host = "10.164.49.15"
+        static let port: UInt16 = 9634
+    }
     
     public struct Tag {
         static let heartbeat = 1
         static let data = 2
+        static let response = 3
     }
     
     fileprivate var socket: GCDAsyncSocket!
+    
+    /// 回调函数
     fileprivate var heartbeatTimer: DispatchSourceTimer?
     fileprivate var writingCompletionHandler: AudioClientCompletionHandler?
     fileprivate var writingProgressionHandler: AudioClientProgressHandler?
+    fileprivate var speechRecognitionHandler: AudioClientRecognitionHandler?
+
+    /// 当前正在发送的数据包
     fileprivate var writingSerializedData: SerializedData?
-    
+
     deinit {
-        socket.disconnect()
+        clear()
+    }
+    
+    public override init() {
+        super.init()
+        
+        socket = GCDAsyncSocket(delegate: self, delegateQueue: DispatchQueue(label: "com.vg.client.\(Date().timeIntervalSince1970)"))
+    }
+    
+    public func clear() {
+        
+        if socket.isConnected {
+            socket.disconnect()
+        }
         
         socket.delegate = nil
         
@@ -107,15 +181,11 @@ public class AudioClient: NSObject, GCDAsyncSocketDelegate {
         
         writingProgressionHandler = nil
         
+        speechRecognitionHandler = nil
+        
         heartbeatTimer?.cancel()
         
         heartbeatTimer = nil
-    }
-    
-    public override init() {
-        super.init()
-        
-        socket = GCDAsyncSocket(delegate: self, delegateQueue: DispatchQueue(label: "com.vg.client.\(Date().timeIntervalSince1970)"))
     }
     
     /// Heartbeat timer
@@ -143,7 +213,7 @@ public class AudioClient: NSObject, GCDAsyncSocketDelegate {
         heartbeatTimer = nil
     }
     
-    /// Socket stack
+    /// Socket connection
     
     public var isConnected: Bool {
         return socket.isConnected
@@ -155,9 +225,9 @@ public class AudioClient: NSObject, GCDAsyncSocketDelegate {
             return
         }
         do {
-            try socket.connect(toHost: AudioServerHost, onPort: AudioServerPort, withTimeout: 60)
+            try socket.connect(toHost: Server.host, onPort: Server.port, withTimeout: 60)
         } catch {
-            print(self, #function, "fail to connect to ", AudioServerHost, ":", AudioServerPort, " .", error.localizedDescription)
+            print(self, #function, "fail to connect .", error.localizedDescription)
         }
     }
     
@@ -165,10 +235,43 @@ public class AudioClient: NSObject, GCDAsyncSocketDelegate {
         socket.disconnect()
     }
     
+    /// GCDAsyncSocket delegate
+    
+    public func socket(_ sock: GCDAsyncSocket, didConnectToHost host: String, port: UInt16) {
+        
+        /// Begin heartbeat timer
+//        beginHeartbeatTimer()
+        
+        if let data = writingSerializedData?.data {
+            socket.write(data, withTimeout: -1, tag: Tag.data)
+        }
+    }
+    
+    public func socketDidDisconnect(_ sock: GCDAsyncSocket, withError err: Error?) {
+        print(self, #function, err?.localizedDescription ?? "unkunown error.")
+        
+        /// Unsure where to put writing failure code
+        if let completion = writingCompletionHandler {
+            completion(false)
+        }
+//        
+        if
+            let recognition = speechRecognitionHandler ,
+            let reason = err?.localizedDescription,
+            reason.contains("Socket closed by remote peer") {
+            
+            recognition(nil)
+        }
+        
+        /// End hearbeat timer
+//        endHeartbeatTimer()
+        
+    }
+    
     /// Write data
     
     /// The progression and completion handler default is nil
-    public func write(data: Data, type: SerializedData.DType, progression: AudioClientProgressHandler? = nil, completion: AudioClientCompletionHandler? = nil) {
+    public func write(data: Data, type: SerializedData.DType, progression: AudioClientProgressHandler? = nil, completion: AudioClientCompletionHandler? = nil, recognition: AudioClientRecognitionHandler?) {
         
         let serializedData = SerializedData(pack: data, type: type)
 
@@ -176,9 +279,16 @@ public class AudioClient: NSObject, GCDAsyncSocketDelegate {
 
         writingCompletionHandler = completion
         
+        speechRecognitionHandler = recognition
+        
         writingSerializedData = serializedData
         
-        socket.write(serializedData.data, withTimeout: -1, tag: Tag.data)
+        if !socket.isConnected {
+            connect()
+        } else {
+            socket.write(serializedData.data, withTimeout: -1, tag: Tag.data)
+        }
+        
     }
     
     /// GCDAsyncSocket delegate
@@ -196,6 +306,10 @@ public class AudioClient: NSObject, GCDAsyncSocketDelegate {
         writingCompletionHandler = nil
         
         writingProgressionHandler = nil
+
+        /// 开始等待处理结果
+        socket.readData(to: GCDAsyncSocket.crlfData(), withTimeout: -1, tag: Tag.response)
+
     }
     
     public func socket(_ sock: GCDAsyncSocket, didWritePartialDataOfLength partialLength: UInt, tag: Int) {
@@ -206,29 +320,31 @@ public class AudioClient: NSObject, GCDAsyncSocketDelegate {
             let writingdata = writingSerializedData else {
                 return
         }
-        let size = writingdata.data.count
-        let progress = Float(partialLength) / Float(size)
+        let progress = Float(partialLength) / Float(writingdata.data.count)
         
         print(progress)
         
         progression(progress)
     }
     
-    public func socket(_ sock: GCDAsyncSocket, didConnectToHost host: String, port: UInt16) {
-        
-        /// Begin heartbeat timer
-        beginHeartbeatTimer()
-    }
+    /// Read data
     
-    public func socketDidDisconnect(_ sock: GCDAsyncSocket, withError err: Error?) {
-        print(self, #function, err?.localizedDescription ?? "unkunown error.")
+    public func socket(_ sock: GCDAsyncSocket, didRead data: Data, withTag tag: Int) {
         
-        /// Unsure where to put writing failure code
-        if let completion = writingCompletionHandler {
-            completion(false)
+        guard tag == Tag.response, let recognition = speechRecognitionHandler else {
+            return
         }
         
-        /// End hearbeat timer
-        endHeartbeatTimer()
+        guard let response = Response(response: data), response.state == .success else {
+            
+            recognition(nil)
+            
+            return
+        }
+
+        recognition(response.data)
+        
+        speechRecognitionHandler = nil
     }
+    
 }

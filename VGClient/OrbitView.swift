@@ -59,7 +59,7 @@ extension OrbitView {
         
         /// 计算背景圆参数
         var radiusOfCircle: CGFloat {
-            return shortLength.divided(by: 3.0)
+            return shortLength.divided(by: 4.0)
         }
         var xdistanceOfCircle: CGFloat {
             return (baseSize.width - radiusOfCircle * 2.0).divided(by: 2.0)
@@ -73,7 +73,7 @@ extension OrbitView {
         
         /// 计算环参数
         var spaceToRing: CGFloat {
-            return shortLength.divided(by: 6.0).multiplied(by: 0.2)
+            return radiusOfCircle * 0.2
         }
         var widthOfRing: CGFloat {
             return (radiusOfCircle + spaceToRing).multiplied(by: 2.0)
@@ -87,7 +87,7 @@ extension OrbitView {
         
         /// 计算点参数
         var spaceToStar: CGFloat {
-            return shortLength.divided(by: 6.0).multiplied(by: 0.8)
+            return radiusOfCircle - 1
         }
         var widthOfStar: CGFloat {
             return (radiusOfCircle + spaceToStar).multiplied(by: 2.0)
@@ -271,7 +271,7 @@ extension OrbitView {
         return animation(keyPath: AnimKey.rotation.z.rawValue,
                          from: 0.0, to: CGFloat.pi.multiplied(by: 2.0),
                          repeatCount: Float.greatestFiniteMagnitude,
-                         duration: 8.0,
+                         duration: 10.0,
                          timingFunction: kCAMediaTimingFunctionLinear,
                          autoreverses: false)
     }
@@ -280,7 +280,7 @@ extension OrbitView {
         return animation(keyPath: AnimKey.rotation.z.rawValue,
                          from: 0.0, to: CGFloat.pi.multiplied(by: 2.0),
                          repeatCount: Float.greatestFiniteMagnitude,
-                         duration: 6.0,
+                         duration: 10.0,
                          timingFunction: kCAMediaTimingFunctionEaseInEaseOut,
                          autoreverses: false)
     }
@@ -342,10 +342,11 @@ extension OrbitView {
         view.addSubview(pointContainer2)
         
         /// 创建一个点        
-        let an = positionAnimation(for: pointContainer1.bounds.insetBy(dx: 4, dy: 4), duration: 7.0)
+        let an1 = positionAnimation(for: pointContainer1.bounds.insetBy(dx: 4, dy: 4), duration: 3.0)
+        let an2 = positionAnimation(for: pointContainer2.bounds.insetBy(dx: 4, dy: 4), duration: 2.0)
         
-        pointContainer1.addSubview(point(width: 3, withAnimation: an, animationkey: "point1"))
-        pointContainer2.addSubview(point(width: 3, withAnimation: an, animationkey: "point2"))
+        pointContainer1.addSubview(point(width: 4, withAnimation: an1, animationkey: "point1"))
+        pointContainer2.addSubview(point(width: 4, withAnimation: an2, animationkey: "point2"))
         
         pointContainer1.layer.add(zrotationForPointContainer, forKey: "zrotationForPointContainer")
         pointContainer1.layer.add(xrotationForPointContainer, forKey: "xrotationForPointContainer")

@@ -64,17 +64,17 @@
                                 </connections>
                             </containerView>
                             <view alpha="0.90000000000000002" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="uxJ-QR-0Fl" customClass="RectCornerView" customModule="VGClient" customModuleProvider="target">
-                                <rect key="frame" x="36" y="163.5" width="303" height="340"/>
+                                <rect key="frame" x="67.5" y="213.5" width="240" height="240"/>
                                 <subviews>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="dRf-ed-M9H" customClass="OrbitView" customModule="VGClient" customModuleProvider="target">
-                                        <rect key="frame" x="40" y="20" width="223" height="223"/>
+                                        <rect key="frame" x="40" y="20" width="160" height="160"/>
                                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                         <constraints>
                                             <constraint firstAttribute="width" secondItem="dRf-ed-M9H" secondAttribute="height" multiplier="1:1" id="BZq-3P-oHd"/>
                                         </constraints>
                                     </view>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="正在识别..." textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="042-XX-YpL">
-                                        <rect key="frame" x="109.5" y="299" width="83.5" height="21"/>
+                                        <rect key="frame" x="78.5" y="199" width="83.5" height="21"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                         <nil key="textColor"/>
                                         <nil key="highlightedColor"/>
@@ -82,8 +82,9 @@
                                 </subviews>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <constraints>
-                                    <constraint firstAttribute="height" constant="340" id="3Qi-fx-EzL"/>
+                                    <constraint firstAttribute="height" constant="240" id="3Qi-fx-EzL"/>
                                     <constraint firstItem="dRf-ed-M9H" firstAttribute="centerX" secondItem="uxJ-QR-0Fl" secondAttribute="centerX" id="7L2-Ox-dmv"/>
+                                    <constraint firstAttribute="width" constant="240" id="Kzz-Wk-Suw"/>
                                     <constraint firstItem="dRf-ed-M9H" firstAttribute="leading" secondItem="uxJ-QR-0Fl" secondAttribute="leading" constant="40" id="SS9-1V-vrT"/>
                                     <constraint firstAttribute="bottom" secondItem="042-XX-YpL" secondAttribute="bottom" constant="20" id="mJr-My-wZB"/>
                                     <constraint firstItem="042-XX-YpL" firstAttribute="centerX" secondItem="uxJ-QR-0Fl" secondAttribute="centerX" id="mOu-la-hrH"/>
@@ -109,7 +110,6 @@
                             <constraint firstAttribute="trailingMargin" secondItem="qf4-yo-7V4" secondAttribute="trailing" id="S4O-2c-IdY"/>
                             <constraint firstItem="uxJ-QR-0Fl" firstAttribute="centerY" secondItem="1ha-i9-prm" secondAttribute="centerY" id="TdK-kH-4DP"/>
                             <constraint firstItem="qf4-yo-7V4" firstAttribute="top" secondItem="tsV-5g-Ebh" secondAttribute="bottom" constant="8" id="cAb-qN-uOa"/>
-                            <constraint firstItem="uxJ-QR-0Fl" firstAttribute="leading" secondItem="1ha-i9-prm" secondAttribute="leadingMargin" constant="20" id="cd1-gP-ZP9"/>
                             <constraint firstItem="bSo-bU-afT" firstAttribute="leading" secondItem="1ha-i9-prm" secondAttribute="leadingMargin" priority="750" constant="-20" id="egQ-sV-uBH"/>
                             <constraint firstItem="Nmq-yB-9dC" firstAttribute="leading" secondItem="1ha-i9-prm" secondAttribute="leadingMargin" constant="-20" id="iI4-gz-Dlc"/>
                             <constraint firstItem="Zzk-dv-8jG" firstAttribute="centerX" secondItem="1ha-i9-prm" secondAttribute="centerX" id="q7i-8G-3Oa"/>
@@ -213,7 +213,7 @@
                                                                     <rect key="frame" x="93.5" y="0.0" width="94" height="40"/>
                                                                     <state key="normal" image="play"/>
                                                                 </button>
-                                                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="nEZ-N1-nMj">
+                                                                <button opaque="NO" contentMode="scaleToFill" enabled="NO" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="nEZ-N1-nMj">
                                                                     <rect key="frame" x="187.5" y="0.0" width="93.5" height="40"/>
                                                                     <state key="normal" image="send"/>
                                                                 </button>
@@ -251,16 +251,19 @@
                                                             <real key="value" value="10"/>
                                                         </userDefinedRuntimeAttribute>
                                                         <userDefinedRuntimeAttribute type="number" keyPath="shadowOffsetX">
-                                                            <real key="value" value="8"/>
+                                                            <real key="value" value="0.0"/>
                                                         </userDefinedRuntimeAttribute>
                                                         <userDefinedRuntimeAttribute type="number" keyPath="shadowOffsetY">
-                                                            <real key="value" value="8"/>
+                                                            <real key="value" value="-2"/>
                                                         </userDefinedRuntimeAttribute>
                                                         <userDefinedRuntimeAttribute type="number" keyPath="shadowRadius">
-                                                            <real key="value" value="8"/>
+                                                            <real key="value" value="5"/>
                                                         </userDefinedRuntimeAttribute>
                                                         <userDefinedRuntimeAttribute type="boolean" keyPath="isBottomLeftCorner" value="YES"/>
                                                         <userDefinedRuntimeAttribute type="boolean" keyPath="isBottomRightCorner" value="YES"/>
+                                                        <userDefinedRuntimeAttribute type="number" keyPath="shadowOpacity">
+                                                            <real key="value" value="0.40000000000000002"/>
+                                                        </userDefinedRuntimeAttribute>
                                                     </userDefinedRuntimeAttributes>
                                                 </view>
                                                 <progressView hidden="YES" opaque="NO" contentMode="scaleToFill" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="3fO-at-7D1">

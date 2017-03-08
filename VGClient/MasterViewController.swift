@@ -107,7 +107,7 @@ class MasterViewController: UIViewController {
         /// start networking connection
         
         clientSocket.connect()
-
+        
     }
     
     
@@ -205,16 +205,7 @@ extension MasterViewController {
     
     func send(data: Data) {
         
-        if !clientSocket.isConnected {
-            clientSocket.connect()
-        }
-        clientSocket.write(data: data, type: .audio, progression: { (progress) in
-            
-            print(self, #function, progress)
-        }) { (finish) in
-            
-            print(self, #function, finish)
-        }
+        
     }
 }
 
@@ -371,9 +362,37 @@ extension MasterViewController {
     /// 录制到数据之后，开始进行识别
     
     func recognizeWithHMM(data: AudioData, completion: @escaping (String?) -> ()) {
+
+        guard let data = data.data else {
+            return
+        }
         
-        DispatchQueue.main.asyncAfter(deadline: .now() + 2.0) {
-            completion(nil)
+        print(self, #function, data.count)
+
+        
+        clientSocket.write(data: data, type: .audio, progression: { (progress) in
+            
+            print(self, #function, progress)
+            
+        }, completion: { (finish) in
+            
+            print(self, #function, finish)
+            
+            if finish {
+                DispatchQueue.main.async {
+                    self.updateOrbit(title: .recognize)
+                }
+            } else {
+                DispatchQueue.main.async {
+                    self.updateOrbit(title: .nonenetwork)
+                }
+            }
+            
+        }) { (text) in
+            
+            print(self, #function, text ?? "no text!")
+            
+            completion(text)
         }
     }
 
@@ -382,14 +401,15 @@ extension MasterViewController {
         var data = data
 
         /// 显示加载动画
-        updateOrbit(title: .start)
+        updateOrbit(title: .upload)
         showLoadingIndicator()
+        
+        view.isUserInteractionEnabled = false
         
         let recognizeFailed = {
             DispatchQueue.main.async {
                 
                 self.updateOrbit(title: .fail)
-                
                 DispatchQueue.main.asyncAfter(deadline: .now() + 2.0, execute: {
                     self.hideLoadingIndicator()
                 })
@@ -403,7 +423,10 @@ extension MasterViewController {
             DispatchQueue.main.async {
 
                 self.updateOrbit(title: .success)
-
+                DispatchQueue.main.asyncAfter(deadline: .now() + 1.0, execute: {
+                    self.hideLoadingIndicator()
+                })
+                
                 data.translation = text
 
                 self.dataSource.append(data: data)
@@ -413,12 +436,15 @@ extension MasterViewController {
         }
         
         let handleResult = { (text: String?) in
-            
+           
+            self.view.isUserInteractionEnabled = true
+
             guard let text = text else {
                 recognizeFailed()
                 return
             }
             recognizeSuccessed(text)
+            
         }
         
         switch AudioDefaultValue.default.speechRecognitionEngine {
@@ -473,9 +499,11 @@ extension MasterViewController {
 extension MasterViewController {
     
     enum OrbitTitle: String {
-        case start = "正在识别..."
+        case upload = "正在上传..."
+        case recognize = "正在识别..."
         case fail = "识别失败..."
         case success = "识别成功..."
+        case nonenetwork = "网络中断..."
     }
     
     fileprivate func updateOrbit(title: OrbitTitle) {
