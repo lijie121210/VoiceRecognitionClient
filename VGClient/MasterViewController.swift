@@ -28,13 +28,36 @@ extension DashboardViewController {
 ///
 class MasterViewController: UIViewController {
     
-    @IBOutlet weak var recordListContainer: UIView!
     @IBOutlet weak var dashboardContainer: UIView!
     
     @IBOutlet weak var dashboardTopConstraint: NSLayoutConstraint!
     
-    /// Add a UISwipeGestureRecognizer
     @IBOutlet weak var backgroundImageView: UIImageView!
+    
+    @IBOutlet weak var listeningButton: UIButton!
+    
+    @IBOutlet weak var scrollView: UIScrollView!
+    
+    @IBOutlet weak var monitoringInfoLabel: UILabel!
+    
+    @IBOutlet weak var monitoringInfoCollectionView: UICollectionView!
+    
+    @IBOutlet weak var dataCurveLabel: UILabel!
+    
+    @IBOutlet weak var dataCurveCollectionView: UICollectionView!
+    
+    @IBOutlet weak var accessoryViewHeightConstraint: NSLayoutConstraint!
+    
+    @IBOutlet weak var accessoryLabel: UILabel!
+    
+    @IBOutlet weak var accessoryControl: UISegmentedControl!
+    
+    @IBOutlet weak var accessoryCollectionView: UICollectionView!
+    
+    @IBAction func accessoryControlValueDidChange(_ sender: Any) {
+        
+    }
+    
     
     
     /// It needs to be responsible for the full operation of the data, including access, playing and sending
@@ -58,9 +81,40 @@ class MasterViewController: UIViewController {
         super.viewDidAppear(animated)
         
         /// permission
+        requestPermission()
         
+        
+        if AudioOperator.canRecord {
+            showDashboard()
+        }
+        
+        /// get existed local data
+        
+        fetchData()
+        
+        /// start networking connection
+        
+        clientSocket.connect()
+        
+        
+        /// 
+        
+        accessoryViewHeightConstraint.constant = accessoryCollectionView.contentSize.height + 100.0
+        
+        scrollView.layoutIfNeeded()
+    
+        
+    }
+    
+    
+    override func didReceiveMemoryWarning() {
+        super.didReceiveMemoryWarning()
+        
+    }
+    
+    func requestPermission() {
         AudioOperator.requestAudioSessionAuthorization { permission in
-                        
+            
             guard permission else {
                 return
             }
@@ -75,35 +129,20 @@ class MasterViewController: UIViewController {
                 AudioOperator.requestSpeechAuthorization(completion: { (_) in })
             })
         }
-        
-        if AudioOperator.canRecord {
-            self.showDashboard()
-        }
-        
-        /// get existed local data
+    }
+    
+    func fetchData() {
         
         let loadData = { (result: [AudioData]) in
-            DispatchQueue.main.asyncAfter(deadline: .now(), execute: { 
+            DispatchQueue.main.asyncAfter(deadline: .now(), execute: {
                 
                 self.recordList?.reloadDataSource(data: result)
                 
             })
         }
-
+        
         dataSource.loadLocalData(completion: loadData)
-        
-        /// start networking connection
-        
-        clientSocket.connect()
-        
     }
-    
-    
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        
-    }
-    
 }
 
 
@@ -505,3 +544,110 @@ extension MasterViewController {
         }
     }
 }
+
+
+
+
+
+
+
+
+
+
+
+///
+
+
+
+extension MasterViewController: UICollectionViewDelegate {
+    
+    
+}
+
+
+extension MasterViewController: UICollectionViewDataSource {
+    
+    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        
+        /// monitoring information collection view
+        
+        return 6
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        
+        
+        if collectionView == monitoringInfoCollectionView {
+            
+            /// monitoring information collection view
+
+            let micell = collectionView.dequeueReusableCell(withReuseIdentifier: "MInfoCell", for: indexPath) as! MInfoCell
+            
+            return micell
+        } else if collectionView == dataCurveCollectionView {
+            
+            /// data curve collection view
+            
+            let dccell = collectionView.dequeueReusableCell(withReuseIdentifier: "DataCurveCell", for: indexPath) as! DataCurveCell
+            
+            return dccell
+        } else {
+            
+            let accell = collectionView.dequeueReusableCell(withReuseIdentifier: "SingleActionCell", for: indexPath)
+            
+            return accell
+        }
+        
+    }
+    
+}
+
+
+extension MasterViewController: UICollectionViewDelegateFlowLayout {
+    
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+        
+        /// monitoring information collection view
+
+        return CGSize(width: 200, height: 120)
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {
+        
+        /// monitoring information collection view
+
+        return UIEdgeInsets(top: 0, left: 20, bottom: 0, right: 40)
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
+        
+        /// monitoring information collection view
+
+        return 20.0
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumInteritemSpacingForSectionAt section: Int) -> CGFloat {
+        
+        /// monitoring information collection view
+
+        return 0.0
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForHeaderInSection section: Int) -> CGSize {
+        
+        /// monitoring information collection view
+
+        return CGSize.zero
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForFooterInSection section: Int) -> CGSize {
+        
+        /// monitoring information collection view
+
+        return CGSize.zero
+    }
+}
+
+
+
+

@@ -19,6 +19,8 @@ protocol SettingViewControllerDelegate: class {
 ///
 class SettingViewController: UIViewController {
     
+    @IBOutlet weak var containerView: RectCornerView!
+    
     @IBOutlet weak var isHiddenBackgroundImageSwitch: UISwitch!
     
     @IBOutlet weak var speechRecognitionEngineSegmentedControl: UISegmentedControl!
@@ -51,6 +53,14 @@ class SettingViewController: UIViewController {
         } else {
             speechRecognitionEngineSegmentedControl.setEnabled(false, forSegmentAt: 0)
         }
+    }
+    
+    func dismiss() {
+        self.dismiss(animated: true, completion: nil)
+        
+        NotificationCenter.default.post(name: AudioDefaultValue.Notify.setting.name,
+                                        object: nil,
+                                        userInfo: nil)
     }
     
     /// 改变了背景设置
@@ -101,11 +111,20 @@ class SettingViewController: UIViewController {
     /// 点击了确定按钮；
     @IBAction func didTapCancelSettingButton(_ sender: Any) {
         
-        self.dismiss(animated: true, completion: nil)
+        dismiss()
         
-        NotificationCenter.default.post(name: AudioDefaultValue.Notify.setting.name,
-                                        object: nil,
-                                        userInfo: nil)
     }
 
+    @IBAction func didTapOnView(_ sender: Any) {
+        
+        guard
+            let c = self.containerView,
+            let tap = sender as? UITapGestureRecognizer,
+            tap.location(in: c).y < 0.0
+        else { return }
+        
+        dismiss()
+    }
+    
+    
 }

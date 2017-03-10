@@ -40,12 +40,17 @@ public struct ArrowPoint: Equatable {
     }
 
     
+    /// 顺时针第二个点
     var vertex: CGPoint
+    
+    /// 顺时针第一个点
     var leftEndPoint: CGPoint
+    
+    /// 顺时针第三个点
     var rightEndPoint: CGPoint
     
-    /// - divisor： 由于没有做divisor的校验，需要校验后再穿入
-    /// - size： 并没有做size的校验
+    /// - distance： 顶点相对中心的偏移
+    /// - offset： 端点相对中心的偏移
     init(direction: ArrowDirection, distance: CGFloat, offset: CGFloat, frame: CGRect) {
         
         let x0 = frame.origin.x
@@ -69,6 +74,18 @@ public struct ArrowPoint: Equatable {
             vertex = CGPoint(x: cx0, y: cy0 - d)
             leftEndPoint = CGPoint(x: cx0 - f, y: cy0 + d)
             rightEndPoint = CGPoint(x: cx0 + f, y: cy0 + d)
+            
+        case .right:
+            
+            vertex = CGPoint(x: cx0 + d, y: cy0)
+            leftEndPoint = CGPoint(x: cx0 - d, y: cy0 - f)
+            rightEndPoint = CGPoint(x: cx0 - d, y: cy0 + f)
+            
+        case .left:
+            
+            vertex = CGPoint(x: cx0 - d, y: cy0)
+            leftEndPoint = CGPoint(x: cx0 + d, y: cy0 + f)
+            rightEndPoint = CGPoint(x: cx0 + d, y: cy0 - f)
             
         default:
             
@@ -143,7 +160,26 @@ public struct ArrowPoint: Equatable {
         /// 绘制背景圆
         ctx.beginPath()
         ctx.setFillColor(fillColor.cgColor)
-        ctx.setShadow(offset: CGSize(width: 0, height: -1), blur: 2, color: UIColor.darkGray.withAlphaComponent(0.6).cgColor)
+        
+        /// 阴影方向
+        switch _direction {
+        case .top:
+            
+            ctx.setShadow(offset: CGSize(width: 0, height: 1), blur: 2, color: UIColor.darkGray.withAlphaComponent(0.6).cgColor)
+        case .bottom:
+            
+            ctx.setShadow(offset: CGSize(width: 0, height: -1), blur: 2, color: UIColor.darkGray.withAlphaComponent(0.6).cgColor)
+        case .left :
+            
+            ctx.setShadow(offset: CGSize(width: 1, height: 0), blur: 2, color: UIColor.darkGray.withAlphaComponent(0.6).cgColor)
+        case .right:
+            
+            ctx.setShadow(offset: CGSize(width: -1, height: 0), blur: 2, color: UIColor.darkGray.withAlphaComponent(0.6).cgColor)
+            
+        default:
+            break
+        }
+        
         ctx.addPath(UIBezierPath(roundedRect: r, cornerRadius: r.width * 0.5).cgPath)
         ctx.fillPath()
         

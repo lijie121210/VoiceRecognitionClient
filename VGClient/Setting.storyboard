@@ -22,29 +22,29 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Eci-OW-99D" customClass="RectCornerView" customModule="VGClient" customModuleProvider="target">
-                                <rect key="frame" x="16" y="375" width="343" height="200"/>
+                                <rect key="frame" x="16" y="295" width="343" height="280"/>
                                 <subviews>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="隐藏背景图片" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="buk-Tz-nQl">
-                                        <rect key="frame" x="20" y="97" width="104" height="21"/>
+                                        <rect key="frame" x="20" y="185" width="104" height="21"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                         <nil key="textColor"/>
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="A5x-jL-Cww">
-                                        <rect key="frame" x="274" y="92" width="51" height="31"/>
+                                        <rect key="frame" x="274" y="180" width="51" height="31"/>
                                         <connections>
                                             <action selector="isHiddenBackgroundImageSwitchValueDidChange:" destination="67G-cA-UF0" eventType="valueChanged" id="B0Q-Rs-w4m"/>
                                         </connections>
                                     </switch>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="CZc-lO-WiQ">
-                                        <rect key="frame" x="20" y="138" width="323" height="1"/>
+                                        <rect key="frame" x="20" y="222" width="323" height="1"/>
                                         <color key="backgroundColor" red="0.90196079019999997" green="0.90196079019999997" blue="0.90196079019999997" alpha="1" colorSpace="calibratedRGB"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="1" id="vTT-YG-NV9"/>
                                         </constraints>
                                     </view>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="语音识别引擎" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Omr-mN-T9J">
-                                        <rect key="frame" x="20" y="159" width="104" height="21"/>
+                                        <rect key="frame" x="20" y="239" width="104" height="21"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                         <nil key="textColor"/>
                                         <nil key="highlightedColor"/>
@@ -56,7 +56,7 @@
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="bordered" selectedSegmentIndex="1" translatesAutoresizingMaskIntoConstraints="NO" id="4Tr-Dh-8kA">
-                                        <rect key="frame" x="229" y="155" width="95" height="29"/>
+                                        <rect key="frame" x="229" y="235" width="95" height="29"/>
                                         <segments>
                                             <segment title="Siri"/>
                                             <segment title="HMM"/>
@@ -65,20 +65,65 @@
                                             <action selector="speechRecognitionEngineSegmentedControlValueDidChange:" destination="67G-cA-UF0" eventType="valueChanged" id="w0g-kd-L9y"/>
                                         </connections>
                                     </segmentedControl>
+                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="sHF-6E-3TJ">
+                                        <rect key="frame" x="20" y="168" width="323" height="1"/>
+                                        <color key="backgroundColor" red="0.90196079019999997" green="0.90196079019999997" blue="0.90196079019999997" alpha="1" colorSpace="calibratedRGB"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="1" id="UGU-MQ-l40"/>
+                                        </constraints>
+                                    </view>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="查看命令记录" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="zuT-OP-qfV">
+                                        <rect key="frame" x="20" y="131" width="104" height="21"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                        <nil key="textColor"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="hMF-eG-cja" customClass="ArrowControl" customModule="VGClient" customModuleProvider="target">
+                                        <rect key="frame" x="263" y="119.5" width="60" height="44"/>
+                                        <subviews>
+                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="aeb-oH-Iph">
+                                                <rect key="frame" x="0.0" y="0.0" width="60" height="44"/>
+                                                <connections>
+                                                    <segue destination="XlZ-ZV-Phs" kind="presentation" id="vyZ-ao-LAl"/>
+                                                </connections>
+                                            </button>
+                                        </subviews>
+                                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                        <constraints>
+                                            <constraint firstAttribute="width" constant="60" id="XVA-mT-mXO"/>
+                                            <constraint firstItem="aeb-oH-Iph" firstAttribute="width" secondItem="hMF-eG-cja" secondAttribute="width" id="cvl-AE-HoH"/>
+                                            <constraint firstAttribute="height" constant="44" id="hEs-JF-wA8"/>
+                                            <constraint firstItem="aeb-oH-Iph" firstAttribute="centerY" secondItem="hMF-eG-cja" secondAttribute="centerY" id="oe9-Ss-FjA"/>
+                                            <constraint firstItem="aeb-oH-Iph" firstAttribute="centerX" secondItem="hMF-eG-cja" secondAttribute="centerX" id="tgh-RB-XVS"/>
+                                            <constraint firstItem="aeb-oH-Iph" firstAttribute="height" secondItem="hMF-eG-cja" secondAttribute="height" id="yfD-iC-gr8"/>
+                                        </constraints>
+                                        <userDefinedRuntimeAttributes>
+                                            <userDefinedRuntimeAttribute type="number" keyPath="direction">
+                                                <integer key="value" value="2"/>
+                                            </userDefinedRuntimeAttribute>
+                                        </userDefinedRuntimeAttributes>
+                                    </view>
                                 </subviews>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <constraints>
+                                    <constraint firstAttribute="trailing" secondItem="sHF-6E-3TJ" secondAttribute="trailing" id="1zK-ak-seS"/>
                                     <constraint firstItem="JAS-wA-6fq" firstAttribute="top" secondItem="Eci-OW-99D" secondAttribute="top" constant="20" id="2Md-73-EAT"/>
                                     <constraint firstAttribute="trailing" secondItem="A5x-jL-Cww" secondAttribute="trailing" constant="20" id="5Nz-2h-WN4"/>
-                                    <constraint firstItem="CZc-lO-WiQ" firstAttribute="top" secondItem="buk-Tz-nQl" secondAttribute="bottom" constant="20" id="6Zd-QA-iB4"/>
+                                    <constraint firstItem="CZc-lO-WiQ" firstAttribute="top" secondItem="buk-Tz-nQl" secondAttribute="bottom" constant="16" id="6Zd-QA-iB4"/>
+                                    <constraint firstItem="zuT-OP-qfV" firstAttribute="leading" secondItem="Eci-OW-99D" secondAttribute="leading" constant="20" id="EUp-4U-w4s"/>
                                     <constraint firstItem="A5x-jL-Cww" firstAttribute="centerY" secondItem="buk-Tz-nQl" secondAttribute="centerY" id="Iwz-sZ-r50"/>
                                     <constraint firstAttribute="bottom" secondItem="Omr-mN-T9J" secondAttribute="bottom" constant="20" id="Jna-QU-fYb"/>
                                     <constraint firstItem="JAS-wA-6fq" firstAttribute="leading" secondItem="Eci-OW-99D" secondAttribute="leading" constant="20" id="K33-IH-vyH"/>
-                                    <constraint firstItem="Omr-mN-T9J" firstAttribute="top" secondItem="CZc-lO-WiQ" secondAttribute="bottom" constant="20" id="M65-eq-l2O"/>
+                                    <constraint firstItem="Omr-mN-T9J" firstAttribute="top" secondItem="CZc-lO-WiQ" secondAttribute="bottom" constant="16" id="M65-eq-l2O"/>
+                                    <constraint firstItem="buk-Tz-nQl" firstAttribute="top" secondItem="sHF-6E-3TJ" secondAttribute="bottom" constant="16" id="Rdd-f2-yOx"/>
+                                    <constraint firstItem="hMF-eG-cja" firstAttribute="centerY" secondItem="zuT-OP-qfV" secondAttribute="centerY" id="Svz-Iy-Wg1"/>
                                     <constraint firstItem="Omr-mN-T9J" firstAttribute="leading" secondItem="Eci-OW-99D" secondAttribute="leading" constant="20" id="VD3-aD-SRL"/>
                                     <constraint firstAttribute="trailing" secondItem="CZc-lO-WiQ" secondAttribute="trailing" id="WAC-cJ-fsp"/>
                                     <constraint firstAttribute="trailing" secondItem="4Tr-Dh-8kA" secondAttribute="trailing" constant="19" id="aw3-aB-Yu7"/>
-                                    <constraint firstAttribute="height" constant="200" id="d60-hn-N1l"/>
+                                    <constraint firstAttribute="height" constant="280" id="d60-hn-N1l"/>
+                                    <constraint firstAttribute="trailing" secondItem="hMF-eG-cja" secondAttribute="trailing" constant="20" id="fFq-sZ-Gc5"/>
+                                    <constraint firstItem="sHF-6E-3TJ" firstAttribute="leading" secondItem="buk-Tz-nQl" secondAttribute="leading" id="jdd-RY-cC1"/>
+                                    <constraint firstItem="sHF-6E-3TJ" firstAttribute="top" secondItem="zuT-OP-qfV" secondAttribute="bottom" constant="16" id="qwK-Xc-ecg"/>
                                     <constraint firstItem="CZc-lO-WiQ" firstAttribute="leading" secondItem="Omr-mN-T9J" secondAttribute="leading" id="s8f-a5-2bO"/>
                                     <constraint firstItem="buk-Tz-nQl" firstAttribute="leading" secondItem="Eci-OW-99D" secondAttribute="leading" constant="20" id="sCo-KR-zKd"/>
                                     <constraint firstItem="4Tr-Dh-8kA" firstAttribute="centerY" secondItem="Omr-mN-T9J" secondAttribute="centerY" id="tbG-C2-pcS"/>
@@ -127,6 +172,7 @@
                             </view>
                         </subviews>
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="0.10000000000000001" colorSpace="calibratedRGB"/>
+                        <gestureRecognizers/>
                         <constraints>
                             <constraint firstItem="Eci-OW-99D" firstAttribute="leading" secondItem="Mjx-iy-r8Q" secondAttribute="leadingMargin" id="3cQ-fH-KEx"/>
                             <constraint firstItem="xZT-9V-mvq" firstAttribute="leading" secondItem="Mjx-iy-r8Q" secondAttribute="leadingMargin" id="4Rl-9a-qZH"/>
@@ -135,15 +181,32 @@
                             <constraint firstItem="Eci-OW-99D" firstAttribute="centerX" secondItem="Mjx-iy-r8Q" secondAttribute="centerX" id="yNj-YS-YjP"/>
                             <constraint firstItem="kkg-Ks-YBb" firstAttribute="top" secondItem="xZT-9V-mvq" secondAttribute="bottom" constant="16" id="z2a-6n-O06"/>
                         </constraints>
+                        <connections>
+                            <outletCollection property="gestureRecognizers" destination="9LX-a8-8QU" appends="YES" id="W2S-nx-yZN"/>
+                        </connections>
                     </view>
                     <connections>
+                        <outlet property="containerView" destination="Eci-OW-99D" id="bUt-X3-clo"/>
                         <outlet property="isHiddenBackgroundImageSwitch" destination="A5x-jL-Cww" id="gAD-r1-lLk"/>
                         <outlet property="speechRecognitionEngineSegmentedControl" destination="4Tr-Dh-8kA" id="NCT-hU-RCg"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="W6Y-RT-gmP" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                <tapGestureRecognizer id="9LX-a8-8QU">
+                    <connections>
+                        <action selector="didTapOnView:" destination="67G-cA-UF0" id="bwI-b1-50E"/>
+                    </connections>
+                </tapGestureRecognizer>
             </objects>
             <point key="canvasLocation" x="936.79999999999995" y="1597.1514242878561"/>
+        </scene>
+        <!--RecordListViewController-->
+        <scene sceneID="770-jZ-RZc">
+            <objects>
+                <viewControllerPlaceholder storyboardName="Master" referencedIdentifier="RecordListViewController" id="XlZ-ZV-Phs" sceneMemberID="viewController"/>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="lK0-mg-bJA" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1599" y="1597"/>
         </scene>
     </scenes>
 </document>
