@@ -13,6 +13,7 @@ target 'VGClient' do
 
   pod 'CocoaAsyncSocket'
 
+  pod 'SwiftCharts', '~> 0.5'
   target 'VGClientTests' do
     inherit! :search_paths
     # Pods for testing

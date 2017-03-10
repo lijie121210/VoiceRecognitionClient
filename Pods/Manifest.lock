@@ -2,13 +2,16 @@ PODS:
   - CocoaAsyncSocket (7.5.1):
     - CocoaAsyncSocket/GCD (= 7.5.1)
   - CocoaAsyncSocket/GCD (7.5.1)
+  - SwiftCharts (0.5.1)
 
 DEPENDENCIES:
   - CocoaAsyncSocket
+  - SwiftCharts (~> 0.5)
 
 SPEC CHECKSUMS:
   CocoaAsyncSocket: e0a7e93b2ffa411592ff87e58524fbbc9b95b4fa
+  SwiftCharts: d263289cdc7fc955fef54ae3bc6529f696e69933
 
-PODFILE CHECKSUM: 6882ab8c72c8e39ce157f12aa1a8f702fb5fe57d
+PODFILE CHECKSUM: f209ceb10fb05103887d7df6f81f57c2b1338912
 
 COCOAPODS: 1.0.0
