@@ -17,49 +17,18 @@ class AuthorityViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        view.backgroundColor = UIColor(white: 0.9, alpha: 0.3)
-        
-        isHiddenBackgroundImageSwitch.isOn = AudioDefaultValue.default.isHiddenBackgroundImage
-        
-        speechRecognitionEngineSegmentedControl.selectedSegmentIndex = AudioDefaultValue.default.speechRecognitionEngine.rawValue
-        
-        if #available(iOS 10.0, *) {
-            speechRecognitionEngineSegmentedControl.setEnabled(true, forSegmentAt: 0)
-        } else {
-            speechRecognitionEngineSegmentedControl.setEnabled(false, forSegmentAt: 0)
-        }
     }
     
     @IBAction func isHiddenBackgroundImageSwitchValueDidChange(_ sender: Any) {
         
-        guard let master = masterParent, let switcher = sender as? UISwitch else {
-            return
-        }
-        
-        AudioDefaultValue.default.isHiddenBackgroundImage = switcher.isOn
-        
-        master.updateViewFromSettings()
     }
     
     @IBAction func speechRecognitionEngineSegmentedControlValueDidChange(_ sender: Any) {
         
-        guard
-            let segmentedControl = sender as? UISegmentedControl,
-            let engine = AudioDefaultValue.SpeechRecognitionEngine(rawValue: segmentedControl.selectedSegmentIndex)
-        else {
-                return
-        }
-        
-        AudioDefaultValue.default.speechRecognitionEngine = engine
     }
     
     @IBAction func didTapCancelSettingButton(_ sender: Any) {
         
-        guard let master = masterParent else {
-            return
-        }
-        
-        master.attemptToCancelSetting()
     }
     
 

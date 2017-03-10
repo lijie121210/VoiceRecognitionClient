@@ -452,6 +452,18 @@ public extension AudioOperator {
 @available(iOS 10.0, *)
 public extension AudioOperator {
     
+    /// 检查此刻在此设备上siri是否可用
+    public static var isSiriServiceAvailable: Bool {
+        if SFSpeechRecognizer.authorizationStatus() != .authorized {
+            return false
+        }
+        guard let recognizer = SFSpeechRecognizer() else {
+            return false
+        }
+        return recognizer.isAvailable
+    }
+    
+    /// 权限申请
     public static func requestSpeechAuthorization(completion: ((Bool) -> ())? = nil) {
         if SFSpeechRecognizer.authorizationStatus() == .authorized {
             return
@@ -461,6 +473,7 @@ public extension AudioOperator {
         }
     }
     
+    /// 使用siri语音识别
     public static func recognize(speech url: URL, progression: ((String?) -> ())? = nil, completion: @escaping (String?) -> () ) {
         
         guard let recognizer = SFSpeechRecognizer() else {

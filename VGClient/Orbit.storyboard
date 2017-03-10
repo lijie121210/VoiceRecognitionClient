@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="11762" systemVersion="16D32" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="uGE-NW-tjj">
+    <device id="retina4_7" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
+    <dependencies>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="11757"/>
+        <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <scenes>
+        <!--Orbit Alert Controller-->
+        <scene sceneID="aSw-gD-fJx">
+            <objects>
+                <viewController storyboardIdentifier="OrbitAlertController" modalTransitionStyle="crossDissolve" modalPresentationStyle="overFullScreen" useStoryboardIdentifierAsRestorationIdentifier="YES" id="uGE-NW-tjj" customClass="OrbitAlertController" customModule="VGClient" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="ZPW-S1-caX"/>
+                        <viewControllerLayoutGuide type="bottom" id="3zl-pl-qbg"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="5MA-AX-0mH">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="OaZ-9W-J3Z" customClass="RectCornerView" customModule="VGClient" customModuleProvider="target">
+                                <rect key="frame" x="67.5" y="213.5" width="240" height="240"/>
+                                <subviews>
+                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Jsw-oL-xqp" customClass="OrbitView" customModule="VGClient" customModuleProvider="target">
+                                        <rect key="frame" x="40" y="20" width="160" height="160"/>
+                                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                        <constraints>
+                                            <constraint firstAttribute="width" secondItem="Jsw-oL-xqp" secondAttribute="height" multiplier="1:1" id="VTq-dM-bdX"/>
+                                        </constraints>
+                                    </view>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="正在识别..." textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="FQx-Xv-69g">
+                                        <rect key="frame" x="78.5" y="200" width="83.5" height="20"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                        <nil key="textColor"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                </subviews>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <constraints>
+                                    <constraint firstItem="Jsw-oL-xqp" firstAttribute="leading" secondItem="OaZ-9W-J3Z" secondAttribute="leading" constant="40" id="Ayc-v8-4N7"/>
+                                    <constraint firstAttribute="width" constant="240" id="FHY-di-DLJ"/>
+                                    <constraint firstAttribute="bottom" secondItem="FQx-Xv-69g" secondAttribute="bottom" constant="20" id="Qe1-wy-a6m"/>
+                                    <constraint firstItem="FQx-Xv-69g" firstAttribute="centerX" secondItem="OaZ-9W-J3Z" secondAttribute="centerX" id="c4P-5J-fPz"/>
+                                    <constraint firstItem="FQx-Xv-69g" firstAttribute="top" secondItem="Jsw-oL-xqp" secondAttribute="bottom" constant="20" id="h7q-Bn-e75"/>
+                                    <constraint firstItem="Jsw-oL-xqp" firstAttribute="centerX" secondItem="OaZ-9W-J3Z" secondAttribute="centerX" id="n7l-uL-Y0G"/>
+                                    <constraint firstAttribute="height" constant="240" id="qtU-SZ-U4s"/>
+                                    <constraint firstItem="Jsw-oL-xqp" firstAttribute="top" secondItem="OaZ-9W-J3Z" secondAttribute="top" constant="20" id="x9W-EO-845"/>
+                                </constraints>
+                                <userDefinedRuntimeAttributes>
+                                    <userDefinedRuntimeAttribute type="boolean" keyPath="isBottomLeftCorner" value="YES"/>
+                                    <userDefinedRuntimeAttribute type="boolean" keyPath="isBottomRightCorner" value="YES"/>
+                                </userDefinedRuntimeAttributes>
+                            </view>
+                        </subviews>
+                        <color key="backgroundColor" red="0.80000001190000003" green="0.80000001190000003" blue="0.80000001190000003" alpha="0.67184824486301364" colorSpace="calibratedRGB"/>
+                        <constraints>
+                            <constraint firstItem="OaZ-9W-J3Z" firstAttribute="centerX" secondItem="5MA-AX-0mH" secondAttribute="centerX" id="HZc-tl-odJ"/>
+                            <constraint firstItem="OaZ-9W-J3Z" firstAttribute="centerY" secondItem="5MA-AX-0mH" secondAttribute="centerY" id="Hqc-67-ohl"/>
+                        </constraints>
+                    </view>
+                    <connections>
+                        <outlet property="orbit" destination="Jsw-oL-xqp" id="OB0-xN-H6U"/>
+                        <outlet property="orbitContainer" destination="OaZ-9W-J3Z" id="Dts-BH-G0A"/>
+                        <outlet property="orbitPrompt" destination="FQx-Xv-69g" id="5oe-wk-fUz"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="Fjb-Ze-zwd" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-218" y="-143"/>
+        </scene>
+    </scenes>
+</document>

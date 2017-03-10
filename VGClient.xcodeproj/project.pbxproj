@@ -17,6 +17,13 @@
 		185500411E5A888A00DADEF7 /* DashboardViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 185500401E5A888A00DADEF7 /* DashboardViewController.swift */; };
 		185500431E5A895E00DADEF7 /* AuthorityViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 185500421E5A895E00DADEF7 /* AuthorityViewController.swift */; };
 		185500451E5AAE2200DADEF7 /* Master.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 185500441E5AAE2200DADEF7 /* Master.storyboard */; };
+		1880FF3A1E70DE45000A0D1C /* OrbitAlertController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1880FF391E70DE45000A0D1C /* OrbitAlertController.swift */; };
+		1880FF3C1E70DE80000A0D1C /* Orbit.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 1880FF3B1E70DE80000A0D1C /* Orbit.storyboard */; };
+		1880FF3E1E710300000A0D1C /* SettingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1880FF3D1E710300000A0D1C /* SettingViewController.swift */; };
+		1880FF401E710313000A0D1C /* Setting.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 1880FF3F1E710313000A0D1C /* Setting.storyboard */; };
+		1880FF451E723D23000A0D1C /* ListenViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1880FF441E723D23000A0D1C /* ListenViewController.swift */; };
+		1880FF471E72447A000A0D1C /* Listen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 1880FF461E72447A000A0D1C /* Listen.storyboard */; };
+		1880FF4A1E724991000A0D1C /* ArrowControl.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1880FF491E724991000A0D1C /* ArrowControl.swift */; };
 		189418891E4EDEB000207358 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 189418881E4EDEB000207358 /* AppDelegate.swift */; };
 		189418911E4EDEB000207358 /* VGClient.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 1894188F1E4EDEB000207358 /* VGClient.xcdatamodeld */; };
 		189418931E4EDEB000207358 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 189418921E4EDEB000207358 /* Assets.xcassets */; };
@@ -63,6 +70,13 @@
 		185500401E5A888A00DADEF7 /* DashboardViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DashboardViewController.swift; sourceTree = "<group>"; };
 		185500421E5A895E00DADEF7 /* AuthorityViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AuthorityViewController.swift; sourceTree = "<group>"; };
 		185500441E5AAE2200DADEF7 /* Master.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Master.storyboard; sourceTree = "<group>"; };
+		1880FF391E70DE45000A0D1C /* OrbitAlertController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OrbitAlertController.swift; sourceTree = "<group>"; };
+		1880FF3B1E70DE80000A0D1C /* Orbit.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Orbit.storyboard; sourceTree = "<group>"; };
+		1880FF3D1E710300000A0D1C /* SettingViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingViewController.swift; sourceTree = "<group>"; };
+		1880FF3F1E710313000A0D1C /* Setting.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Setting.storyboard; sourceTree = "<group>"; };
+		1880FF441E723D23000A0D1C /* ListenViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ListenViewController.swift; sourceTree = "<group>"; };
+		1880FF461E72447A000A0D1C /* Listen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Listen.storyboard; sourceTree = "<group>"; };
+		1880FF491E724991000A0D1C /* ArrowControl.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ArrowControl.swift; sourceTree = "<group>"; };
 		189418851E4EDEB000207358 /* VGClient.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = VGClient.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		189418881E4EDEB000207358 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		189418901E4EDEB000207358 /* VGClient.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = VGClient.xcdatamodel; sourceTree = "<group>"; };
@@ -140,7 +154,10 @@
 				185500401E5A888A00DADEF7 /* DashboardViewController.swift */,
 				185500421E5A895E00DADEF7 /* AuthorityViewController.swift */,
 				189418CB1E5197F500207358 /* RectCornerView.swift */,
-				18D27B481E6D727800488F80 /* OrbitView.swift */,
+				1880FF491E724991000A0D1C /* ArrowControl.swift */,
+				1880FF481E724513000A0D1C /* Listen View */,
+				1880FF421E71499C000A0D1C /* Orbit Loading View */,
+				1880FF431E7149BA000A0D1C /* Setting View */,
 			);
 			name = "View layer";
 			sourceTree = "<group>";
@@ -163,6 +180,34 @@
 				1818B9BC1E53254600EF2054 /* background.PNG */,
 			);
 			name = "Support files";
+			sourceTree = "<group>";
+		};
+		1880FF421E71499C000A0D1C /* Orbit Loading View */ = {
+			isa = PBXGroup;
+			children = (
+				18D27B481E6D727800488F80 /* OrbitView.swift */,
+				1880FF391E70DE45000A0D1C /* OrbitAlertController.swift */,
+				1880FF3B1E70DE80000A0D1C /* Orbit.storyboard */,
+			);
+			name = "Orbit Loading View";
+			sourceTree = "<group>";
+		};
+		1880FF431E7149BA000A0D1C /* Setting View */ = {
+			isa = PBXGroup;
+			children = (
+				1880FF3D1E710300000A0D1C /* SettingViewController.swift */,
+				1880FF3F1E710313000A0D1C /* Setting.storyboard */,
+			);
+			name = "Setting View";
+			sourceTree = "<group>";
+		};
+		1880FF481E724513000A0D1C /* Listen View */ = {
+			isa = PBXGroup;
+			children = (
+				1880FF441E723D23000A0D1C /* ListenViewController.swift */,
+				1880FF461E72447A000A0D1C /* Listen.storyboard */,
+			);
+			name = "Listen View";
 			sourceTree = "<group>";
 		};
 		1894187C1E4EDEAF00207358 = {
@@ -360,10 +405,13 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				1880FF3C1E70DE80000A0D1C /* Orbit.storyboard in Resources */,
+				1880FF471E72447A000A0D1C /* Listen.storyboard in Resources */,
 				189418961E4EDEB000207358 /* LaunchScreen.storyboard in Resources */,
 				1818B9BD1E53254600EF2054 /* background.PNG in Resources */,
 				189418931E4EDEB000207358 /* Assets.xcassets in Resources */,
 				185500451E5AAE2200DADEF7 /* Master.storyboard in Resources */,
+				1880FF401E710313000A0D1C /* Setting.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -512,13 +560,17 @@
 			buildActionMask = 2147483647;
 			files = (
 				185500371E5982A600DADEF7 /* AudioOperator.swift in Sources */,
+				1880FF4A1E724991000A0D1C /* ArrowControl.swift in Sources */,
+				1880FF3A1E70DE45000A0D1C /* OrbitAlertController.swift in Sources */,
 				189418911E4EDEB000207358 /* VGClient.xcdatamodeld in Sources */,
+				1880FF3E1E710300000A0D1C /* SettingViewController.swift in Sources */,
 				1855003D1E5A86CF00DADEF7 /* MasterViewController.swift in Sources */,
 				189418D01E51E60E00207358 /* AudioClient.swift in Sources */,
 				1838560E1E5C79180094C811 /* AudioData.swift in Sources */,
 				185500411E5A888A00DADEF7 /* DashboardViewController.swift in Sources */,
 				1855003F1E5A886200DADEF7 /* RecordListViewController.swift in Sources */,
 				18D27B491E6D727800488F80 /* OrbitView.swift in Sources */,
+				1880FF451E723D23000A0D1C /* ListenViewController.swift in Sources */,
 				185500431E5A895E00DADEF7 /* AuthorityViewController.swift in Sources */,
 				189418CC1E5197F500207358 /* RectCornerView.swift in Sources */,
 				189418BE1E5159AF00207358 /* CoreDataManager.swift in Sources */,

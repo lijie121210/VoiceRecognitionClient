@@ -15,12 +15,9 @@ extension RecordListViewController {
         return parent as? MasterViewController
     }
 }
+
+
 extension DashboardViewController {
-    var masterParent: MasterViewController? {
-        return parent as? MasterViewController
-    }
-}
-extension AuthorityViewController {
     var masterParent: MasterViewController? {
         return parent as? MasterViewController
     }
@@ -33,17 +30,11 @@ class MasterViewController: UIViewController {
     
     @IBOutlet weak var recordListContainer: UIView!
     @IBOutlet weak var dashboardContainer: UIView!
-    @IBOutlet weak var authorityContainer: UIView!
     
     @IBOutlet weak var dashboardTopConstraint: NSLayoutConstraint!
-    @IBOutlet weak var authorityTopConstraint: NSLayoutConstraint!
     
     /// Add a UISwipeGestureRecognizer
     @IBOutlet weak var backgroundImageView: UIImageView!
-    
-    @IBOutlet weak var orbitContainerView: RectCornerView!
-    @IBOutlet weak var orbitView: OrbitView!
-    @IBOutlet weak var orbitTitleLabel: UILabel!
     
     
     /// It needs to be responsible for the full operation of the data, including access, playing and sending
@@ -59,11 +50,8 @@ class MasterViewController: UIViewController {
         /// setup original layout
         resetLayout()
         
+        /// setup background image base on user settting
         updateViewFromSettings()
-        
-        orbitView.launchOrbit()
-        
-        hideLoadingIndicator()
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -72,9 +60,7 @@ class MasterViewController: UIViewController {
         /// permission
         
         AudioOperator.requestAudioSessionAuthorization { permission in
-            
-            print(self, #function, permission)
-            
+                        
             guard permission else {
                 return
             }
@@ -95,11 +81,13 @@ class MasterViewController: UIViewController {
         }
         
         /// get existed local data
-
+        
         let loadData = { (result: [AudioData]) in
-            DispatchQueue.main.async {
+            DispatchQueue.main.asyncAfter(deadline: .now(), execute: { 
+                
                 self.recordList?.reloadDataSource(data: result)
-            }
+                
+            })
         }
 
         dataSource.loadLocalData(completion: loadData)
@@ -114,12 +102,6 @@ class MasterViewController: UIViewController {
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         
-    }
-    
-    @IBAction func didTapSettingButton(_ sender: UIButton) {
-        
-        self.showAuthority()
-
     }
     
 }
@@ -285,27 +267,6 @@ extension MasterViewController {
 
 
 
-/// Communication with Authority
-extension MasterViewController {
-    
-    func attemptToCancelSetting() {
-        
-        hideAuthority()
-        
-        updateViewFromSettings()
-    }
-    
-    func updateViewFromSettings() {
-        
-        backgroundImageView.isHidden = AudioDefaultValue.default.isHiddenBackgroundImage
-        
-    }
-    
-}
-
-
-
-
 
 /// Handle record callback
 extension MasterViewController {
@@ -363,55 +324,35 @@ extension MasterViewController {
     
     func recognizeWithHMM(data: AudioData, completion: @escaping (String?) -> ()) {
 
+        /// check data
         guard let data = data.data else {
-            return
+            return completion(nil)
         }
         
-        print(self, #function, data.count)
-
-        
-        clientSocket.write(data: data, type: .audio, progression: { (progress) in
-            
-            print(self, #function, progress)
-            
-        }, completion: { (finish) in
-            
-            print(self, #function, finish)
-            
-            if finish {
-                DispatchQueue.main.async {
-                    self.updateOrbit(title: .recognize)
-                }
-            } else {
-                DispatchQueue.main.async {
-                    self.updateOrbit(title: .nonenetwork)
-                }
-            }
-            
-        }) { (text) in
-            
-            print(self, #function, text ?? "no text!")
-            
-            completion(text)
+        /// check connection
+        guard clientSocket.connect() else {
+            return completion(nil)
         }
+        
+        /// write to socket
+        clientSocket.write(data: data, type: .audio, recognition: completion)
     }
 
     func startRecognition(data: AudioData) {
         
+        /// will mutate the translation property.
         var data = data
 
-        /// 显示加载动画
-        updateOrbit(title: .upload)
-        showLoadingIndicator()
+        /// loading indicatior
+        let orbit = OrbitAlertController.show(with: "正在上传...", on: self)
         
-        view.isUserInteractionEnabled = false
-        
+        /// failed!
         let recognizeFailed = {
+            
             DispatchQueue.main.async {
-                
-                self.updateOrbit(title: .fail)
+                orbit?.update(prompt: "未完成!")
                 DispatchQueue.main.asyncAfter(deadline: .now() + 2.0, execute: {
-                    self.hideLoadingIndicator()
+                    OrbitAlertController.dismiss()
                 })
             }
             
@@ -419,12 +360,13 @@ extension MasterViewController {
             AudioOperator.delete(recordedItem: data.localURL)
         }
         
+        /// successed!
         let recognizeSuccessed = { (text: String) in
             DispatchQueue.main.async {
-
-                self.updateOrbit(title: .success)
+                
+                orbit?.update(prompt: "完成!")
                 DispatchQueue.main.asyncAfter(deadline: .now() + 1.0, execute: {
-                    self.hideLoadingIndicator()
+                    OrbitAlertController.dismiss()
                 })
                 
                 data.translation = text
@@ -435,19 +377,20 @@ extension MasterViewController {
             }
         }
         
+        /// recognition result callback
         let handleResult = { (text: String?) in
            
-            self.view.isUserInteractionEnabled = true
-
-            guard let text = text else {
+            if let text = text {
+                
+                recognizeSuccessed(text)
+            } else {
+                
                 recognizeFailed()
-                return
             }
-            recognizeSuccessed(text)
-            
         }
         
         switch AudioDefaultValue.default.speechRecognitionEngine {
+            
         case .hmm:
             
             recognizeWithHMM(data: data, completion: handleResult)
@@ -455,11 +398,14 @@ extension MasterViewController {
         case .siri:
             
             if #available(iOS 10.0, *) {
+                
                 AudioOperator.recognize(speech: data.localURL, completion: handleResult)
             } else {
+                
                 recognizeWithHMM(data: data, completion: handleResult)
             }
         }
+        
     }
     
     
@@ -495,22 +441,27 @@ extension MasterViewController {
 
 
 
-/// update title of loading label
-extension MasterViewController {
+/* 该界面可能更改设置，于是实现设置更改的代理人，可以接受在该页面更改设置时的通知.
+ * 如果想得到在任何界面设置修改的通知，需要在通知中心注册
+ */
+extension MasterViewController: SettingViewControllerDelegate {
     
-    enum OrbitTitle: String {
-        case upload = "正在上传..."
-        case recognize = "正在识别..."
-        case fail = "识别失败..."
-        case success = "识别成功..."
-        case nonenetwork = "网络中断..."
+    func setting(controller: SettingViewController, didChangeValueOf keyPath: AudioDefaultKeyPath, to newValue: Any) {
+        
+        guard keyPath == .isHiddenBackgroundImage, let isHidden = newValue as? Bool else {
+            return
+        }
+        
+        updateViewFromSettings(isHidden: isHidden)
     }
     
-    fileprivate func updateOrbit(title: OrbitTitle) {
+    func updateViewFromSettings(isHidden: Bool = AudioDefaultValue.default.isHiddenBackgroundImage) {
         
-        orbitTitleLabel.text = title.rawValue
+        backgroundImageView.isHidden = isHidden
+        
     }
 }
+
 
 
 /// Adjustment of layouts
@@ -521,18 +472,12 @@ extension MasterViewController {
         static let show_dashboard: CGFloat = 120
         static let show_dashboard_fully: CGFloat = 280
         static let hide_dashboard_fully: CGFloat = 0
-        
-        static let show_authority: CGFloat = 0
-        static var hide_authority: CGFloat {
-            
-            return UIScreen.main.bounds.height
-        }
     }
     
     fileprivate func resetLayout() {
         
         dashboardTopConstraint.constant = Constants.hide_dashboard_fully
-        authorityTopConstraint.constant = Constants.hide_authority
+
         view.layoutIfNeeded()
     }
     
@@ -557,36 +502,6 @@ extension MasterViewController {
         UIView.animate(withDuration: 0.25) {
             self.dashboardTopConstraint.constant = Constants.hide_dashboard_fully
             self.view.layoutIfNeeded()
-        }
-    }
-    
-    fileprivate func showAuthority() {
-        
-        UIView.animate(withDuration: 0.25) {
-            self.authorityTopConstraint.constant = Constants.show_authority
-            self.view.layoutIfNeeded()
-        }
-    }
-    
-    fileprivate func hideAuthority() {
-        
-        UIView.animate(withDuration: 0.25) {
-            self.authorityTopConstraint.constant = Constants.hide_authority
-            self.view.layoutIfNeeded()
-        }
-    }
-    
-    fileprivate func showLoadingIndicator() {
-        
-        UIView.animate(withDuration: 0.25) { 
-            self.orbitContainerView.isHidden = false
-        }
-    }
-    
-    fileprivate func hideLoadingIndicator() {
-        
-        UIView.animate(withDuration: 0.25) { 
-            self.orbitContainerView.isHidden = true
         }
     }
 }

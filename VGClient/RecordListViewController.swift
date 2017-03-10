@@ -88,9 +88,7 @@ class RecordListHeader: UICollectionReusableView {
 }
 
 class RecordListFooter: UICollectionReusableView {
-    
-    @IBOutlet weak var detailLabel: UILabel!
-    
+        
 }
 
 
@@ -124,12 +122,35 @@ class RecordListViewController: UIViewController {
         }
     }
     
+    var currentIndexSet: [IndexPath] {
+        var indexs = [IndexPath]()
+        
+        for i in 0 ..< dataSource.count {
+            indexs.append(IndexPath(item: i, section: 0))
+        }
+        return indexs
+    }
+    
     /// Reload collection view with new data source. This method can be called to set the data source.
     func reloadDataSource(data: [AudioData]) {
         
-        dataSource.removeAll()
-        
-        data.forEach { self.insert(data: $0) }
+        recordCollectionView.performBatchUpdates({
+            
+            let indexs = self.currentIndexSet
+            
+            self.dataSource.removeAll()
+            
+            self.recordCollectionView.deleteItems(at: indexs)
+            
+            data.forEach {
+                self.dataSource.insert($0, at: 0)
+            }
+            
+            self.recordCollectionView.insertItems(at: self.currentIndexSet)
+            
+            self.recordCollectionView.reloadSections([0])
+
+        }, completion: nil)
     }
     
     /// - param head : Indicates where the data source should insert new data into the front.
@@ -147,6 +168,7 @@ class RecordListViewController: UIViewController {
         
         /// update record list view
         recordCollectionView.performBatchUpdates({
+            
             self.recordCollectionView.insertItems(at: [IndexPath(item: position, section: 0)])
         }, completion: nil)
     }
@@ -333,8 +355,7 @@ extension RecordListViewController: UICollectionViewDataSource {
         }
         
         /// Section Footer
-        let footer = collectionView.dequeueReusableSupplementaryView(ofKind: UICollectionElementKindSectionFooter, withReuseIdentifier: ID.footer, for: indexPath) as! RecordListFooter
-        footer.detailLabel.text = dataSource.isEmpty ? "" : ""
+        let footer = collectionView.dequeueReusableSupplementaryView(ofKind: UICollectionElementKindSectionFooter, withReuseIdentifier: ID.footer, for: indexPath)
         return footer
     }
 }
