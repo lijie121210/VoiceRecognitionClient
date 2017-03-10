@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		1818B9BD1E53254600EF2054 /* background.PNG in Resources */ = {isa = PBXBuildFile; fileRef = 1818B9BC1E53254600EF2054 /* background.PNG */; };
+		18206BBF1E72E5AF00E70E9A /* MasterViewController+Layout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18206BBE1E72E5AF00E70E9A /* MasterViewController+Layout.swift */; };
 		1838560C1E5C65F90094C811 /* DispatchQueueTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1838560B1E5C65F90094C811 /* DispatchQueueTests.swift */; };
 		1838560E1E5C79180094C811 /* AudioData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1838560D1E5C79180094C811 /* AudioData.swift */; };
 		183856141E5E86120094C811 /* AudioOperatorTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 183856131E5E86110094C811 /* AudioOperatorTests.swift */; };
@@ -62,6 +63,7 @@
 /* Begin PBXFileReference section */
 		0C865D15E6268636F6CE4685 /* Pods_VGClientUITests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_VGClientUITests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		1818B9BC1E53254600EF2054 /* background.PNG */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = background.PNG; sourceTree = "<group>"; };
+		18206BBE1E72E5AF00E70E9A /* MasterViewController+Layout.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "MasterViewController+Layout.swift"; sourceTree = "<group>"; };
 		1838560B1E5C65F90094C811 /* DispatchQueueTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DispatchQueueTests.swift; sourceTree = "<group>"; };
 		1838560D1E5C79180094C811 /* AudioData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AudioData.swift; sourceTree = "<group>"; };
 		183856131E5E86110094C811 /* AudioOperatorTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AudioOperatorTests.swift; sourceTree = "<group>"; };
@@ -167,6 +169,7 @@
 			isa = PBXGroup;
 			children = (
 				1855003C1E5A86CF00DADEF7 /* MasterViewController.swift */,
+				18206BBE1E72E5AF00E70E9A /* MasterViewController+Layout.swift */,
 				1855003E1E5A886200DADEF7 /* RecordListViewController.swift */,
 				185500441E5AAE2200DADEF7 /* Master.storyboard */,
 			);
@@ -375,17 +378,20 @@
 					189418841E4EDEB000207358 = {
 						CreatedOnToolsVersion = 8.2.1;
 						DevelopmentTeam = LMFYAZF64N;
+						LastSwiftMigration = 0820;
 						ProvisioningStyle = Automatic;
 					};
 					1894189B1E4EDEB000207358 = {
 						CreatedOnToolsVersion = 8.2.1;
 						DevelopmentTeam = LMFYAZF64N;
+						LastSwiftMigration = 0820;
 						ProvisioningStyle = Automatic;
 						TestTargetID = 189418841E4EDEB000207358;
 					};
 					189418A61E4EDEB100207358 = {
 						CreatedOnToolsVersion = 8.2.1;
 						DevelopmentTeam = LMFYAZF64N;
+						LastSwiftMigration = 0820;
 						ProvisioningStyle = Automatic;
 						TestTargetID = 189418841E4EDEB000207358;
 					};
@@ -570,6 +576,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				18206BBF1E72E5AF00E70E9A /* MasterViewController+Layout.swift in Sources */,
 				185500371E5982A600DADEF7 /* AudioOperator.swift in Sources */,
 				1880FF4A1E724991000A0D1C /* ArrowControl.swift in Sources */,
 				1880FF3A1E70DE45000A0D1C /* OrbitAlertController.swift in Sources */,
@@ -677,7 +684,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 10.2;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = iphoneos;
@@ -721,7 +728,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 10.2;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				SDKROOT = iphoneos;
 				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
@@ -734,6 +741,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = BA53FF96E1403A27DFC055AC /* Pods-VGClient.debug.xcconfig */;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				DEVELOPMENT_TEAM = LMFYAZF64N;
 				INFOPLIST_FILE = VGClient/Info.plist;
@@ -749,6 +757,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 8B6B9DBE1A784B330C39EA60 /* Pods-VGClient.release.xcconfig */;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				DEVELOPMENT_TEAM = LMFYAZF64N;
 				INFOPLIST_FILE = VGClient/Info.plist;

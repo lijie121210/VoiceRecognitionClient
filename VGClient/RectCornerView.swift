@@ -130,7 +130,7 @@ public class RectCornerView: UIView {
     }
     
     /// Shadow
-    fileprivate func addShadow() {
+    public func addShadow() {
         layer.shadowColor = shadowColor.cgColor
         layer.shadowOffset = CGSize(width: shadowOffsetX, height: shadowOffsetY)
         layer.shadowRadius = shadowRadius

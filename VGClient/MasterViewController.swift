@@ -567,9 +567,19 @@ extension MasterViewController: UICollectionViewDelegate {
 
 extension MasterViewController: UICollectionViewDataSource {
     
+    func numberOfSections(in collectionView: UICollectionView) -> Int {
+        
+        if collectionView == self.accessoryCollectionView {
+            return 2
+        }
+        
+        return 1
+    }
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         
-        /// monitoring information collection view
+        if collectionView == self.accessoryCollectionView, section == 0 {
+            return 2
+        }
         
         return 6
     }
@@ -591,6 +601,11 @@ extension MasterViewController: UICollectionViewDataSource {
             let dccell = collectionView.dequeueReusableCell(withReuseIdentifier: "DataCurveCell", for: indexPath) as! DataCurveCell
             
             return dccell
+        } else if indexPath.section == 0 {
+            
+            let accell = collectionView.dequeueReusableCell(withReuseIdentifier: "MultiActionCell", for: indexPath)
+            
+            return accell
         } else {
             
             let accell = collectionView.dequeueReusableCell(withReuseIdentifier: "SingleActionCell", for: indexPath)
@@ -603,50 +618,7 @@ extension MasterViewController: UICollectionViewDataSource {
 }
 
 
-extension MasterViewController: UICollectionViewDelegateFlowLayout {
-    
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        
-        /// monitoring information collection view
 
-        return CGSize(width: 200, height: 120)
-    }
-    
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {
-        
-        /// monitoring information collection view
-
-        return UIEdgeInsets(top: 0, left: 20, bottom: 0, right: 40)
-    }
-    
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
-        
-        /// monitoring information collection view
-
-        return 20.0
-    }
-    
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumInteritemSpacingForSectionAt section: Int) -> CGFloat {
-        
-        /// monitoring information collection view
-
-        return 0.0
-    }
-    
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForHeaderInSection section: Int) -> CGSize {
-        
-        /// monitoring information collection view
-
-        return CGSize.zero
-    }
-    
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForFooterInSection section: Int) -> CGSize {
-        
-        /// monitoring information collection view
-
-        return CGSize.zero
-    }
-}
 
 
 
