@@ -9,19 +9,6 @@
 import UIKit
 
 
-/// 这些设备都是打开，关闭，两个状态，所以直接点击cell操作；
-class SingleActionCell: UICollectionViewCell {
-    
-    @IBOutlet weak var container: RectCornerView!
-    
-    @IBOutlet weak var imageView: UIImageView!
-    
-    @IBOutlet weak var titleLabel: UILabel!
-    
-    @IBOutlet weak var infoLabel: UILabel!
-    
-}
-
 
 /// cell包含三个按钮，collectionview可以注册为代理以接受点击事件
 /// 考虑到内存管理，使用代理还是比较安全的；

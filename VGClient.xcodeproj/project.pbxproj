@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		180B3BB11E73941000E13309 /* MultiActionCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 180B3BB01E73941000E13309 /* MultiActionCell.swift */; };
 		180B3BB31E73944A00E13309 /* DataCurveCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 180B3BB21E73944A00E13309 /* DataCurveCell.swift */; };
+		180B3BB61E7394CD00E13309 /* SingleActionCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 180B3BB51E7394CD00E13309 /* SingleActionCell.swift */; };
 		1818B9BD1E53254600EF2054 /* background.PNG in Resources */ = {isa = PBXBuildFile; fileRef = 1818B9BC1E53254600EF2054 /* background.PNG */; };
 		18206BBF1E72E5AF00E70E9A /* MasterViewController+Layout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18206BBE1E72E5AF00E70E9A /* MasterViewController+Layout.swift */; };
 		1838560C1E5C65F90094C811 /* DispatchQueueTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1838560B1E5C65F90094C811 /* DispatchQueueTests.swift */; };
@@ -66,6 +67,7 @@
 		0C865D15E6268636F6CE4685 /* Pods_VGClientUITests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_VGClientUITests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		180B3BB01E73941000E13309 /* MultiActionCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MultiActionCell.swift; sourceTree = "<group>"; };
 		180B3BB21E73944A00E13309 /* DataCurveCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DataCurveCell.swift; sourceTree = "<group>"; };
+		180B3BB51E7394CD00E13309 /* SingleActionCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SingleActionCell.swift; sourceTree = "<group>"; };
 		1818B9BC1E53254600EF2054 /* background.PNG */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = background.PNG; sourceTree = "<group>"; };
 		18206BBE1E72E5AF00E70E9A /* MasterViewController+Layout.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "MasterViewController+Layout.swift"; sourceTree = "<group>"; };
 		1838560B1E5C65F90094C811 /* DispatchQueueTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DispatchQueueTests.swift; sourceTree = "<group>"; };
@@ -146,6 +148,7 @@
 			children = (
 				1880FF4D1E728DB0000A0D1C /* MInfoCell.swift */,
 				180B3BB21E73944A00E13309 /* DataCurveCell.swift */,
+				180B3BB51E7394CD00E13309 /* SingleActionCell.swift */,
 				180B3BB01E73941000E13309 /* MultiActionCell.swift */,
 			);
 			name = "Cell View";
@@ -601,6 +604,7 @@
 				180B3BB11E73941000E13309 /* MultiActionCell.swift in Sources */,
 				1880FF4E1E728DB0000A0D1C /* MInfoCell.swift in Sources */,
 				1838560E1E5C79180094C811 /* AudioData.swift in Sources */,
+				180B3BB61E7394CD00E13309 /* SingleActionCell.swift in Sources */,
 				180B3BB31E73944A00E13309 /* DataCurveCell.swift in Sources */,
 				185500411E5A888A00DADEF7 /* DashboardViewController.swift in Sources */,
 				1855003F1E5A886200DADEF7 /* RecordListViewController.swift in Sources */,
