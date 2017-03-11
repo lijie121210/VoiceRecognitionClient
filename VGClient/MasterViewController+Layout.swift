@@ -47,7 +47,7 @@ extension MasterViewController: UICollectionViewDelegateFlowLayout {
             flow.itemSize = CGSize(width: (w - inset) * 0.5 - 2, height: 100)
             
             /// 两列，多行
-            flow.sectionInset = UIEdgeInsets(top: inset, left: inset, bottom: inset, right: inset)
+            flow.sectionInset = UIEdgeInsets(top: inset, left: inset, bottom: inset * 2, right: inset)
 
             flow.minimumInteritemSpacing = 10.0
             

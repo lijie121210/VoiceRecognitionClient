@@ -8,6 +8,13 @@
 
 import UIKit
 
+
+//let blurEffect = UIBlurEffect(style: UIBlurEffectStyle.dark)
+//let blurEffectView = UIVisualEffectView(effect: blurEffect)
+//blurEffectView.frame = view.bounds
+//blurEffectView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
+//view.addSubview(blurEffectView)
+
 class MInfoCell: UICollectionViewCell {
     
     /// 图片
@@ -28,26 +35,11 @@ class MInfoCell: UICollectionViewCell {
 
 
 
-class DataCurveCell: UICollectionViewCell {
-    
-    /// 项目名称
-    @IBOutlet weak var titleLabel: UILabel!
-    
-    /// 单位
-    @IBOutlet weak var unitLabel: UILabel!
-}
 
 
-class SingleActionCell: UICollectionViewCell {
-    
-    
-}
 
-class MultiActionCell: UICollectionViewCell {
-    
-    
-    
-}
+
+
 
 
 

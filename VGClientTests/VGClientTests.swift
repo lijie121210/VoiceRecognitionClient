@@ -7,6 +7,7 @@
 //
 
 import XCTest
+@testable import VGClient
 
 class VGClientTests: XCTestCase {
     

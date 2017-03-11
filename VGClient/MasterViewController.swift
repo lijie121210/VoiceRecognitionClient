@@ -99,9 +99,9 @@ class MasterViewController: UIViewController {
         
         /// 
         
-        accessoryViewHeightConstraint.constant = accessoryCollectionView.contentSize.height + 100.0
+//        accessoryViewHeightConstraint.constant = accessoryCollectionView.contentSize.height + 100.0
         
-        scrollView.layoutIfNeeded()
+//        scrollView.layoutIfNeeded()
     
         
     }
