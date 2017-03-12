@@ -56,8 +56,13 @@ struct MeasurementCurveData {
     
     /// 图表的标题就是各个监测类型在一段时间段中的变化
     
+    var duration: String {
+        
+        return fromDate + " —— " + toDate
+    }
+    
     var title: String {
-        return fromDate + " -- " + toDate + type.textDescription + "数据变化曲线图"
+        return type.textDescription + "数据变化曲线图"
     }
     
     init(type: MeasurementType, fromDate: String, toDate: String, columns: [LineColumn], config: LineConfig = LineConfig()) {

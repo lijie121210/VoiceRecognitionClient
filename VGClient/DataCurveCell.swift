@@ -16,7 +16,10 @@ class DataCurveCell: UICollectionViewCell {
     /// 单位
     @IBOutlet weak var unitLabel: UILabel!
     
-    /// 绘图背景；用于清除或添加代表数据曲线的子视图
-    @IBOutlet weak var canvasView: UIView!
+    @IBOutlet weak var dateLabel: UILabel!
     
+    /// 绘图背景；用于清除或添加代表数据曲线的子视图
+    @IBOutlet weak var canvasView: LineChart!
+    
+    @IBOutlet weak var popLabel: UILabel!
 }

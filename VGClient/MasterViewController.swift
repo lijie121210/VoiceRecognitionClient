@@ -630,24 +630,30 @@ extension MasterViewController: UICollectionViewDataSource {
             let dccell = collectionView.dequeueReusableCell(withReuseIdentifier: "DataCurveCell", for: indexPath) as! DataCurveCell
             
             dccell.titleLabel.text = data.title
+            dccell.dateLabel.text = data.duration
+            dccell.unitLabel.text = "单位: " + data.type.unit.rawValue
             
-            dccell.unitLabel.text = data.type.unit.rawValue
+//            dccell.canvasView.subviews.forEach { $0.removeFromSuperview() }
             
-            dccell.canvasView.subviews.forEach { $0.removeFromSuperview() }
+            dccell.canvasView.clearAll()
             
-            let frame = CGRect(x: 0, y: 0, width: dccell.canvasView.frame.width, height: dccell.canvasView.frame.height)
-            let chart = LineChart(frame: frame)
+//            let frame = CGRect(x: 0, y: 0, width: dccell.canvasView.frame.width, height: dccell.canvasView.frame.height)
+//            let chart = LineChart(frame: frame)
             
-            chart.animation.enabled = data.config.isAnimatable
-            chart.area = data.config.isArea
-            chart.x.labels.visible = data.config.isLabelsVisible
-            chart.y.labels.visible = data.config.isLabelsVisible
-            chart.x.grid.count = data.config.gridCount
-            chart.y.grid.count = data.config.gridCount
-            chart.x.labels.values = data.xlabels
-            chart.addLine(data.datas)
+            dccell.canvasView.animation.enabled = data.config.isAnimatable
+            dccell.canvasView.area = data.config.isArea
+            dccell.canvasView.x.labels.visible = data.config.isLabelsVisible
+            dccell.canvasView.y.labels.visible = data.config.isLabelsVisible
+            dccell.canvasView.x.grid.count = data.config.gridCount
+            dccell.canvasView.y.grid.count = data.config.gridCount
             
-            dccell.canvasView.addSubview(chart)
+            let color = dccell.canvasView.colors[randomNumber(from: 0, to: dccell.canvasView.colors.count)]
+            dccell.canvasView.colors = [color]
+            
+            dccell.canvasView.x.labels.values = data.xlabels
+            dccell.canvasView.addLine(data.datas)
+            
+//            dccell.canvasView.addSubview(chart)
             
             return dccell
             
