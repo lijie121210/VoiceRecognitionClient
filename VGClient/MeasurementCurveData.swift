@@ -12,8 +12,9 @@ import Foundation
 
 
 
+
 /// 代表图上的一列，包括点的值，和x轴上的说明文字
-struct LineColumn {
+public struct LineColumn: Equatable {
     
     let value: CGFloat
     
@@ -21,16 +22,16 @@ struct LineColumn {
 }
 
 /// 图表的默认配置
-struct LineConfig {
+public struct LineConfig: Equatable {
     
     var isAnimatable: Bool = true
     var isLabelsVisible: Bool = true
     var isArea: Bool = true
-    var gridCount: CGFloat = 8
+    var gridCount: CGFloat = 7
 }
 
 /// 测量数据绘制图表的数据结构
-struct MeasurementCurveData {
+public struct MeasurementCurveData {
     
     var type: MeasurementType
     
@@ -70,11 +71,35 @@ struct MeasurementCurveData {
         self.fromDate = fromDate
         self.toDate = toDate
         self.columns = columns
-        self.config = config
+        
+        if config == self.config {
+            self.config.gridCount = CGFloat(columns.count)
+        }
     }
 }
 
 
+/// Equatable
+///
+/// Returns a Boolean value indicating whether two values are equal.
+///
+/// Equality is the inverse of inequality. For any values `a` and `b`,
+/// `a == b` implies that `a != b` is `false`.
+///
+/// - Parameters:
+///   - lhs: A value to compare.
+///   - rhs: Another value to compare.
+
+public func ==(lhs: LineColumn, rhs: LineColumn) -> Bool {
+    return lhs.prompt == rhs.prompt && lhs.value == rhs.value
+}
+
+public func ==(lhs: LineConfig, rhs: LineConfig) -> Bool {
+    return lhs.gridCount == rhs.gridCount &&
+        lhs.isLabelsVisible == rhs.isLabelsVisible &&
+        lhs.isArea == rhs.isArea &&
+        lhs.isAnimatable == rhs.isAnimatable
+}
 
 
 

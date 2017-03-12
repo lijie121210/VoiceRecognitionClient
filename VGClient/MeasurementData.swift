@@ -12,7 +12,7 @@ import Foundation
 
 /// 监测信息的单位
 
-enum MeasurementUnit: String, Equatable {
+public enum MeasurementUnit: String, Equatable {
     
     /// 温度
     case temperature = "°C"
@@ -33,7 +33,7 @@ enum MeasurementUnit: String, Equatable {
 
 /// 监测信息种类
 
-enum MeasurementType: Int, Equatable {
+public enum MeasurementType: Int, Equatable {
     
     /// 空气温度
     case airTemperature
@@ -108,7 +108,7 @@ extension MeasurementType {
 
 /// 监控信息数据结构
 
-struct MeasurementData {
+public struct MeasurementData {
     
     let itemType: MeasurementType
     

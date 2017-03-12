@@ -104,7 +104,7 @@ extension AccessoryType {
 
 /// 附件操作
 ///
-enum AccessoryAction {
+public enum AccessoryAction: Equatable {
     
     case close
     
@@ -115,29 +115,6 @@ enum AccessoryAction {
     case timing(TimeInterval)
 }
 
-extension AccessoryAction: Equatable {
-    
-    /// Returns a Boolean value indicating whether two values are equal.
-    ///
-    /// Equality is the inverse of inequality. For any values `a` and `b`,
-    /// `a == b` implies that `a != b` is `false`.
-    ///
-    /// - Parameters:
-    ///   - lhs: A value to compare.
-    ///   - rhs: Another value to compare.
-    public static func ==(lhs: AccessoryAction, rhs: AccessoryAction) -> Bool {
-        
-        switch (lhs, rhs) {
-            
-        case (.open, .open), (.close, .close), (.stop, .stop): return true
-            
-        case let (.timing(a), .timing(b)): return a == b
-            
-        default: return false
-        }
-    }
-}
-
 
 /// 一个附件的数据结构
 public struct AccessoryData {
@@ -146,10 +123,9 @@ public struct AccessoryData {
     
     public var state: AccessoryStatus
 
-    public var image: UIImage? { return UIImage(named: type.icon) }
-
     public var name: String
     
+    public var image: UIImage? { return UIImage(named: type.icon) }
 
     public init(type: AccessoryType, state: AccessoryStatus, name: String? = nil) {
         self.type = type
@@ -162,8 +138,25 @@ public struct AccessoryData {
 typealias AccessorySection = [AccessoryData]
 
 
-
-
+/// Returns a Boolean value indicating whether two values are equal.
+///
+/// Equality is the inverse of inequality. For any values `a` and `b`,
+/// `a == b` implies that `a != b` is `false`.
+///
+/// - Parameters:
+///   - lhs: A value to compare.
+///   - rhs: Another value to compare.
+public func ==(lhs: AccessoryAction, rhs: AccessoryAction) -> Bool {
+    
+    switch (lhs, rhs) {
+        
+    case (.open, .open), (.close, .close), (.stop, .stop): return true
+        
+    case let (.timing(a), .timing(b)): return a == b
+        
+    default: return false
+    }
+}
 
 
 

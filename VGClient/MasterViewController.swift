@@ -33,20 +33,30 @@ class MasterViewController: UIViewController {
     
     @IBOutlet weak var dashboardTopConstraint: NSLayoutConstraint!
     
+    /// 背景图片
     @IBOutlet weak var backgroundImageView: UIImageView!
     
+    /// 设置按钮
+    @IBOutlet weak var userButtonContainer: RectCornerView!
+    @IBOutlet weak var userButton: UIButton!
+    
+    /// 表示正在聆听的按钮
     @IBOutlet weak var listeningButton: UIButton!
     
+    /// 主滚动视图
     @IBOutlet weak var scrollView: UIScrollView!
     
+    //／ 监测数据显示
     @IBOutlet weak var monitoringInfoLabel: UILabel!
     
     @IBOutlet weak var monitoringInfoCollectionView: UICollectionView!
     
+    /// 绘图显示
     @IBOutlet weak var dataCurveLabel: UILabel!
     
     @IBOutlet weak var dataCurveCollectionView: UICollectionView!
     
+    /// 附件操作与显示
     @IBOutlet weak var accessoryViewHeightConstraint: NSLayoutConstraint!
     
     @IBOutlet weak var accessoryLabel: UILabel!
@@ -57,11 +67,14 @@ class MasterViewController: UIViewController {
     
     @IBOutlet weak var accessoryCollectionView: UICollectionView!
     
+    /// 点击了附件编辑与添加的事件
+    
     @IBAction func didTapAccessoryEditButton(_ sender: Any) {
         
     }
     
     @IBAction func didTapAccessoryAddButton(_ sender: Any) {
+        
     }
     
     
@@ -103,8 +116,8 @@ class MasterViewController: UIViewController {
         
         
         /// 去掉注释可以使得设备的集合视图完全显示，而不会滚动。
-        /// accessoryViewHeightConstraint.constant = accessoryCollectionView.contentSize.height + 100.0
-        /// scrollView.layoutIfNeeded()
+        accessoryViewHeightConstraint.constant = accessoryCollectionView.contentSize.height + 100.0
+        scrollView.layoutIfNeeded()
     
         
     }
@@ -633,27 +646,25 @@ extension MasterViewController: UICollectionViewDataSource {
             dccell.dateLabel.text = data.duration
             dccell.unitLabel.text = "单位: " + data.type.unit.rawValue
             
-//            dccell.canvasView.subviews.forEach { $0.removeFromSuperview() }
-            
+            /// 清除掉原来的图
             dccell.canvasView.clearAll()
             
-//            let frame = CGRect(x: 0, y: 0, width: dccell.canvasView.frame.width, height: dccell.canvasView.frame.height)
-//            let chart = LineChart(frame: frame)
-            
+            /// 绘制新的图形
             dccell.canvasView.animation.enabled = data.config.isAnimatable
             dccell.canvasView.area = data.config.isArea
             dccell.canvasView.x.labels.visible = data.config.isLabelsVisible
             dccell.canvasView.y.labels.visible = data.config.isLabelsVisible
             dccell.canvasView.x.grid.count = data.config.gridCount
             dccell.canvasView.y.grid.count = data.config.gridCount
+            dccell.canvasView.x.axis.inset = 30
+            dccell.canvasView.y.axis.inset = 30
+            dccell.canvasView.delegate = self
             
             let color = dccell.canvasView.colors[randomNumber(from: 0, to: dccell.canvasView.colors.count)]
             dccell.canvasView.colors = [color]
             
             dccell.canvasView.x.labels.values = data.xlabels
             dccell.canvasView.addLine(data.datas)
-            
-//            dccell.canvasView.addSubview(chart)
             
             return dccell
             
@@ -690,12 +701,13 @@ extension MasterViewController: UICollectionViewDataSource {
     
 }
 
+///  点击了三联操作的某个按钮
 
 extension MasterViewController: MultiActionCellDelegate {
     
     func cell(_ cell: MultiActionCell, isTapped action: AccessoryAction) {
         
-        print(self, #function)
+        print(self, #function, action)
     }
 
     
@@ -703,6 +715,59 @@ extension MasterViewController: MultiActionCellDelegate {
 }
 
 
+/// 点击图表上的点，显示一个提示框，1.0s后自动隐藏
+
+extension MasterViewController: LineChartDelegate {
+    
+    func didSelectDataPoint(_ x: CGFloat, yValues: [CGFloat]) {
+        
+        let offset = dataCurveCollectionView.contentOffset
+        let size = dataCurveCollectionView.frame.size
+        let point = CGPoint(x: offset.x + size.width * 0.5, y: offset.y + size.height * 0.5)
+        
+        guard
+            let indexPath = dataCurveCollectionView.indexPathForItem(at: point),
+            let cell = dataCurveCollectionView.cellForItem(at: indexPath) as? DataCurveCell else {
+                return
+        }
+        
+        UIView.animate(withDuration: 0.5) { 
+            
+            cell.popLabel.isHidden = false
+            cell.popLabel.text = "<x: \(x), y: \(yValues.map{ String(describing: $0) }.joined())>"
+        }
+        
+        DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
+            
+            UIView.animate(withDuration: 0.5, animations: { 
+                cell.popLabel.isHidden = true
+                cell.popLabel.text = nil
+            })
+        }
+    }
+}
+
+
+/// 向上滚动隐藏user图标；向下显示
+
+extension MasterViewController {
+    
+    func scrollViewWillEndDragging(_ scrollView: UIScrollView, withVelocity velocity: CGPoint, targetContentOffset: UnsafeMutablePointer<CGPoint>) {
+        
+        guard scrollView == self.scrollView else {
+            return
+        }
+        
+        if (targetContentOffset.pointee.y - scrollView.contentOffset.y) > 0 {
+            /// 手指向上划，向下滚，隐藏
+
+            self.userButtonContainer.isHidden = true
+        } else {
+            
+            self.userButtonContainer.isHidden = false
+        }
+    }
+}
 
 
 
