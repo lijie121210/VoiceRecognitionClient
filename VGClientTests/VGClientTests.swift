@@ -33,6 +33,9 @@ class VGClientTests: XCTestCase {
         }
     }
     
+    
+    /// 测试appendingPathComponent能够自动区别最后的/
+
     func testPath() {
         let documentDirectory = NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true).first!
         
@@ -51,6 +54,28 @@ class VGClientTests: XCTestCase {
         print(url2)
     }
     
+    
+    /// 测试MeasurementType通过“\（MeasurementType.xxx）”强制全换能够得到正确的字符串
+    /// 
+    /// 这两个测试结果说明，不能随便重写description属性；这两个转换能成功就是因为description的默认值。
+    
+    func testMeasurementType() {
+        
+        let t = MeasurementType.airTemperature
+        
+        XCTAssertEqual(t.icon, "airTemperature")
+        XCTAssertNotEqual(t.icon, "1")
+        XCTAssertNotEqual(t.icon, "0")
 
+    }
+    
+    func testAccessoryType() {
+        
+        let t = AccessoryType.fillLight
+        
+        XCTAssertEqual(t.icon, "fillLight")
+        XCTAssertNotEqual(t.icon, "1")
+        XCTAssertNotEqual(t.icon, "0")
+    }
     
 }

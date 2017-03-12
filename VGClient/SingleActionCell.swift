@@ -17,6 +17,8 @@ class SingleActionCell: UICollectionViewCell {
     
     @IBOutlet weak var titleLabel: UILabel!
     
+    /// 状态信息
+    
     @IBOutlet weak var infoLabel: UILabel!
     
 }

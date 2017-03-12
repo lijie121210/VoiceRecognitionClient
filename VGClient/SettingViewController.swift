@@ -11,7 +11,7 @@ import UIKit
 /// 设置更改后的代理对象
 protocol SettingViewControllerDelegate: class {
     
-    func setting(controller: SettingViewController, didChangeValueOf keyPath: AudioDefaultKeyPath, to newValue: Any)
+    func setting(controller: SettingViewController, didChangeValueOf keyPath: AudioDefaultValue.KeyPath, to newValue: Any)
 }
 
 /// 单例的设置界面；
@@ -37,15 +37,19 @@ class SettingViewController: UIViewController {
         
         return nil
     }
+    
     override func unwind(for unwindSegue: UIStoryboardSegue, towardsViewController subsequentVC: UIViewController) {
         super.unwind(for: unwindSegue, towardsViewController: subsequentVC)
+        
+        print(self, #function)
     }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        isHiddenBackgroundImageSwitch.isOn = AudioDefaultValue.default.isHiddenBackgroundImage
+        isHiddenBackgroundImageSwitch.isOn = AudioDefaultValue.isHiddenBackgroundImage
         
-        speechRecognitionEngineSegmentedControl.selectedSegmentIndex = AudioDefaultValue.default.speechRecognitionEngine.rawValue
+        speechRecognitionEngineSegmentedControl.selectedSegmentIndex = AudioDefaultValue.speechRecognitionEngine.rawValue
         
         /// 设置siri的可用性；
         if #available(iOS 10.0, *), AudioOperator.isSiriServiceAvailable {
@@ -58,7 +62,7 @@ class SettingViewController: UIViewController {
     func dismiss() {
         self.dismiss(animated: true, completion: nil)
         
-        NotificationCenter.default.post(name: AudioDefaultValue.Notify.setting.name,
+        NotificationCenter.default.post(name: AudioDefaultValue.KeyPath.setting.name,
                                         object: nil,
                                         userInfo: nil)
     }
@@ -71,14 +75,14 @@ class SettingViewController: UIViewController {
         }
         
         /// 修改本地存储值
-        AudioDefaultValue.default.isHiddenBackgroundImage = switcher.isOn
+        AudioDefaultValue.isHiddenBackgroundImage = switcher.isOn
         
         /// 发送广播
-        NotificationCenter.default.post(name: AudioDefaultValue.Notify.backgroundImage.name,
+        NotificationCenter.default.post(name: AudioDefaultValue.KeyPath.isHiddenBackgroundImage.name,
                                         object: nil,
-                                        userInfo: ["isHiddenBackgroundImage":switcher.isOn])
+                                        userInfo: [AudioDefaultValue.KeyPath.isHiddenBackgroundImage.rawValue : switcher.isOn])
         
-        self.delegate?.setting(controller: self, didChangeValueOf: AudioDefaultKeyPath.isHiddenBackgroundImage, to: switcher.isOn)
+        self.delegate?.setting(controller: self, didChangeValueOf: AudioDefaultValue.KeyPath.isHiddenBackgroundImage, to: switcher.isOn)
     }
     
     /// 改变了语音识别引擎设置
@@ -86,7 +90,7 @@ class SettingViewController: UIViewController {
         
         guard
             let segmentedControl = sender as? UISegmentedControl,
-            let engine = AudioDefaultValue.SpeechRecognitionEngine(rawValue: segmentedControl.selectedSegmentIndex)
+            let engine = SpeechRecognitionEngine(rawValue: segmentedControl.selectedSegmentIndex)
             else {
                 return
         }
@@ -95,14 +99,14 @@ class SettingViewController: UIViewController {
         let saveSetting = {
             
             /// 修改本地存储值
-            AudioDefaultValue.default.speechRecognitionEngine = engine
+            AudioDefaultValue.speechRecognitionEngine = engine
             
             /// 发送广播
-            NotificationCenter.default.post(name: AudioDefaultValue.Notify.speechRecognitionEngine.name,
+            NotificationCenter.default.post(name: AudioDefaultValue.KeyPath.speechRecognitionEngine.name,
                                             object: nil,
-                                            userInfo: ["speechRecognitionEngine":engine.rawValue])
+                                            userInfo: [AudioDefaultValue.KeyPath.speechRecognitionEngine.rawValue : engine.rawValue])
             
-            self.delegate?.setting(controller: self, didChangeValueOf: AudioDefaultKeyPath.speechRecognitionEngine, to: engine.rawValue)
+            self.delegate?.setting(controller: self, didChangeValueOf: AudioDefaultValue.KeyPath.speechRecognitionEngine, to: engine.rawValue)
         }
         
         saveSetting()

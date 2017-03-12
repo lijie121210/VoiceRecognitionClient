@@ -44,10 +44,12 @@ extension MasterViewController: UICollectionViewDelegateFlowLayout {
             
         case (self.accessoryCollectionView, 1):
             
-            flow.itemSize = CGSize(width: (w - inset) * 0.5 - 2, height: 100)
-            
             /// 两列，多行
-            flow.sectionInset = UIEdgeInsets(top: inset, left: inset, bottom: inset * 2, right: inset)
+
+            flow.itemSize = CGSize(width: (w - inset) * 0.5 - 2, height: 140)
+            
+            /// 距离底部增大，防止按钮挡住
+            flow.sectionInset = UIEdgeInsets(top: inset, left: inset, bottom: inset * 4, right: inset)
 
             flow.minimumInteritemSpacing = 10.0
             
@@ -62,7 +64,7 @@ extension MasterViewController: UICollectionViewDelegateFlowLayout {
             
         case (self.monitoringInfoCollectionView, 0):
             
-            flow.itemSize = CGSize(width: 200, height: 120)
+            flow.itemSize = CGSize(width: 240, height: 120)
             
         default:
             print(self, #function, "Maybe Error!")

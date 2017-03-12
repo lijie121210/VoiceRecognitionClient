@@ -8,6 +8,7 @@
 
 import UIKit
 
+
 /// Add MasterViewController as parent
 /// self.parent is the containing view controller, and will be set a value after didMove(_:) method called.
 extension RecordListViewController {
@@ -50,14 +51,18 @@ class MasterViewController: UIViewController {
     
     @IBOutlet weak var accessoryLabel: UILabel!
     
-    @IBOutlet weak var accessoryControl: UISegmentedControl!
+    @IBOutlet weak var accessoryEditButton: UIButton!
+    
+    @IBOutlet weak var accessoryAddButton: UIButton!
     
     @IBOutlet weak var accessoryCollectionView: UICollectionView!
     
-    @IBAction func accessoryControlValueDidChange(_ sender: Any) {
+    @IBAction func didTapAccessoryEditButton(_ sender: Any) {
         
     }
     
+    @IBAction func didTapAccessoryAddButton(_ sender: Any) {
+    }
     
     
     /// It needs to be responsible for the full operation of the data, including access, playing and sending
@@ -97,11 +102,9 @@ class MasterViewController: UIViewController {
         clientSocket.connect()
         
         
-        /// 
-        
-//        accessoryViewHeightConstraint.constant = accessoryCollectionView.contentSize.height + 100.0
-        
-//        scrollView.layoutIfNeeded()
+        /// 去掉注释可以使得设备的集合视图完全显示，而不会滚动。
+        /// accessoryViewHeightConstraint.constant = accessoryCollectionView.contentSize.height + 100.0
+        /// scrollView.layoutIfNeeded()
     
         
     }
@@ -428,7 +431,7 @@ extension MasterViewController {
             }
         }
         
-        switch AudioDefaultValue.default.speechRecognitionEngine {
+        switch AudioDefaultValue.speechRecognitionEngine {
             
         case .hmm:
             
@@ -485,7 +488,7 @@ extension MasterViewController {
  */
 extension MasterViewController: SettingViewControllerDelegate {
     
-    func setting(controller: SettingViewController, didChangeValueOf keyPath: AudioDefaultKeyPath, to newValue: Any) {
+    func setting(controller: SettingViewController, didChangeValueOf keyPath: AudioDefaultValue.KeyPath, to newValue: Any) {
         
         guard keyPath == .isHiddenBackgroundImage, let isHidden = newValue as? Bool else {
             return
@@ -494,7 +497,7 @@ extension MasterViewController: SettingViewControllerDelegate {
         updateViewFromSettings(isHidden: isHidden)
     }
     
-    func updateViewFromSettings(isHidden: Bool = AudioDefaultValue.default.isHiddenBackgroundImage) {
+    func updateViewFromSettings(isHidden: Bool = AudioDefaultValue.isHiddenBackgroundImage) {
         
         backgroundImageView.isHidden = isHidden
         
@@ -577,11 +580,23 @@ extension MasterViewController: UICollectionViewDataSource {
     }
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         
-        if collectionView == self.accessoryCollectionView, section == 0 {
-            return 2
+        if collectionView == self.accessoryCollectionView {
+            
+            return ((DataManager.default.fake_data[2] as! [Any])[section] as! [AccessoryData]).count
         }
         
-        return 6
+        if collectionView == self.monitoringInfoCollectionView {
+            
+            return (DataManager.default.fake_data[0] as! [MeasurementData]).count
+        
+        }
+        
+        if collectionView == self.dataCurveCollectionView {
+            
+            return (DataManager.default.fake_data[1] as! [MeasurementCurveData]).count
+        }
+        
+        return 0
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
@@ -590,25 +605,77 @@ extension MasterViewController: UICollectionViewDataSource {
         if collectionView == monitoringInfoCollectionView {
             
             /// monitoring information collection view
-
+            
+            let data = (DataManager.default.fake_data[0] as! [MeasurementData])[indexPath.item]
+            
             let micell = collectionView.dequeueReusableCell(withReuseIdentifier: "MInfoCell", for: indexPath) as! MInfoCell
+            
+            micell.imageView.image = data.itemImage
+            
+            micell.titleLabel.text = data.itemType.textDescription
+            
+            micell.timeLabel.text = data.updateDate
+            
+            micell.valueLabel.text = String(data.value)
+            
+            micell.unitLabel.text = data.itemUnit.rawValue
             
             return micell
         } else if collectionView == dataCurveCollectionView {
             
             /// data curve collection view
             
+            let data = (DataManager.default.fake_data[1] as! [MeasurementCurveData])[indexPath.item]
+            
             let dccell = collectionView.dequeueReusableCell(withReuseIdentifier: "DataCurveCell", for: indexPath) as! DataCurveCell
             
+            dccell.titleLabel.text = data.title
+            
+            dccell.unitLabel.text = data.type.unit.rawValue
+            
+            dccell.canvasView.subviews.forEach { $0.removeFromSuperview() }
+            
+            let frame = CGRect(x: 0, y: 0, width: dccell.canvasView.frame.width, height: dccell.canvasView.frame.height)
+            let chart = LineChart(frame: frame)
+            
+            chart.animation.enabled = data.config.isAnimatable
+            chart.area = data.config.isArea
+            chart.x.labels.visible = data.config.isLabelsVisible
+            chart.y.labels.visible = data.config.isLabelsVisible
+            chart.x.grid.count = data.config.gridCount
+            chart.y.grid.count = data.config.gridCount
+            chart.x.labels.values = data.xlabels
+            chart.addLine(data.datas)
+            
+            dccell.canvasView.addSubview(chart)
+            
             return dccell
+            
         } else if indexPath.section == 0 {
             
-            let accell = collectionView.dequeueReusableCell(withReuseIdentifier: "MultiActionCell", for: indexPath)
+            let data = ((DataManager.default.fake_data[2] as! [Any])[0] as! [AccessoryData])[indexPath.item]
+            
+            let accell = collectionView.dequeueReusableCell(withReuseIdentifier: "MultiActionCell", for: indexPath) as! MultiActionCell
+            
+            accell.titlelLabel.text = data.name
+            
+            accell.imageView.image = data.image
+            
+            accell.delegate = self
             
             return accell
+            
         } else {
             
-            let accell = collectionView.dequeueReusableCell(withReuseIdentifier: "SingleActionCell", for: indexPath)
+            let data = ((DataManager.default.fake_data[2] as! [Any])[1] as! [AccessoryData])[indexPath.item]
+            
+            let accell = collectionView.dequeueReusableCell(withReuseIdentifier: "SingleActionCell", for: indexPath) as! SingleActionCell
+            
+            accell.titleLabel.text = data.name
+            
+            accell.infoLabel.text = data.state.textDescription
+            
+            accell.imageView.image = data.image
             
             return accell
         }
@@ -618,6 +685,16 @@ extension MasterViewController: UICollectionViewDataSource {
 }
 
 
+extension MasterViewController: MultiActionCellDelegate {
+    
+    func cell(_ cell: MultiActionCell, isTapped action: AccessoryAction) {
+        
+        print(self, #function)
+    }
+
+    
+    
+}
 
 
 

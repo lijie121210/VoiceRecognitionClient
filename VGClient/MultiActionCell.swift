@@ -13,13 +13,9 @@ import UIKit
 /// cell包含三个按钮，collectionview可以注册为代理以接受点击事件
 /// 考虑到内存管理，使用代理还是比较安全的；
 
-enum MultiAction: Int {
-    case open, close, stop
-}
-
 protocol MultiActionCellDelegate: class {
     
-    func cell(_ cell: MultiActionCell, isTapped action: MultiAction)
+    func cell(_ cell: MultiActionCell, isTapped action: AccessoryAction)
 }
 
 class MultiActionCell: UICollectionViewCell {
@@ -30,7 +26,11 @@ class MultiActionCell: UICollectionViewCell {
     
     @IBOutlet weak var titlelLabel: UILabel!
     
+    /// 动作按钮安放在一个水平stack中
+    
     @IBOutlet weak var actionStack: UIStackView!
+    
+    /// 三个动作按钮
     
     @IBOutlet weak var openButton: UIButton!
     
@@ -38,7 +38,11 @@ class MultiActionCell: UICollectionViewCell {
     
     @IBOutlet weak var closeButton: UIButton!
     
+    /// collectionview可以注册为代理以接受点击事件
+    
     weak var delegate: MultiActionCellDelegate?
+    
+    /// 三个动作按钮的点击事件
     
     @IBAction func didTapOpenButton(_ sender: Any) {
         
