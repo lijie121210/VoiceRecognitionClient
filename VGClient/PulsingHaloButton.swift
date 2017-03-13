@@ -15,7 +15,7 @@ import PulsingHalo
     
     @IBInspectable var duration: TimeInterval = 3.0
     
-    @IBInspectable var count: Int = 1
+    @IBInspectable var count: Int = 2
     
     override func awakeFromNib() {
         super.awakeFromNib()
@@ -46,6 +46,8 @@ import PulsingHalo
         halo.haloLayerNumber = count
         
         halo.animationDuration = duration
+        
+        
         
         if let c = color {
             halo.shadowColor = c.cgColor

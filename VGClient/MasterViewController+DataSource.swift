@@ -78,6 +78,10 @@ extension MasterViewController: UICollectionViewDataSource {
             
             accell.update(data: data, delegate: self)
             
+            /// 编辑状态
+            
+            accell.alpha = isEditing ? 0.6 : 1.0
+            
             return accell
             
         }

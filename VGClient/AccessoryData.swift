@@ -54,6 +54,7 @@ public enum AccessoryType: Int, Equatable {
     /// 补光灯
     case fillLight
     
+    
 }
 
 /// 增加一个默认名称 
@@ -68,6 +69,18 @@ extension AccessoryType {
         case .warmingLamp: return "增温灯"
         case .fillLight: return "补光灯"
         }
+    }
+    
+    init?(name: String) {
+        switch name {
+        case "卷帘机": self = AccessoryType.rollingMachine
+        case "浇灌泵": self = AccessoryType.wateringPump
+        case "通风机": self = AccessoryType.ventilator
+        case "增温灯": self = AccessoryType.warmingLamp
+        case "补光灯": self = AccessoryType.fillLight
+        default: return nil
+        }
+        
     }
 }
 
@@ -119,6 +132,42 @@ public enum AccessoryAction: Equatable {
     
     case timing(TimeInterval)
 }
+
+
+
+/// 
+
+public struct PickerTitle {
+    
+    public var leftTitles: [String]
+    
+    public var rightTitles: [String]
+    
+}
+
+public struct AccessoryPicker {
+    
+    public var title: PickerTitle
+    
+    public let count = 2
+    
+    init() {
+        
+        var left = [String]()
+        for i in 1...60 {
+            left.append("\(i)号")
+        }
+        
+        var right = [String]()
+        for i in 0..<5 {
+            right.append(AccessoryType(rawValue: i)!.name)
+        }
+        
+        title = PickerTitle(leftTitles: left, rightTitles: right)
+    }
+}
+
+
 
 
 /// 一个附件的数据结构

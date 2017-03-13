@@ -40,25 +40,20 @@
                                             <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="ww9-iz-o34">
                                                 <rect key="frame" x="0.0" y="57" width="413" height="153"/>
                                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                                                <collectionViewFlowLayout key="collectionViewLayout" scrollDirection="horizontal" minimumLineSpacing="10" minimumInteritemSpacing="10" id="87F-kD-xOc">
-                                                    <size key="itemSize" width="362" height="111"/>
-                                                    <size key="headerReferenceSize" width="0.0" height="0.0"/>
-                                                    <size key="footerReferenceSize" width="0.0" height="0.0"/>
-                                                    <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
-                                                </collectionViewFlowLayout>
+                                                <collectionViewLayout key="collectionViewLayout" id="pry-94-C03" customClass="CenterFlowLayout" customModule="VGClient" customModuleProvider="target"/>
                                                 <cells>
                                                     <collectionViewCell opaque="NO" multipleTouchEnabled="YES" contentMode="center" restorationIdentifier="MInfoCell" reuseIdentifier="MInfoCell" id="WQi-ca-nud" customClass="MInfoCell" customModule="VGClient" customModuleProvider="target">
-                                                        <rect key="frame" x="0.0" y="21" width="362" height="111"/>
+                                                        <rect key="frame" x="29.666666666666668" y="0.0" width="354" height="136"/>
                                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                         <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
-                                                            <rect key="frame" x="0.0" y="0.0" width="362" height="111"/>
+                                                            <rect key="frame" x="0.0" y="0.0" width="354" height="136"/>
                                                             <autoresizingMask key="autoresizingMask"/>
                                                             <subviews>
                                                                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="ztB-Ad-bsi" customClass="RectCornerView" customModule="VGClient" customModuleProvider="target">
-                                                                    <rect key="frame" x="8" y="8" width="362" height="111"/>
+                                                                    <rect key="frame" x="8" y="8" width="354" height="136"/>
                                                                     <subviews>
                                                                         <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="JLY-Ec-Mfg">
-                                                                            <rect key="frame" x="8" y="8" width="44" height="95"/>
+                                                                            <rect key="frame" x="8" y="8" width="44" height="120"/>
                                                                             <constraints>
                                                                                 <constraint firstAttribute="width" constant="44" id="2EO-zc-E9c"/>
                                                                             </constraints>
@@ -134,6 +129,7 @@
                                                             <constraint firstItem="ztB-Ad-bsi" firstAttribute="height" secondItem="WQi-ca-nud" secondAttribute="height" id="dcL-Nx-GZ4"/>
                                                             <constraint firstItem="ztB-Ad-bsi" firstAttribute="top" secondItem="WQi-ca-nud" secondAttribute="topMargin" id="va6-dh-4cQ"/>
                                                         </constraints>
+                                                        <size key="customSize" width="354" height="136"/>
                                                         <connections>
                                                             <outlet property="imageView" destination="JLY-Ec-Mfg" id="FUS-rO-gCI"/>
                                                             <outlet property="timeLabel" destination="kG9-dD-4EO" id="34k-tp-cwZ"/>
@@ -296,12 +292,7 @@
                                             <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="o6e-rq-yz1">
                                                 <rect key="frame" x="0.0" y="61" width="413" height="339"/>
                                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                                                <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="10" minimumInteritemSpacing="10" id="dva-jq-BIg">
-                                                    <size key="itemSize" width="166" height="123"/>
-                                                    <size key="headerReferenceSize" width="0.0" height="0.0"/>
-                                                    <size key="footerReferenceSize" width="0.0" height="0.0"/>
-                                                    <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
-                                                </collectionViewFlowLayout>
+                                                <collectionViewLayout key="collectionViewLayout" id="Pao-sX-6oz" customClass="AlternateLayout" customModule="VGClient" customModuleProvider="target"/>
                                                 <cells>
                                                     <collectionViewCell opaque="NO" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="AccessoryCell" id="0AF-8r-7H2" customClass="AccessoryCell" customModule="VGClient" customModuleProvider="target">
                                                         <rect key="frame" x="95" y="0.0" width="223" height="197"/>
@@ -343,21 +334,21 @@
                                                                             <rect key="frame" x="8" y="149" width="207" height="40"/>
                                                                             <subviews>
                                                                                 <button opaque="NO" contentMode="center" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="14H-ga-Scb">
-                                                                                    <rect key="frame" x="0.0" y="2" width="207" height="36"/>
+                                                                                    <rect key="frame" x="0.0" y="2" width="69" height="36"/>
                                                                                     <state key="normal" image="open"/>
                                                                                     <connections>
                                                                                         <action selector="didTapOpenButton:" destination="0AF-8r-7H2" eventType="touchUpInside" id="Pep-PD-SVY"/>
                                                                                     </connections>
                                                                                 </button>
                                                                                 <button opaque="NO" contentMode="center" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Ajv-ep-Q2n">
-                                                                                    <rect key="frame" x="207" y="2" width="0.0" height="36"/>
+                                                                                    <rect key="frame" x="69" y="2" width="69" height="36"/>
                                                                                     <state key="normal" image="stop"/>
                                                                                     <connections>
                                                                                         <action selector="didTapStopButton:" destination="0AF-8r-7H2" eventType="touchUpInside" id="XgU-Y0-OGi"/>
                                                                                     </connections>
                                                                                 </button>
                                                                                 <button opaque="NO" contentMode="center" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="BiZ-jf-pSa">
-                                                                                    <rect key="frame" x="69" y="2" width="138" height="36"/>
+                                                                                    <rect key="frame" x="138" y="2" width="69" height="36"/>
                                                                                     <state key="normal" image="close"/>
                                                                                     <connections>
                                                                                         <action selector="didTapCloseButton:" destination="0AF-8r-7H2" eventType="touchUpInside" id="y0e-ij-qD3"/>
@@ -449,6 +440,7 @@
                                                         <state key="normal" image="add"/>
                                                         <connections>
                                                             <action selector="didTapAccessoryAddButton:" destination="Re3-tb-fq7" eventType="touchUpInside" id="XBC-71-6Af"/>
+                                                            <segue destination="V1N-MH-428" kind="presentation" identifier="AccessoryViewController" id="gJb-qt-Igj"/>
                                                         </connections>
                                                     </button>
                                                 </subviews>
@@ -647,7 +639,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="OPa-OG-lx2" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="252.34375" y="868.359375"/>
+            <point key="canvasLocation" x="252.17391304347828" y="868.20652173913049"/>
         </scene>
         <!--Setting-->
         <scene sceneID="Ykt-cB-aCV">
@@ -1065,7 +1057,15 @@
                 <viewControllerPlaceholder storyboardIdentifier="ListenViewController" storyboardName="Listen" referencedIdentifier="ListenViewController" id="l6N-h3-bPI" sceneMemberID="viewController"/>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="fTa-iJ-wsy" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1034" y="1139"/>
+            <point key="canvasLocation" x="950" y="1027"/>
+        </scene>
+        <!--Accessory-->
+        <scene sceneID="CE9-e0-uUt">
+            <objects>
+                <viewControllerPlaceholder storyboardName="Accessory" id="V1N-MH-428" sceneMemberID="viewController"/>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="58f-G4-65E" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="904" y="1083"/>
         </scene>
     </scenes>
     <resources>

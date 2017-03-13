@@ -10,6 +10,53 @@ import Foundation
 import UIKit
 
 
+
+extension MasterViewController {
+    
+    /// 点击了附件编辑与添加的事件
+    
+    //    var isEditing: Bool
+    
+    @IBAction func didTapAccessoryEditButton(_ sender: Any) {
+        
+        
+        if isEditing {
+            
+            isEditing = false
+            
+            accessoryEditButton.setImage(UIImage(named: "edit"), for: .normal)
+            
+            /// 除了在这里修改，还要在代理方法里面做判断
+            
+            for cell in accessoryCollectionView.visibleCells {
+                
+                cell.alpha = 1
+            }
+            
+        } else {
+            
+            isEditing = true
+            
+            accessoryEditButton.setImage(UIImage(named: "done"), for: .normal)
+            
+            for cell in accessoryCollectionView.visibleCells {
+                
+                cell.alpha = 0.6
+            }
+        }
+        
+    }
+    
+    @IBAction func didTapAccessoryAddButton(_ sender: Any) {
+        
+        /// auto perform segue
+    }
+    
+    
+}
+
+
+
 extension MasterViewController: UICollectionViewDelegate, AccessoryCellDelegate {
     
     /// 点击了cell
@@ -24,7 +71,20 @@ extension MasterViewController: UICollectionViewDelegate, AccessoryCellDelegate 
         
         var data = accdatas[i]
         
-        ///
+        
+        /// 编辑
+        
+        if collectionView == accessoryCollectionView, isEditing {
+            
+            let id = "\(AccessoryViewController.self)"
+                        
+            performSegue(withIdentifier: id, sender: ["editing":true, "indexPath": indexPath, "data":data])
+                        
+            return
+        }
+        
+        
+        /// 操作
         
         guard data.type.isSingleActionTypes else { return }
         
@@ -124,6 +184,70 @@ extension MasterViewController: UICollectionViewDelegate, AccessoryCellDelegate 
     
     
 }
+
+
+extension MasterViewController: AccessoryOperationDelegate {
+    
+    func accessoryViewController(_ controller: AccessoryViewController, attemptToAdd data: AccessoryData) {
+        
+        guard var accdatas = DataManager.default.fake_data[2] as? [AccessoryData] else {
+            
+            return
+        }
+        
+        accdatas.insert(data, at: 0)
+        
+        DataManager.default.fake_data.replaceSubrange((2..<3), with: [accdatas])
+        
+        accessoryCollectionView.performBatchUpdates({
+            
+            self.accessoryCollectionView.insertItems(at: [IndexPath(item: 0, section: 0)])
+            
+        }, completion: nil)
+    }
+    
+    func accessoryViewController(_ controller: AccessoryViewController, attemptToEdit data: AccessoryData, at indexPath: IndexPath?) {
+        
+        guard var accdatas = DataManager.default.fake_data[2] as? [AccessoryData], let i = indexPath?.item else {
+                
+                return
+        }
+        
+        accdatas.replaceSubrange((i..<i+1), with: [data])
+        
+        DataManager.default.fake_data.replaceSubrange((2..<3), with: [accdatas])
+        
+        accessoryCollectionView.performBatchUpdates({
+            
+            self.accessoryCollectionView.reloadItems(at: [indexPath!])
+            
+        }, completion: nil)
+        
+
+    }
+    
+    func accessoryViewController(_ controller: AccessoryViewController, attemptToDelete data: AccessoryData, at indexPath: IndexPath?) {
+        
+        guard var accdatas = DataManager.default.fake_data[2] as? [AccessoryData], let i = indexPath?.item else {
+            
+            return
+        }
+        
+        accdatas.remove(at: i)
+        
+        DataManager.default.fake_data.replaceSubrange((2..<3), with: [accdatas])
+        
+        accessoryCollectionView.performBatchUpdates({
+            
+//            self.accessoryCollectionView.reloadItems(at: [indexPath!])
+            
+            self.accessoryCollectionView.deleteItems(at: [indexPath!])
+            
+        }, completion: nil)
+        
+    }
+}
+
 
 
 

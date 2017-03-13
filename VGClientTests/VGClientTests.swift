@@ -108,4 +108,21 @@ class VGClientTests: XCTestCase {
         }
         
     }
+    
+    /// 测试range的使用
+    func testStringSearch() {
+        
+        let str = "3号补光灯"
+        
+        let range = str.range(of: "号")
+        
+        let sub = str.substring(to: range!.lowerBound)
+        
+        XCTAssertEqual(sub, "3")
+        
+        let sub2 = str.substring(from: range!.upperBound)
+        
+        XCTAssertEqual(sub2, "补光灯")
+        
+    }
 }

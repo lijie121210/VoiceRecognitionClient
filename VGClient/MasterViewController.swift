@@ -71,16 +71,6 @@ class MasterViewController: UIViewController {
     
     @IBOutlet weak var accessoryCollectionView: UICollectionView!
     
-    /// 点击了附件编辑与添加的事件
-    
-    @IBAction func didTapAccessoryEditButton(_ sender: Any) {
-        
-    }
-    
-    @IBAction func didTapAccessoryAddButton(_ sender: Any) {
-        
-    }
-    
     
     /// It needs to be responsible for the full operation of the data, including access, playing and sending
     fileprivate var dataSource: AudioDataSource = AudioDataSource()
@@ -92,11 +82,19 @@ class MasterViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        /// 一定要在layout之前设置代理；坑！
+        if let layout = accessoryCollectionView.collectionViewLayout as? AlternateLayout {
+            layout.delegate = self
+        }
+        
+        
         /// setup original layout
         resetLayout()
         
         /// setup background image base on user settting
         updateViewFromSettings()
+        
+        
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -129,12 +127,34 @@ class MasterViewController: UIViewController {
         if DataManager.default.isRecording {
             
             listeningButton.pulsing()
+            
         } else {
             
             listeningButton.removePulsing()
         }
     }
     
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        super.prepare(for: segue, sender: sender)
+        
+        guard let des = segue.destination as? AccessoryViewController else {
+            return
+        }
+        
+        des.delegate = self
+        
+        guard
+            let id = segue.identifier, id == "\(AccessoryViewController.self)",
+            let sender = sender as? [String:Any],
+            let editing = sender["editing"] as? Bool, editing == true else {
+                
+                return
+        }
+        
+        des.currentIndexPath = sender["indexPath"] as? IndexPath
+        
+        des.currentAccessory = sender["data"] as? AccessoryData
+    }
     
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()

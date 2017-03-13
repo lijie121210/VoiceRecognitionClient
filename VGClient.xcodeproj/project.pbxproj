@@ -20,6 +20,10 @@
 		18381A481E76597300AE8D98 /* MasterViewController+Action.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18381A471E76597300AE8D98 /* MasterViewController+Action.swift */; };
 		18381A4A1E7661EF00AE8D98 /* RandomColor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18381A491E7661EF00AE8D98 /* RandomColor.swift */; };
 		18381A4C1E766F4D00AE8D98 /* AccessoryCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18381A4B1E766F4D00AE8D98 /* AccessoryCell.swift */; };
+		18381A4E1E76979600AE8D98 /* AccessoryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18381A4D1E76979600AE8D98 /* AccessoryViewController.swift */; };
+		18381A501E7697AF00AE8D98 /* Accessory.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 18381A4F1E7697AF00AE8D98 /* Accessory.storyboard */; };
+		18381A531E76E74500AE8D98 /* CenterFlowLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18381A521E76E74500AE8D98 /* CenterFlowLayout.swift */; };
+		18381A551E76E85200AE8D98 /* AlternateLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18381A541E76E85200AE8D98 /* AlternateLayout.swift */; };
 		1838560C1E5C65F90094C811 /* DispatchQueueTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1838560B1E5C65F90094C811 /* DispatchQueueTests.swift */; };
 		1838560E1E5C79180094C811 /* AudioData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1838560D1E5C79180094C811 /* AudioData.swift */; };
 		183856141E5E86120094C811 /* AudioOperatorTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 183856131E5E86110094C811 /* AudioOperatorTests.swift */; };
@@ -88,6 +92,10 @@
 		18381A471E76597300AE8D98 /* MasterViewController+Action.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "MasterViewController+Action.swift"; sourceTree = "<group>"; };
 		18381A491E7661EF00AE8D98 /* RandomColor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RandomColor.swift; sourceTree = "<group>"; };
 		18381A4B1E766F4D00AE8D98 /* AccessoryCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AccessoryCell.swift; sourceTree = "<group>"; };
+		18381A4D1E76979600AE8D98 /* AccessoryViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AccessoryViewController.swift; sourceTree = "<group>"; };
+		18381A4F1E7697AF00AE8D98 /* Accessory.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Accessory.storyboard; sourceTree = "<group>"; };
+		18381A521E76E74500AE8D98 /* CenterFlowLayout.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CenterFlowLayout.swift; sourceTree = "<group>"; };
+		18381A541E76E85200AE8D98 /* AlternateLayout.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AlternateLayout.swift; sourceTree = "<group>"; };
 		1838560B1E5C65F90094C811 /* DispatchQueueTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DispatchQueueTests.swift; sourceTree = "<group>"; };
 		1838560D1E5C79180094C811 /* AudioData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AudioData.swift; sourceTree = "<group>"; };
 		183856131E5E86110094C811 /* AudioOperatorTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AudioOperatorTests.swift; sourceTree = "<group>"; };
@@ -200,6 +208,24 @@
 			name = "Core Data";
 			sourceTree = "<group>";
 		};
+		18381A511E7697E500AE8D98 /* Accessory View */ = {
+			isa = PBXGroup;
+			children = (
+				18381A4D1E76979600AE8D98 /* AccessoryViewController.swift */,
+				18381A4F1E7697AF00AE8D98 /* Accessory.storyboard */,
+			);
+			name = "Accessory View";
+			sourceTree = "<group>";
+		};
+		18381A561E76EC2000AE8D98 /* Alternate Layout */ = {
+			isa = PBXGroup;
+			children = (
+				18381A521E76E74500AE8D98 /* CenterFlowLayout.swift */,
+				18381A541E76E85200AE8D98 /* AlternateLayout.swift */,
+			);
+			name = "Alternate Layout";
+			sourceTree = "<group>";
+		};
 		1838560F1E5D4F920094C811 /* Data Model */ = {
 			isa = PBXGroup;
 			children = (
@@ -219,13 +245,15 @@
 		183856101E5D4FA90094C811 /* View layer */ = {
 			isa = PBXGroup;
 			children = (
+				1880FF4C1E728D82000A0D1C /* Custom View */,
 				185500401E5A888A00DADEF7 /* DashboardViewController.swift */,
 				185500421E5A895E00DADEF7 /* AuthorityViewController.swift */,
+				18381A561E76EC2000AE8D98 /* Alternate Layout */,
 				180B3BB41E73946300E13309 /* Cell View */,
 				1880FF481E724513000A0D1C /* Listen View */,
 				1880FF421E71499C000A0D1C /* Orbit Loading View */,
 				1880FF431E7149BA000A0D1C /* Setting View */,
-				1880FF4C1E728D82000A0D1C /* Custom View */,
+				18381A511E7697E500AE8D98 /* Accessory View */,
 			);
 			name = "View layer";
 			sourceTree = "<group>";
@@ -500,6 +528,7 @@
 				189418931E4EDEB000207358 /* Assets.xcassets in Resources */,
 				185500451E5AAE2200DADEF7 /* Master.storyboard in Resources */,
 				1880FF401E710313000A0D1C /* Setting.storyboard in Resources */,
+				18381A501E7697AF00AE8D98 /* Accessory.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -661,11 +690,13 @@
 				1880FF3E1E710300000A0D1C /* SettingViewController.swift in Sources */,
 				180B3BB91E739D3900E13309 /* MeasurementData.swift in Sources */,
 				18381A481E76597300AE8D98 /* MasterViewController+Action.swift in Sources */,
+				18381A551E76E85200AE8D98 /* AlternateLayout.swift in Sources */,
 				1855003D1E5A86CF00DADEF7 /* MasterViewController.swift in Sources */,
 				189418D01E51E60E00207358 /* AudioClient.swift in Sources */,
 				180B3BBB1E73AEC500E13309 /* MeasurementCurveData.swift in Sources */,
 				187868761E757A4000F6D102 /* PulsingHaloButton.swift in Sources */,
 				1880FF4E1E728DB0000A0D1C /* MInfoCell.swift in Sources */,
+				18381A4E1E76979600AE8D98 /* AccessoryViewController.swift in Sources */,
 				1838560E1E5C79180094C811 /* AudioData.swift in Sources */,
 				180B3BB31E73944A00E13309 /* DataCurveCell.swift in Sources */,
 				185500411E5A888A00DADEF7 /* DashboardViewController.swift in Sources */,
@@ -677,6 +708,7 @@
 				18381A4C1E766F4D00AE8D98 /* AccessoryCell.swift in Sources */,
 				189418BE1E5159AF00207358 /* CoreDataManager.swift in Sources */,
 				18D27B471E6D45B200488F80 /* AudioDefaultValue.swift in Sources */,
+				18381A531E76E74500AE8D98 /* CenterFlowLayout.swift in Sources */,
 				189418891E4EDEB000207358 /* AppDelegate.swift in Sources */,
 				180B3BBF1E73F92800E13309 /* DataManager.swift in Sources */,
 				18D1CAEC1E5C29F30029A6F9 /* AudioDataSource.swift in Sources */,
