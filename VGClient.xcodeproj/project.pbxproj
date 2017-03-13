@@ -26,6 +26,8 @@
 		185500411E5A888A00DADEF7 /* DashboardViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 185500401E5A888A00DADEF7 /* DashboardViewController.swift */; };
 		185500431E5A895E00DADEF7 /* AuthorityViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 185500421E5A895E00DADEF7 /* AuthorityViewController.swift */; };
 		185500451E5AAE2200DADEF7 /* Master.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 185500441E5AAE2200DADEF7 /* Master.storyboard */; };
+		187868761E757A4000F6D102 /* PulsingHaloButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 187868751E757A4000F6D102 /* PulsingHaloButton.swift */; };
+		187868781E7597D700F6D102 /* WaveView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 187868771E7597D700F6D102 /* WaveView.swift */; };
 		1880FF3A1E70DE45000A0D1C /* OrbitAlertController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1880FF391E70DE45000A0D1C /* OrbitAlertController.swift */; };
 		1880FF3C1E70DE80000A0D1C /* Orbit.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 1880FF3B1E70DE80000A0D1C /* Orbit.storyboard */; };
 		1880FF3E1E710300000A0D1C /* SettingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1880FF3D1E710300000A0D1C /* SettingViewController.swift */; };
@@ -89,6 +91,8 @@
 		185500401E5A888A00DADEF7 /* DashboardViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DashboardViewController.swift; sourceTree = "<group>"; };
 		185500421E5A895E00DADEF7 /* AuthorityViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AuthorityViewController.swift; sourceTree = "<group>"; };
 		185500441E5AAE2200DADEF7 /* Master.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Master.storyboard; sourceTree = "<group>"; };
+		187868751E757A4000F6D102 /* PulsingHaloButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PulsingHaloButton.swift; sourceTree = "<group>"; };
+		187868771E7597D700F6D102 /* WaveView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WaveView.swift; sourceTree = "<group>"; };
 		1880FF391E70DE45000A0D1C /* OrbitAlertController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OrbitAlertController.swift; sourceTree = "<group>"; };
 		1880FF3B1E70DE80000A0D1C /* Orbit.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Orbit.storyboard; sourceTree = "<group>"; };
 		1880FF3D1E710300000A0D1C /* SettingViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingViewController.swift; sourceTree = "<group>"; };
@@ -257,9 +261,11 @@
 		1880FF4C1E728D82000A0D1C /* Custom View */ = {
 			isa = PBXGroup;
 			children = (
+				187868751E757A4000F6D102 /* PulsingHaloButton.swift */,
 				180B3BC01E74FF5D00E13309 /* LineChart.swift */,
 				189418CB1E5197F500207358 /* RectCornerView.swift */,
 				1880FF491E724991000A0D1C /* ArrowControl.swift */,
+				187868771E7597D700F6D102 /* WaveView.swift */,
 			);
 			name = "Custom View";
 			sourceTree = "<group>";
@@ -617,6 +623,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				18206BBF1E72E5AF00E70E9A /* MasterViewController+Layout.swift in Sources */,
+				187868781E7597D700F6D102 /* WaveView.swift in Sources */,
 				185500371E5982A600DADEF7 /* AudioOperator.swift in Sources */,
 				1880FF4A1E724991000A0D1C /* ArrowControl.swift in Sources */,
 				1880FF3A1E70DE45000A0D1C /* OrbitAlertController.swift in Sources */,
@@ -629,6 +636,7 @@
 				189418D01E51E60E00207358 /* AudioClient.swift in Sources */,
 				180B3BB11E73941000E13309 /* MultiActionCell.swift in Sources */,
 				180B3BBB1E73AEC500E13309 /* MeasurementCurveData.swift in Sources */,
+				187868761E757A4000F6D102 /* PulsingHaloButton.swift in Sources */,
 				1880FF4E1E728DB0000A0D1C /* MInfoCell.swift in Sources */,
 				1838560E1E5C79180094C811 /* AudioData.swift in Sources */,
 				180B3BB61E7394CD00E13309 /* SingleActionCell.swift in Sources */,

@@ -12,7 +12,11 @@ target 'VGClient' do
 
   pod 'CocoaAsyncSocket'
 
- # pod 'SwiftCharts', '~> 0.5'
+  pod 'PulsingHalo'
+
+#  pod 'ZLSinusWaveView'
+
+#  pod 'SwiftCharts', '~> 0.5'
 
   target 'VGClientTests' do
     inherit! :search_paths

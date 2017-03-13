@@ -78,4 +78,22 @@ class VGClientTests: XCTestCase {
         XCTAssertNotEqual(t.icon, "0")
     }
     
+    
+    /// 测试数组的替换方法
+    
+    func testArrayReplace() {
+        
+        var arr = [0,1,2,3,4,5]
+        
+        arr.replaceSubrange((1..<2), with: [6])
+        
+        XCTAssertEqual(arr[1], 6)
+        
+        arr.replaceSubrange((3..<4), with: [7])
+        
+        XCTAssertEqual(arr[3], 7)
+        
+        
+    }
+    
 }

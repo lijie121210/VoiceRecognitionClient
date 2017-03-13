@@ -2,13 +2,16 @@ PODS:
   - CocoaAsyncSocket (7.5.1):
     - CocoaAsyncSocket/GCD (= 7.5.1)
   - CocoaAsyncSocket/GCD (7.5.1)
+  - PulsingHalo (0.2.3)
 
 DEPENDENCIES:
   - CocoaAsyncSocket
+  - PulsingHalo
 
 SPEC CHECKSUMS:
   CocoaAsyncSocket: e0a7e93b2ffa411592ff87e58524fbbc9b95b4fa
+  PulsingHalo: f0fe19699182eb959e4bc333838a2609ef7f7d48
 
-PODFILE CHECKSUM: 799badc124485e95cadc80c8834f15878198eb2f
+PODFILE CHECKSUM: 7d5d9254f1c9819f5715db99e43c91f2be381706
 
 COCOAPODS: 1.0.0

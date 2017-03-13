@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import PulsingHalo
 
 
 /// Add MasterViewController as parent
@@ -41,7 +42,7 @@ class MasterViewController: UIViewController {
     @IBOutlet weak var userButton: UIButton!
     
     /// 表示正在聆听的按钮
-    @IBOutlet weak var listeningButton: UIButton!
+    @IBOutlet weak var listeningButton: PulsingHaloButton!
     
     /// 主滚动视图
     @IBOutlet weak var scrollView: UIScrollView!
@@ -117,9 +118,8 @@ class MasterViewController: UIViewController {
         
         /// 去掉注释可以使得设备的集合视图完全显示，而不会滚动。
         accessoryViewHeightConstraint.constant = accessoryCollectionView.contentSize.height + 100.0
-        scrollView.layoutIfNeeded()
-    
         
+        scrollView.layoutIfNeeded()
     }
     
     
@@ -159,6 +159,7 @@ class MasterViewController: UIViewController {
         
         dataSource.loadLocalData(completion: loadData)
     }
+    
 }
 
 
