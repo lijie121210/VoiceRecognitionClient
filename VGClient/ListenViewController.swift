@@ -8,88 +8,85 @@
 
 import UIKit
 
+/// 只是显示一个正在录音或者没有录音的状态。
+///
 class ListenViewController: UIViewController {
 
     @IBOutlet weak var titleLabel: UILabel!
     
-    @IBOutlet weak var waveView: WaveView!
-    
-    fileprivate var audioOperator: AudioOperator!
-
+    @IBOutlet var waveViews: [WaveView]!
     
     deinit {
         print(self, #function)
     }
     
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        
-    }
+    /// 开始监听录音幅度变化
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
-        setupAudioOperatorAsRecorder()
+        DataManager.default.addObserver(self,
+                                        forKeyPath: #keyPath(DataManager.averagePower),
+                                        options: [.new],
+                                        context: nil)
         
-        let name = "\(Date.currentName).wav"
-        
-        let localURL = FileManager.dataURL(with: name)
-        
-        let start = audioOperator.startRecording(filename: name, storageURL: localURL)
-        
-        if !start {
-            return print(self, #function)
-        }
     }
-    
+
+    /// 更新标题
+
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         
-        waveView.waveLevel = nil
-        
-        audioOperator.cancelRecord()
+        if DataManager.default.isRecording {
+            
+            titleLabel.text = "正在聆听"
+        } else {
+            
+            titleLabel.text = "无法聆听"
+        }
     }
+    
+    /// 移除监听录音幅度变化
 
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        
+        DataManager.default.removeObserver(self,
+                                           forKeyPath: #keyPath(DataManager.averagePower),
+                                           context: nil)
+        
+    }
+    
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         
     }
+    
+    /// 关闭
     
     @IBAction func close() {
         
         dismiss(animated: true, completion: nil)
     }
     
-    func setupAudioOperatorAsRecorder() {
+    /// 监听事件
+    
+    override func observeValue(forKeyPath keyPath: String?, of object: Any?, change: [NSKeyValueChangeKey : Any]?, context: UnsafeMutableRawPointer?) {
         
-        if let audioOperator = audioOperator {
-            audioOperator.releaseResource()
-            self.audioOperator = nil
+        if
+            let path = keyPath, path == #keyPath(DataManager.averagePower),
+            let power = change?[.newKey] as? Float {
+            
+            let level = pow(10, power / 50.0)
+            let level2 = pow(10, power / 40.0)
+            
+            waveViews.forEach { $0.level = $0.tag == 2 ? level : level2 }
+            
+            return
         }
         
-        audioOperator = AudioOperator(averagePowerReport: { [weak self] (_, power) in
-            
-            guard let sself = self, sself.waveView.waveLevel == nil else {
-                return
-            }
-            
-            sself.waveView.waveLevel = { () -> Float in
-                
-                return pow(10, power / 40.0)
-            }
-            
-        }, timeIntervalReport: { (_, time) in
-            
-            
-            
-        }, completionHandler: { (_, _, data) in
-            
-            print(self, #function, "complete")
-            
-        }, failureHandler: { (_, error) in
-            
-            print(self, #function, error?.localizedDescription ?? "unknown record error")
-        })
+        super.observeValue(forKeyPath: keyPath, of: object, change: change, context: context)
     }
-
+    
 }
+ 

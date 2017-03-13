@@ -14,6 +14,8 @@ target 'VGClient' do
 
   pod 'PulsingHalo'
 
+  pod 'FlatUIColors'
+
 #  pod 'ZLSinusWaveView'
 
 #  pod 'SwiftCharts', '~> 0.5'

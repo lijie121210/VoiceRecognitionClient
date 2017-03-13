@@ -21,4 +21,31 @@ class SingleActionCell: UICollectionViewCell {
     
     @IBOutlet weak var infoLabel: UILabel!
     
+    
+    ///
+    
+    override func awakeFromNib() {
+        super.awakeFromNib()
+        
+        let blurEffectView = UIVisualEffectView(effect: UIBlurEffect(style: .light))
+        blurEffectView.frame = bounds
+        blurEffectView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
+        
+        backgroundView = blurEffectView
+        
+        container.setFillColor(color: UIColor(white: 1, alpha: 0.5))
+    }
+    
+    func update(status: AccessoryStatus) {
+        
+        infoLabel.text = status.textDescription
+
+        if status == .opened {
+            
+            container.setFillColor(color: UIColor(white: 1, alpha: 1))
+        } else {
+            
+            container.setFillColor(color: UIColor(white: 1, alpha: 0.5))
+        }
+    }
 }

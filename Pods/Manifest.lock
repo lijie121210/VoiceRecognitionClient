@@ -2,16 +2,19 @@ PODS:
   - CocoaAsyncSocket (7.5.1):
     - CocoaAsyncSocket/GCD (= 7.5.1)
   - CocoaAsyncSocket/GCD (7.5.1)
+  - FlatUIColors (0.3.0)
   - PulsingHalo (0.2.3)
 
 DEPENDENCIES:
   - CocoaAsyncSocket
+  - FlatUIColors
   - PulsingHalo
 
 SPEC CHECKSUMS:
   CocoaAsyncSocket: e0a7e93b2ffa411592ff87e58524fbbc9b95b4fa
+  FlatUIColors: d4a5a0a8c1b61da6383946a1208cc27e440e3922
   PulsingHalo: f0fe19699182eb959e4bc333838a2609ef7f7d48
 
-PODFILE CHECKSUM: 7d5d9254f1c9819f5715db99e43c91f2be381706
+PODFILE CHECKSUM: c50279bc4d5256be8a76e57397c64c770c2f8395
 
 COCOAPODS: 1.0.0

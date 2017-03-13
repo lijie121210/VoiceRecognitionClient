@@ -175,7 +175,7 @@
                                                 <collectionViewLayout key="collectionViewLayout" id="F4o-kE-RFd" customClass="CenterFlowLayout" customModule="VGClient" customModuleProvider="target"/>
                                                 <cells>
                                                     <collectionViewCell opaque="NO" multipleTouchEnabled="YES" contentMode="center" restorationIdentifier="DataCurveCell" reuseIdentifier="DataCurveCell" id="G1C-w9-4Bg" customClass="DataCurveCell" customModule="VGClient" customModuleProvider="target">
-                                                        <rect key="frame" x="126" y="0.0" width="348" height="223"/>
+                                                        <rect key="frame" x="125.5" y="0.0" width="348" height="223"/>
                                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                         <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
                                                             <rect key="frame" x="0.0" y="0.0" width="348" height="223"/>

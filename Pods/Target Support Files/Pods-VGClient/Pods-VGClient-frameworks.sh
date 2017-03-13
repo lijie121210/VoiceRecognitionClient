@@ -85,9 +85,11 @@ strip_invalid_archs() {
 
 if [[ "$CONFIGURATION" == "Debug" ]]; then
   install_framework "$BUILT_PRODUCTS_DIR/CocoaAsyncSocket/CocoaAsyncSocket.framework"
+  install_framework "$BUILT_PRODUCTS_DIR/FlatUIColors/FlatUIColors.framework"
   install_framework "$BUILT_PRODUCTS_DIR/PulsingHalo/PulsingHalo.framework"
 fi
 if [[ "$CONFIGURATION" == "Release" ]]; then
   install_framework "$BUILT_PRODUCTS_DIR/CocoaAsyncSocket/CocoaAsyncSocket.framework"
+  install_framework "$BUILT_PRODUCTS_DIR/FlatUIColors/FlatUIColors.framework"
   install_framework "$BUILT_PRODUCTS_DIR/PulsingHalo/PulsingHalo.framework"
 fi

@@ -23,8 +23,21 @@ import PulsingHalo
         pulsing()
     }
     
+    var isPulsed: Bool {
+        
+        guard let sublayers = layer.sublayers else {
+            return false
+        }
+        
+        return !sublayers.filter { return $0 is PulsingHaloLayer }.isEmpty
+    }
+    
     /// 添加动画图层
     func pulsing() {
+        
+        if isPulsed {
+            return
+        }
         
         let halo = PulsingHaloLayer()
         

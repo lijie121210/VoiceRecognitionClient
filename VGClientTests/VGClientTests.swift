@@ -96,4 +96,16 @@ class VGClientTests: XCTestCase {
         
     }
     
+    /// 测试随机数生成
+    
+    func testRandomInteger() {
+        
+        for _ in 0..<100 {
+            
+            let integer = randomInteger(from: 99, to: 100)
+            
+            XCTAssertEqual(integer, 99)
+        }
+        
+    }
 }

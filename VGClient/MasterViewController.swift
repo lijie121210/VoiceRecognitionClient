@@ -120,6 +120,16 @@ class MasterViewController: UIViewController {
         accessoryViewHeightConstraint.constant = accessoryCollectionView.contentSize.height + 100.0
         
         scrollView.layoutIfNeeded()
+        
+        ///
+        
+        if DataManager.default.isRecording {
+            
+            listeningButton.pulsing()
+        } else {
+            
+            listeningButton.removePulsing()
+        }
     }
     
     
@@ -572,203 +582,7 @@ extension MasterViewController {
 
 
 
-///
 
-
-
-extension MasterViewController: UICollectionViewDelegate {
-    
-    
-}
-
-
-extension MasterViewController: UICollectionViewDataSource {
-    
-    func numberOfSections(in collectionView: UICollectionView) -> Int {
-        
-        if collectionView == self.accessoryCollectionView {
-            return 2
-        }
-        
-        return 1
-    }
-    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        
-        if collectionView == self.accessoryCollectionView {
-            
-            return ((DataManager.default.fake_data[2] as! [Any])[section] as! [AccessoryData]).count
-        }
-        
-        if collectionView == self.monitoringInfoCollectionView {
-            
-            return (DataManager.default.fake_data[0] as! [MeasurementData]).count
-        
-        }
-        
-        if collectionView == self.dataCurveCollectionView {
-            
-            return (DataManager.default.fake_data[1] as! [MeasurementCurveData]).count
-        }
-        
-        return 0
-    }
-    
-    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        
-        
-        if collectionView == monitoringInfoCollectionView {
-            
-            /// monitoring information collection view
-            
-            let data = (DataManager.default.fake_data[0] as! [MeasurementData])[indexPath.item]
-            
-            let micell = collectionView.dequeueReusableCell(withReuseIdentifier: "MInfoCell", for: indexPath) as! MInfoCell
-            
-            micell.imageView.image = data.itemImage
-            
-            micell.titleLabel.text = data.itemType.textDescription
-            
-            micell.timeLabel.text = data.updateDate
-            
-            micell.valueLabel.text = String(data.value)
-            
-            micell.unitLabel.text = data.itemUnit.rawValue
-            
-            return micell
-        } else if collectionView == dataCurveCollectionView {
-            
-            /// data curve collection view
-            
-            let data = (DataManager.default.fake_data[1] as! [MeasurementCurveData])[indexPath.item]
-            
-            let dccell = collectionView.dequeueReusableCell(withReuseIdentifier: "DataCurveCell", for: indexPath) as! DataCurveCell
-            
-            dccell.titleLabel.text = data.title
-            dccell.dateLabel.text = data.duration
-            dccell.unitLabel.text = "单位: " + data.type.unit.rawValue
-            
-            /// 清除掉原来的图
-            dccell.canvasView.clearAll()
-            
-            /// 绘制新的图形
-            dccell.canvasView.animation.enabled = data.config.isAnimatable
-            dccell.canvasView.area = data.config.isArea
-            dccell.canvasView.x.labels.visible = data.config.isLabelsVisible
-            dccell.canvasView.y.labels.visible = data.config.isLabelsVisible
-            dccell.canvasView.x.grid.count = data.config.gridCount
-            dccell.canvasView.y.grid.count = data.config.gridCount
-            dccell.canvasView.x.axis.inset = 30
-            dccell.canvasView.y.axis.inset = 30
-            dccell.canvasView.delegate = self
-            
-            let color = dccell.canvasView.colors[randomNumber(from: 0, to: dccell.canvasView.colors.count)]
-            dccell.canvasView.colors = [color]
-            
-            dccell.canvasView.x.labels.values = data.xlabels
-            dccell.canvasView.addLine(data.datas)
-            
-            return dccell
-            
-        } else if indexPath.section == 0 {
-            
-            let data = ((DataManager.default.fake_data[2] as! [Any])[0] as! [AccessoryData])[indexPath.item]
-            
-            let accell = collectionView.dequeueReusableCell(withReuseIdentifier: "MultiActionCell", for: indexPath) as! MultiActionCell
-            
-            accell.titlelLabel.text = data.name
-            
-            accell.imageView.image = data.image
-            
-            accell.delegate = self
-            
-            return accell
-            
-        } else {
-            
-            let data = ((DataManager.default.fake_data[2] as! [Any])[1] as! [AccessoryData])[indexPath.item]
-            
-            let accell = collectionView.dequeueReusableCell(withReuseIdentifier: "SingleActionCell", for: indexPath) as! SingleActionCell
-            
-            accell.titleLabel.text = data.name
-            
-            accell.infoLabel.text = data.state.textDescription
-            
-            accell.imageView.image = data.image
-            
-            return accell
-        }
-        
-    }
-    
-}
-
-///  点击了三联操作的某个按钮
-
-extension MasterViewController: MultiActionCellDelegate {
-    
-    func cell(_ cell: MultiActionCell, isTapped action: AccessoryAction) {
-        
-        print(self, #function, action)
-    }
-
-    
-    
-}
-
-
-/// 点击图表上的点，显示一个提示框，1.0s后自动隐藏
-
-extension MasterViewController: LineChartDelegate {
-    
-    func didSelectDataPoint(_ x: CGFloat, yValues: [CGFloat]) {
-        
-        let offset = dataCurveCollectionView.contentOffset
-        let size = dataCurveCollectionView.frame.size
-        let point = CGPoint(x: offset.x + size.width * 0.5, y: offset.y + size.height * 0.5)
-        
-        guard
-            let indexPath = dataCurveCollectionView.indexPathForItem(at: point),
-            let cell = dataCurveCollectionView.cellForItem(at: indexPath) as? DataCurveCell else {
-                return
-        }
-        
-        UIView.animate(withDuration: 0.5) { 
-            
-            cell.popLabel.isHidden = false
-            cell.popLabel.text = "<x: \(x), y: \(yValues.map{ String(describing: $0) }.joined())>"
-        }
-        
-        DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
-            
-            UIView.animate(withDuration: 0.5, animations: { 
-                cell.popLabel.isHidden = true
-                cell.popLabel.text = nil
-            })
-        }
-    }
-}
-
-
-/// 向上滚动隐藏user图标；向下显示
-
-extension MasterViewController {
-    
-    func scrollViewWillEndDragging(_ scrollView: UIScrollView, withVelocity velocity: CGPoint, targetContentOffset: UnsafeMutablePointer<CGPoint>) {
-        
-        guard scrollView == self.scrollView else {
-            return
-        }
-        
-        if (targetContentOffset.pointee.y - scrollView.contentOffset.y) > 0 {
-            /// 手指向上划，向下滚，隐藏
-
-            self.userButtonContainer.isHidden = true
-        } else {
-            
-            self.userButtonContainer.isHidden = false
-        }
-    }
-}
 
 
 

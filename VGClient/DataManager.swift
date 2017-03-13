@@ -8,16 +8,6 @@
 
 import UIKit
 
-func randomNumber(from: Int, to: Int) -> Int {
-    guard from < to else {
-        return 0
-    }
-    var a: UInt32 = 0
-    arc4random_buf(&a, MemoryLayout<UInt32>.size)
-
-    let index = (a % UInt32(to - from)) + UInt32(from)
-    return Int(index)
-}
 
 class DataManager: NSObject {
 
@@ -28,8 +18,12 @@ class DataManager: NSObject {
 
         fake_data = [fake_measurementData(), fake_charData(), fake_accessoryData()]
     }
+    
+    
 
     ///
+
+    var fake_data: [Any] = []
 
     func fake_accessoryData() -> [AccessorySection] {
 
@@ -135,6 +129,115 @@ class DataManager: NSObject {
                                     LineColumn(value: 624, prompt: "02/10")])
         ]
     }
-
-    var fake_data: [Any] = []
+    
+    
+    
+    
+    ///
+    
+    var record: AudioOperator?
+    
+    dynamic var averagePower: Float = 0
+//    {
+//        didSet {
+//            didChangeValue(forKey: #keyPath(DataManager.averagePower))
+//        }
+//    }
+    
+    dynamic var timeInterval: TimeInterval = 0
+//    {
+//        didSet {
+//            didChangeValue(forKey: #keyPath(DataManager.timeInterval))
+//        }
+//    }
+    
+    
+    var isRecording: Bool {
+        
+        if let rec = record, rec.isRecording {
+            return true
+        }
+        
+        return false
+    }
+    
+    func startRecord(averagePowerReport: ((AudioOperator, Float) -> ())? = nil,
+                     timeIntervalReport: ((AudioOperator, TimeInterval) -> ())? = nil,
+                     completionHandler: ((AudioOperator, Bool, AudioData?) -> ())? = nil,
+                     failureHandler: ((AudioOperator, Error?) -> ())? = nil) -> Bool {
+        
+        if let record = record {
+            
+            record.releaseResource()
+            
+            self.record = nil
+        }
+        
+        self.record = AudioOperator( averagePowerReport: { [weak self] (oper, power) in
+            
+            averagePowerReport?(oper, power)
+            
+            self?.averagePower = power
+            
+        }, timeIntervalReport: { [weak self] (oper, time) in
+                
+            timeIntervalReport?(oper, time)
+            
+            self?.timeInterval = time
+                
+        }, completionHandler: { (oper, finish, data) in
+            
+            completionHandler?(oper, finish, data)
+            
+        }, failureHandler: { (oper, error) in
+            
+            failureHandler?(oper, error)
+            
+            print(self, #function, error?.localizedDescription ?? "unknown record error")
+        })
+        
+        let name = "\(Date.currentName).wav"
+        
+        let localURL = FileManager.dataURL(with: name)
+        
+        let start = self.record!.startRecording(filename: name, storageURL: localURL)
+        
+        return start
+    }
+    
+    func cancelRecording() {
+        
+        if let record = record {
+            
+            record.cancelRecord()
+            
+            record.releaseResource()
+            
+            self.record = nil
+        }
+    }
+    
+    func stopRecording() {
+        
+        if let record = record {
+            
+            record.stopPlaying()
+            
+            record.releaseResource()
+            
+            self.record = nil
+        }
+    }
+    
+    
+    
+    
+    
+    
+    
 }
+
+
+
+
+

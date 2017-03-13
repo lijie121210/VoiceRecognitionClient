@@ -18,8 +18,6 @@ open class WaveView: UIView {
     
     @IBInspectable open var waveColor: UIColor = .blue
     
-    @IBInspectable open var level: Float = 0
-    
     @IBInspectable open var mainWaveWidth: CGFloat = 2.0
     
     @IBInspectable open var decorativeWavesWidth: CGFloat = 1.0
@@ -50,37 +48,67 @@ open class WaveView: UIView {
     
     fileprivate var maxAmplitude: CGFloat { return self.waveHeight - 4.0 }
     
-    open var waveLevel: (() -> Float)? {
+    
+    /// 直接设置，则不需要设置回调函数
+    
+    open var level: Float = 0 {
         didSet {
-            if let link = self.displayLink {
-                link.invalidate()
-            }
-            
-            displayLink = CADisplayLink(target: self, selector: #selector(WaveView.invokeWaveCallback))
-            displayLink.add(to: .current, forMode: .commonModes)
-            
-            for i in 0 ..< numberOfWaves {
-                
-                let progress = 1.0 - CGFloat(i) / CGFloat(numberOfWaves)
-                
-                let multiplier = min(1.0, (progress / 3.0 * 2.0) + (1.0 / 3.0))
-                
-                let color = waveColor.withAlphaComponent(i == 0 ? 1.0 : 1.0 * multiplier * 0.4)
-                
-                let line = CAShapeLayer()
-                line.lineCap = kCALineCapButt
-                line.lineJoin = kCALineJoinRound
-                line.strokeColor = UIColor.clear.cgColor
-                line.fillColor = UIColor.clear.cgColor
-                line.lineWidth = i == 0 ? mainWaveWidth : decorativeWavesWidth
-                line.strokeColor = color.cgColor
-                
-                layer.addSublayer(line)
-                
-                waves.append(line)
-            }
-            
+            updateMeters(with: level)
         }
+    }
+    
+    
+    /// 使用回调，则只需要在回调中返回幅度值，而不需要直接设置; 但是需要调用func start() 启动displaylink
+    
+    open var updateWaveLevel: ( () -> Float )?
+    
+    open func start() -> Bool {
+        
+        guard let _ = updateWaveLevel, numberOfWaves > 0 else {
+            return false
+        }
+        
+        setupDisplayLink()
+        
+        return true
+    }
+    
+    
+    /// 尝试 func awakeFromNib() 自动调用
+    
+    open func prepareForWaving() {
+        guard numberOfWaves > 0 else {
+            return
+        }
+        for i in 0 ..< numberOfWaves {
+            
+            let progress = 1.0 - CGFloat(i) / CGFloat(numberOfWaves)
+            
+            let multiplier = min(1.0, (progress / 3.0 * 2.0) + (1.0 / 3.0))
+            
+            let color = waveColor.withAlphaComponent(i == 0 ? 1.0 : 1.0 * multiplier * 0.4)
+            
+            let line = CAShapeLayer()
+            line.lineCap = kCALineCapButt
+            line.lineJoin = kCALineJoinRound
+            line.strokeColor = UIColor.clear.cgColor
+            line.fillColor = UIColor.clear.cgColor
+            line.lineWidth = i == 0 ? mainWaveWidth : decorativeWavesWidth
+            line.strokeColor = color.cgColor
+            
+            layer.addSublayer(line)
+            
+            waves.append(line)
+        }
+    }
+    
+    fileprivate func setupDisplayLink() {
+        if let link = self.displayLink {
+            link.invalidate()
+        }
+        
+        displayLink = CADisplayLink(target: self, selector: #selector(WaveView.invokeWaveCallback))
+        displayLink.add(to: .current, forMode: .commonModes)
     }
     
     
@@ -88,7 +116,10 @@ open class WaveView: UIView {
     /// Called by displaylink
     @objc fileprivate func invokeWaveCallback() {
         
-        level = waveLevel?() ?? 0
+        level = updateWaveLevel?() ?? 0
+    }
+    
+    fileprivate func updateMeters(with level: Float) {
         
         phase += phaseShift
         
@@ -98,9 +129,11 @@ open class WaveView: UIView {
     }
     
     /// 绘制图形
-    func updateMeters() {
+    fileprivate func updateMeters() {
         
-        
+        guard numberOfWaves > 0 else {
+            return
+        }
         
         /// The begin
         
@@ -153,7 +186,15 @@ open class WaveView: UIView {
         UIGraphicsEndImageContext()
     }
 
+    open override func awakeFromNib() {
+        super.awakeFromNib()
+        
+        prepareForWaving()
+    }
+    
     deinit {
+        
+        print(self, #function)
         
         if let link = displayLink {
             link.invalidate()
