@@ -28,6 +28,7 @@ public struct LineConfig: Equatable {
     var isLabelsVisible: Bool = true
     var isArea: Bool = true
     var gridCount: CGFloat = 7
+    var color: [UIColor] = [UIColor.randomFlatColor] + UIColor.Flat.colors
 }
 
 /// 测量数据绘制图表的数据结构
@@ -98,7 +99,8 @@ public func ==(lhs: LineConfig, rhs: LineConfig) -> Bool {
     return lhs.gridCount == rhs.gridCount &&
         lhs.isLabelsVisible == rhs.isLabelsVisible &&
         lhs.isArea == rhs.isArea &&
-        lhs.isAnimatable == rhs.isAnimatable
+        lhs.isAnimatable == rhs.isAnimatable &&
+        lhs.color == rhs.color
 }
 
 

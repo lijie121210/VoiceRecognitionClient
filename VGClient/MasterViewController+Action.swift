@@ -10,72 +10,121 @@ import Foundation
 import UIKit
 
 
-///
-
-
-
-extension MasterViewController: UICollectionViewDelegate {
+extension MasterViewController: UICollectionViewDelegate, AccessoryCellDelegate {
+    
+    /// 点击了cell
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         
         collectionView.deselectItem(at: indexPath, animated: true)
         
-        guard collectionView == self.accessoryCollectionView else {
-            return
+        guard var accdatas = DataManager.default.fake_data[2] as? [AccessoryData] else { return }
+        
+        let i = indexPath.item
+        
+        var data = accdatas[i]
+        
+        ///
+        
+        guard data.type.isSingleActionTypes else { return }
+        
+        ///
+        
+        let orbit = OrbitAlertController.show(with: "正在执行...", on: self)
+        
+        if data.state == .opened {
+            data.state = .closed
+        } else {
+            data.state = .opened
         }
         
+        ///
         
-    }
-}
-
-
-
-
-///  点击了三联操作的某个按钮
-
-extension MasterViewController: MultiActionCellDelegate {
-    
-    func cell(_ cell: MultiActionCell, isTapped action: AccessoryAction) {
+        accdatas.replaceSubrange((i..<i+1), with: [data])
         
-        print(self, #function, action)
+        DataManager.default.fake_data.replaceSubrange((2..<3), with: [accdatas])
+        
+        ///
+        
+        update(collectionView: accessoryCollectionView, indexPaths: [indexPath], orbit: orbit)
+
     }
     
     
     
-}
-
-
-/// 点击图表上的点，显示一个提示框，1.0s后自动隐藏
-
-extension MasterViewController: LineChartDelegate {
+    ///  点击了三联操作的某个按钮
     
-    func didSelectDataPoint(_ x: CGFloat, yValues: [CGFloat]) {
-        
-        let offset = dataCurveCollectionView.contentOffset
-        let size = dataCurveCollectionView.frame.size
-        let point = CGPoint(x: offset.x + size.width * 0.5, y: offset.y + size.height * 0.5)
+    func cell(_ cell: AccessoryCell, isTapped action: AccessoryAction) {
         
         guard
-            let indexPath = dataCurveCollectionView.indexPathForItem(at: point),
-            let cell = dataCurveCollectionView.cellForItem(at: indexPath) as? DataCurveCell else {
+            let indexPath = accessoryCollectionView.indexPath(for: cell),
+            
+            var accdatas = DataManager.default.fake_data[2] as? [AccessoryData] else {
+            
                 return
         }
         
-        UIView.animate(withDuration: 0.5) {
-            
-            cell.popLabel.isHidden = false
-            cell.popLabel.text = "<x: \(x), y: \(yValues.map{ String(describing: $0) }.joined())>"
+        let i = indexPath.item
+        
+        var data = accdatas[i]
+        
+        ///
+        
+        guard !data.type.isSingleActionTypes else { return }
+        
+        ///
+        
+        let orbit = OrbitAlertController.show(with: "正在执行...", on: self)
+        
+        ///
+        
+        switch action {
+        case .close: data.state = .closed
+        case .stop: data.state = .stopped
+        case .open,.timing(_): data.state = .opened
         }
+        
+        accdatas.replaceSubrange((i..<i+1), with: [data])
+        
+        DataManager.default.fake_data.replaceSubrange((2..<3), with: [accdatas])
+        
+        ///
+        
+        update(collectionView: accessoryCollectionView, indexPaths: [indexPath], orbit: orbit)
+        
+        
+    }
+    
+    
+    fileprivate func update(collectionView: UICollectionView, indexPaths:[IndexPath], orbit: OrbitAlertController?, after: DispatchTime = .now() + 1.0) {
         
         DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
             
-            UIView.animate(withDuration: 0.5, animations: {
-                cell.popLabel.isHidden = true
-                cell.popLabel.text = nil
+            orbit?.update(prompt: "执行成功")
+            
+            DispatchQueue.main.asyncAfter(deadline: .now() + 1.0, execute: {
+                
+                orbit?.dismiss(animated: true, completion: nil)
             })
+            
+            ///
+            
+            DispatchQueue.main.asyncAfter(deadline: .now() + 1.5, execute: {
+                
+                collectionView.performBatchUpdates({ 
+                                        
+                    collectionView.reloadItems(at: indexPaths)
+
+                }, completion: nil)
+                
+            })
+            
         }
     }
+    
+    
 }
+
 
 
 /// 向上滚动隐藏user图标；向下显示

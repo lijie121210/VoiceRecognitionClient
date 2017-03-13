@@ -78,16 +78,21 @@ public extension AccessoryType {
     
     /// 这些设备的操作都是简单的 【 开 | 关 】
     
-    public var singleActionTypes:[AccessoryType] {
+    public static var singleActionTypes:[AccessoryType] {
         
         return [.ventilator, .warmingLamp, .fillLight]
     }
     
     /// 这些设备的操作则稍微复杂
     
-    public var multipleActionTypes: [AccessoryType] {
+    public static var multipleActionTypes: [AccessoryType] {
         
         return [.rollingMachine, .wateringPump]
+    }
+    
+    public var isSingleActionTypes: Bool {
+        
+        return AccessoryType.singleActionTypes.contains(self)
     }
 }
 
@@ -134,8 +139,6 @@ public struct AccessoryData {
     }
 }
 
-
-typealias AccessorySection = [AccessoryData]
 
 
 /// Returns a Boolean value indicating whether two values are equal.

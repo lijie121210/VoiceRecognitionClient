@@ -29,27 +29,41 @@ class DataCurveCell: UICollectionViewCell {
         canvasView.delegate = self
     }
     
-    func update(config: LineConfig) {
+    func update(data: MeasurementCurveData) {
+
+        
+        self.titleLabel.text = data.title
+        self.dateLabel.text = data.duration
+        self.unitLabel.text = "单位: " + data.type.unit.rawValue
+        
         
         /// 清除掉原来的图
-
+        
         canvasView.clearAll()
+        
         
         /// 绘制新的图形
         
-        canvasView.animation.enabled = config.isAnimatable
-        canvasView.area = config.isArea
-        canvasView.x.labels.visible = config.isLabelsVisible
-        canvasView.y.labels.visible = config.isLabelsVisible
-        canvasView.x.grid.count = config.gridCount
-        canvasView.y.grid.count = config.gridCount
+        canvasView.animation.enabled = data.config.isAnimatable
+        canvasView.area = data.config.isArea
+        canvasView.x.labels.visible = data.config.isLabelsVisible
+        canvasView.y.labels.visible = data.config.isLabelsVisible
+        canvasView.x.grid.count = data.config.gridCount
+        canvasView.y.grid.count = data.config.gridCount
         canvasView.x.axis.inset = 30
         canvasView.y.axis.inset = 30
+        canvasView.colors = data.config.color
+        canvasView.x.labels.values = data.xlabels
+        canvasView.addLine(data.datas)
         
     }
     
+    
 }
 
+
+
+/// 点击图表上的点，显示一个提示框，1.0s后自动隐藏
 
 extension DataCurveCell: LineChartDelegate {
     
@@ -69,4 +83,6 @@ extension DataCurveCell: LineChartDelegate {
             })
         }
     }
+    
+    
 }

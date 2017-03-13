@@ -25,18 +25,14 @@ class DataManager: NSObject {
 
     var fake_data: [Any] = []
 
-    func fake_accessoryData() -> [AccessorySection] {
+    func fake_accessoryData() -> [AccessoryData] {
 
         return [
-            [
-                AccessoryData(type: .rollingMachine, state: .opened),
-                AccessoryData(type: .wateringPump, state: .opened)
-            ],
-            [
-                AccessoryData(type: .fillLight, state: .opened),
-                AccessoryData(type: .warmingLamp, state: .opened),
-                AccessoryData(type: .ventilator, state: .opened)
-            ]
+            AccessoryData(type: .rollingMachine, state: .opened),
+            AccessoryData(type: .wateringPump, state: .opened),
+            AccessoryData(type: .fillLight, state: .opened),
+            AccessoryData(type: .warmingLamp, state: .closed),
+            AccessoryData(type: .ventilator, state: .opened)
         ]
     }
 

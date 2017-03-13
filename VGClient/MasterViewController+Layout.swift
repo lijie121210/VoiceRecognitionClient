@@ -13,60 +13,74 @@ extension MasterViewController: UICollectionViewDelegateFlowLayout {
     
     /// 计算布局信息
     
-    func layout(for view: UICollectionView, on section: Int = 0) -> UICollectionViewFlowLayout {
+    
+    /// 几个地方用到这些同样的值
+
+    fileprivate var inset: CGFloat {
+        return 20.0
+    }
+    
+    func layout(for view: UICollectionView, on section: Int = 0, indexPath: IndexPath? = nil) -> UICollectionViewFlowLayout {
         
-        /// 几个地方用到这些同样的值
-        let inset: CGFloat = 20.0
-        let w = view.frame.size.width - inset * 3
+        /// dataCurveCollectionView使用的是 UICollectionViewFlowLayout 的子类
         
         let flow = UICollectionViewFlowLayout()
         
         /// 没有头尾视图
+        
         flow.headerReferenceSize = CGSize.zero
         flow.footerReferenceSize = CGSize.zero
         
-        /// 除了accessoryCollectionView，其他都是水平单行
-        flow.minimumInteritemSpacing = 0.0
-        
         flow.sectionInset = UIEdgeInsets(top: 0, left: inset, bottom: 0, right: inset)
-        flow.minimumLineSpacing = inset
         
-        switch (view, section) {
-        
-        case (self.accessoryCollectionView, 0):
-            
-            flow.itemSize = CGSize(width: w - view.contentOffset.x * 2 - 8, height: 100)
-            
-            /// 单列，多行
-            flow.sectionInset = UIEdgeInsets(top: inset, left: inset, bottom: 0.0, right: inset)
+        flow.minimumInteritemSpacing = 0.0
 
-            flow.minimumInteritemSpacing = 10.0
+        switch view {
             
-        case (self.accessoryCollectionView, 1):
-            
-            /// 两列，多行
-
-            flow.itemSize = CGSize(width: (w - inset) * 0.5 - 2, height: 140)
-            
-            /// 距离底部增大，防止按钮挡住
-            flow.sectionInset = UIEdgeInsets(top: inset, left: inset, bottom: inset * 4, right: inset)
-
-            flow.minimumInteritemSpacing = 10.0
-            
-        case (self.dataCurveCollectionView, 0):
-            
-            /// dataCurveCollectionView使用的是 UICollectionViewFlowLayout 的子类
-            
-            flow.itemSize = CGSize(width: w, height: 260)
-            
-            /// 使得每个图标居中，且两边的能露出来一点
-            flow.minimumLineSpacing = 10.0
-            
-        case (self.monitoringInfoCollectionView, 0):
+        case self.monitoringInfoCollectionView:
             
             flow.itemSize = CGSize(width: 240, height: 120)
             
+            /// 调整垂直滚动的行间距，水平滚动的列间距；
+            flow.minimumLineSpacing = inset
+            
+        case self.dataCurveCollectionView:
+            
+            flow.itemSize = CGSize(width: view.frame.width - inset * 2 - 10.0, height: 260)
+            
+            /// 使得每个图标居中，且两边的能露出来一点
+            flow.minimumLineSpacing = inset * 0.5
+            
+        case self.accessoryCollectionView:
+            
+            /// 距离底部增大，防止按钮挡住
+            flow.sectionInset = UIEdgeInsets(top: inset, left: inset, bottom: 0, right: inset)
+            
+            flow.minimumLineSpacing = inset
+            
+            guard
+                let indexPath = indexPath,
+                
+                let accdatas = DataManager.default.fake_data[2] as? [AccessoryData] else {
+                    
+                    break
+            }
+            
+            let data = accdatas[indexPath.item]
+            
+            let w = (view.frame.width - inset * 3) / 2.0 - 1
+            
+            if data.type.isSingleActionTypes {
+                
+                flow.itemSize = CGSize(width: w, height: 130)
+                
+            } else {
+                
+                flow.itemSize = CGSize(width: w, height: 170)
+            }
+            
         default:
+            
             print(self, #function, "Maybe Error!")
             break
         }
@@ -78,7 +92,7 @@ extension MasterViewController: UICollectionViewDelegateFlowLayout {
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         
-        return layout(for: collectionView, on: indexPath.section).itemSize
+        return layout(for: collectionView, on: indexPath.section, indexPath: indexPath).itemSize
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {
@@ -111,7 +125,7 @@ extension MasterViewController: UICollectionViewDelegateFlowLayout {
 /// 这个自定义的UICollectionViewFlowLayout子类，能使cell滚动停止时居中显示；
 /// accessoryCollectionView 使用了这个布局，在storyboard中设置的。
 
-@IBDesignable class CenterFlowLayout: UICollectionViewFlowLayout {
+class CenterFlowLayout: UICollectionViewFlowLayout {
     
     var horizontalSnapStep: CGFloat {
         return itemSize.width + minimumLineSpacing
@@ -137,10 +151,13 @@ extension MasterViewController: UICollectionViewDelegateFlowLayout {
         return minVerticalOffset + self.collectionView!.contentSize.height - itemSize.height
     }
     
-    override func prepare() {
-        super.prepare()
+    var isHorizontal: Bool = true
+    
+    override func awakeFromNib() {
+        super.awakeFromNib()
+    
+        self.scrollDirection = isHorizontal ? .horizontal : .vertical
         
-        self.scrollDirection = .horizontal
     }
     
     func collectionView(_ c: UICollectionView, horizontalTargetOffset proposedOffset: CGPoint, withVelocity velocity: CGPoint) -> CGPoint {

@@ -58,6 +58,9 @@ class MasterViewController: UIViewController {
     @IBOutlet weak var dataCurveCollectionView: UICollectionView!
     
     /// 附件操作与显示
+    
+    @IBOutlet weak var view3: UIView!
+    
     @IBOutlet weak var accessoryViewHeightConstraint: NSLayoutConstraint!
     
     @IBOutlet weak var accessoryLabel: UILabel!
@@ -117,7 +120,7 @@ class MasterViewController: UIViewController {
         
         
         /// 去掉注释可以使得设备的集合视图完全显示，而不会滚动。
-        accessoryViewHeightConstraint.constant = accessoryCollectionView.contentSize.height + 100.0
+        accessoryViewHeightConstraint.constant = accessoryCollectionView.contentSize.height + 150.0
         
         scrollView.layoutIfNeeded()
         
