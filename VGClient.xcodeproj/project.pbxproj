@@ -245,9 +245,11 @@
 		183856101E5D4FA90094C811 /* View layer */ = {
 			isa = PBXGroup;
 			children = (
-				1880FF4C1E728D82000A0D1C /* Custom View */,
+				185500441E5AAE2200DADEF7 /* Master.storyboard */,
 				185500401E5A888A00DADEF7 /* DashboardViewController.swift */,
+				1855003E1E5A886200DADEF7 /* RecordListViewController.swift */,
 				185500421E5A895E00DADEF7 /* AuthorityViewController.swift */,
+				1880FF4C1E728D82000A0D1C /* Custom View */,
 				18381A561E76EC2000AE8D98 /* Alternate Layout */,
 				180B3BB41E73946300E13309 /* Cell View */,
 				1880FF481E724513000A0D1C /* Listen View */,
@@ -265,8 +267,6 @@
 				18381A451E76593000AE8D98 /* MasterViewController+DataSource.swift */,
 				18206BBE1E72E5AF00E70E9A /* MasterViewController+Layout.swift */,
 				18381A471E76597300AE8D98 /* MasterViewController+Action.swift */,
-				1855003E1E5A886200DADEF7 /* RecordListViewController.swift */,
-				185500441E5AAE2200DADEF7 /* Master.storyboard */,
 			);
 			name = Controller;
 			sourceTree = "<group>";

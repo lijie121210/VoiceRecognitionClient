@@ -35,17 +35,6 @@
                                     <constraint firstAttribute="height" constant="2" id="sDT-oN-8PI"/>
                                 </constraints>
                             </view>
-                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="bW9-nZ-32e" customClass="ArrowControl" customModule="VGClient" customModuleProvider="target">
-                                <rect key="frame" x="147" y="599" width="80" height="60"/>
-                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                                <constraints>
-                                    <constraint firstAttribute="width" constant="80" id="BnT-Mh-sR9"/>
-                                    <constraint firstAttribute="height" constant="60" id="Gde-ho-ejm"/>
-                                </constraints>
-                                <connections>
-                                    <action selector="close" destination="8E5-fZ-dAY" eventType="touchUpInside" id="RZm-28-dxu"/>
-                                </connections>
-                            </view>
                             <view tag="2" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="h6U-Pe-CHh" customClass="WaveView" customModule="VGClient" customModuleProvider="target">
                                 <rect key="frame" x="116" y="283" width="143" height="100"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -79,6 +68,58 @@
                                     </userDefinedRuntimeAttribute>
                                 </userDefinedRuntimeAttributes>
                             </view>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="nRU-eB-5nR" customClass="HookControl" customModule="VGClient" customModuleProvider="target">
+                                <rect key="frame" x="196" y="599" width="80" height="60"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="60" id="S7y-Eq-Nky"/>
+                                    <constraint firstAttribute="width" constant="80" id="iUM-YG-95j"/>
+                                </constraints>
+                                <userDefinedRuntimeAttributes>
+                                    <userDefinedRuntimeAttribute type="number" keyPath="radius">
+                                        <real key="value" value="18"/>
+                                    </userDefinedRuntimeAttribute>
+                                    <userDefinedRuntimeAttribute type="boolean" keyPath="isShadow" value="YES"/>
+                                    <userDefinedRuntimeAttribute type="color" keyPath="strokeColor">
+                                        <color key="value" red="0.0" green="0.50196081400000003" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                    </userDefinedRuntimeAttribute>
+                                    <userDefinedRuntimeAttribute type="color" keyPath="shadowColor">
+                                        <color key="value" red="0.0" green="0.50196081400000003" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                    </userDefinedRuntimeAttribute>
+                                </userDefinedRuntimeAttributes>
+                                <connections>
+                                    <action selector="done:" destination="8E5-fZ-dAY" eventType="touchUpInside" id="EK0-W5-hjD"/>
+                                </connections>
+                            </view>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="bW9-nZ-32e" customClass="XControl" customModule="VGClient" customModuleProvider="target">
+                                <rect key="frame" x="98" y="599" width="80" height="60"/>
+                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="80" id="BnT-Mh-sR9"/>
+                                    <constraint firstAttribute="height" constant="60" id="Gde-ho-ejm"/>
+                                </constraints>
+                                <userDefinedRuntimeAttributes>
+                                    <userDefinedRuntimeAttribute type="color" keyPath="strokeColor">
+                                        <color key="value" red="1" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                    </userDefinedRuntimeAttribute>
+                                    <userDefinedRuntimeAttribute type="color" keyPath="fillColor">
+                                        <color key="value" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                    </userDefinedRuntimeAttribute>
+                                    <userDefinedRuntimeAttribute type="boolean" keyPath="isShadow" value="YES"/>
+                                    <userDefinedRuntimeAttribute type="number" keyPath="radius">
+                                        <real key="value" value="18"/>
+                                    </userDefinedRuntimeAttribute>
+                                    <userDefinedRuntimeAttribute type="number" keyPath="offset">
+                                        <real key="value" value="10"/>
+                                    </userDefinedRuntimeAttribute>
+                                    <userDefinedRuntimeAttribute type="color" keyPath="shadowColor">
+                                        <color key="value" red="1" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                    </userDefinedRuntimeAttribute>
+                                </userDefinedRuntimeAttributes>
+                                <connections>
+                                    <action selector="close:" destination="8E5-fZ-dAY" eventType="touchUpInside" id="F1u-Vp-CvK"/>
+                                </connections>
+                            </view>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
@@ -91,14 +132,16 @@
                             <constraint firstItem="h6U-Pe-CHh" firstAttribute="centerY" secondItem="bzd-PH-LfU" secondAttribute="centerY" id="Pc6-U5-fDF"/>
                             <constraint firstItem="GEg-OX-gw7" firstAttribute="top" secondItem="bW9-nZ-32e" secondAttribute="bottom" constant="8" id="Sz4-CE-bWL"/>
                             <constraint firstItem="pyu-0w-Jbd" firstAttribute="centerY" secondItem="bzd-PH-LfU" secondAttribute="centerY" id="X7H-Pi-cHf"/>
+                            <constraint firstItem="rrt-qo-wBp" firstAttribute="leading" secondItem="bW9-nZ-32e" secondAttribute="trailing" constant="8" id="edp-qg-q8A"/>
                             <constraint firstItem="yMi-Tb-zFB" firstAttribute="height" secondItem="h6U-Pe-CHh" secondAttribute="height" id="fMb-3N-CKT"/>
                             <constraint firstItem="yMi-Tb-zFB" firstAttribute="leading" secondItem="bzd-PH-LfU" secondAttribute="leadingMargin" id="gMm-zP-dLW"/>
+                            <constraint firstItem="nRU-eB-5nR" firstAttribute="leading" secondItem="rrt-qo-wBp" secondAttribute="trailing" constant="8" id="iFY-00-RpN"/>
                             <constraint firstItem="pyu-0w-Jbd" firstAttribute="height" secondItem="h6U-Pe-CHh" secondAttribute="height" id="jH5-0z-rxV"/>
-                            <constraint firstItem="bW9-nZ-32e" firstAttribute="centerX" secondItem="bzd-PH-LfU" secondAttribute="centerX" id="jy2-wI-gqE"/>
                             <constraint firstItem="rrt-qo-wBp" firstAttribute="centerY" secondItem="bzd-PH-LfU" secondAttribute="centerY" id="kue-Ov-OaD"/>
                             <constraint firstItem="yMi-Tb-zFB" firstAttribute="centerY" secondItem="bzd-PH-LfU" secondAttribute="centerY" id="nOs-eE-8OL"/>
                             <constraint firstItem="h6U-Pe-CHh" firstAttribute="top" secondItem="nHV-9N-sCE" secondAttribute="bottom" constant="20" id="qJc-e3-JHv"/>
                             <constraint firstItem="pyu-0w-Jbd" firstAttribute="leading" secondItem="h6U-Pe-CHh" secondAttribute="trailing" id="tI9-Mw-UnK"/>
+                            <constraint firstItem="GEg-OX-gw7" firstAttribute="top" secondItem="nRU-eB-5nR" secondAttribute="bottom" constant="8" id="xv2-rO-zhp"/>
                         </constraints>
                     </view>
                     <connections>

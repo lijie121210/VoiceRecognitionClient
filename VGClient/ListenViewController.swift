@@ -57,18 +57,6 @@ class ListenViewController: UIViewController {
         
     }
     
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        
-    }
-    
-    /// 关闭
-    
-    @IBAction func close() {
-        
-        dismiss(animated: true, completion: nil)
-    }
-    
     /// 监听事件
     
     override func observeValue(forKeyPath keyPath: String?, of object: Any?, change: [NSKeyValueChangeKey : Any]?, context: UnsafeMutableRawPointer?) {
@@ -86,6 +74,28 @@ class ListenViewController: UIViewController {
         }
         
         super.observeValue(forKeyPath: keyPath, of: object, change: change, context: context)
+    }
+    
+    
+    /// 关闭
+    
+    @IBAction func done(_ sender: Any) {
+        
+        defer {
+            dismiss(animated: true, completion: nil)
+        }
+        
+        
+        
+    }
+    @IBAction func close(_ sender: Any) {
+        
+        defer {
+            dismiss(animated: true, completion: nil)
+        }
+        
+        
+        
     }
     
 }

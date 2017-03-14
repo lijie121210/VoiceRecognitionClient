@@ -838,21 +838,21 @@
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
                                         <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="begin" translatesAutoresizingMaskIntoConstraints="NO" id="2Fa-tD-ZTs">
-                                            <rect key="frame" x="373" y="8" width="14" height="14"/>
+                                            <rect key="frame" x="196" y="8" width="14" height="14"/>
                                             <constraints>
                                                 <constraint firstAttribute="height" constant="14" id="1QD-uT-ECf"/>
                                                 <constraint firstAttribute="width" secondItem="2Fa-tD-ZTs" secondAttribute="height" multiplier="1:1" id="xvG-TJ-gm3"/>
                                             </constraints>
                                         </imageView>
                                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="QAV-Qa-Lzs">
-                                            <rect key="frame" x="48" y="15" width="309" height="1"/>
+                                            <rect key="frame" x="48" y="15" width="132" height="1"/>
                                             <color key="backgroundColor" red="0.90196079019999997" green="0.90196079019999997" blue="0.90196079019999997" alpha="1" colorSpace="calibratedRGB"/>
                                             <constraints>
                                                 <constraint firstAttribute="height" constant="1" id="jQS-mb-pOd"/>
                                             </constraints>
                                         </view>
                                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="5SL-Qw-s5j">
-                                            <rect key="frame" x="403" y="15" width="309" height="1"/>
+                                            <rect key="frame" x="226" y="15" width="132" height="1"/>
                                             <color key="backgroundColor" red="0.90196079019999997" green="0.90196079019999997" blue="0.90196079019999997" alpha="1" colorSpace="calibratedRGB"/>
                                             <constraints>
                                                 <constraint firstAttribute="height" constant="1" id="iNs-S5-fSJ"/>
