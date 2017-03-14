@@ -19,11 +19,19 @@ class DataManager: NSObject {
         fake_data = [fake_measurementData(), fake_charData(), fake_accessoryData()]
     }
     
+    ///
+    
+    var fake_data: [Any] = []
+
+    var accessoryDatas: [AccessoryData] = []
+    
+    var measurementCurveDatas: [MeasurementCurveData] = []
+    
+    var measurementDatas: [MeasurementData] = []
     
 
     ///
 
-    var fake_data: [Any] = []
 
     func fake_accessoryData() -> [AccessoryData] {
 
@@ -133,21 +141,6 @@ class DataManager: NSObject {
     
     var record: AudioOperator?
     
-    dynamic var averagePower: Float = 0
-//    {
-//        didSet {
-//            didChangeValue(forKey: #keyPath(DataManager.averagePower))
-//        }
-//    }
-    
-    dynamic var timeInterval: TimeInterval = 0
-//    {
-//        didSet {
-//            didChangeValue(forKey: #keyPath(DataManager.timeInterval))
-//        }
-//    }
-    
-    
     var isRecording: Bool {
         
         if let rec = record, rec.isRecording {
@@ -156,6 +149,15 @@ class DataManager: NSObject {
         
         return false
     }
+    
+    
+    /// KVO Monitor
+    
+    dynamic var averagePower: Float = 0
+    
+    dynamic var timeInterval: TimeInterval = 0
+    
+    
     
     func startRecord(averagePowerReport: ((AudioOperator, Float) -> ())? = nil,
                      timeIntervalReport: ((AudioOperator, TimeInterval) -> ())? = nil,
@@ -192,7 +194,9 @@ class DataManager: NSObject {
             print(self, #function, error?.localizedDescription ?? "unknown record error")
         })
         
-        let name = "\(Date.currentName).wav"
+//        let name = "\(Date.currentName).wav"
+        
+        let name = "listen.wav"
         
         let localURL = FileManager.dataURL(with: name)
         

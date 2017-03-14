@@ -9,12 +9,17 @@
 import UIKit
 import CocoaAsyncSocket
 
+
+
 public func ==(lhs: SerializedData, rhs: SerializedData) -> Bool {
     return lhs.json == rhs.json && lhs.type == rhs.type && lhs.size == rhs.size && lhs.data == rhs.data
 }
+
 public func ==(lhs: Response, rhs: Response) -> Bool {
     return lhs.data == rhs.data && lhs.json == rhs.json && lhs.message == rhs.message && lhs.state == rhs.state
 }
+
+
 
 public struct SerializedData: Equatable {
     
@@ -77,6 +82,10 @@ public struct SerializedData: Equatable {
 }
 
 
+
+
+
+
 public struct Response: Equatable {
     
     struct Key {
@@ -112,6 +121,11 @@ public struct Response: Equatable {
         self.message = message
     }
 }
+
+
+
+
+
 
 public typealias AudioClientCompletionHandler = () -> ()
 public typealias AudioClientProgressHandler = (Float) -> ()
