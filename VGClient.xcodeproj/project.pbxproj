@@ -57,6 +57,7 @@
 		18D27B491E6D727800488F80 /* OrbitView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18D27B481E6D727800488F80 /* OrbitView.swift */; };
 		63C1FC1BD26B63E7F768193B /* Pods_VGClient.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C662A5A8E0CDADBF09F6851F /* Pods_VGClient.framework */; };
 		662A97DBF4DDE4773C71FEA2 /* Pods_VGClientTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D43BB5E3486CDFD5E6648240 /* Pods_VGClientTests.framework */; };
+		C801F50B1E7D22B000093B80 /* PaddingFlowLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = C801F50A1E7D22B000093B80 /* PaddingFlowLayout.swift */; };
 		DFE65B3F591F8C82B32C7D1E /* Pods_VGClientUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0C865D15E6268636F6CE4685 /* Pods_VGClientUITests.framework */; };
 /* End PBXBuildFile section */
 
@@ -138,6 +139,7 @@
 		8B6B9DBE1A784B330C39EA60 /* Pods-VGClient.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-VGClient.release.xcconfig"; path = "Pods/Target Support Files/Pods-VGClient/Pods-VGClient.release.xcconfig"; sourceTree = "<group>"; };
 		BA53FF96E1403A27DFC055AC /* Pods-VGClient.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-VGClient.debug.xcconfig"; path = "Pods/Target Support Files/Pods-VGClient/Pods-VGClient.debug.xcconfig"; sourceTree = "<group>"; };
 		C662A5A8E0CDADBF09F6851F /* Pods_VGClient.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_VGClient.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		C801F50A1E7D22B000093B80 /* PaddingFlowLayout.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PaddingFlowLayout.swift; sourceTree = "<group>"; };
 		D43BB5E3486CDFD5E6648240 /* Pods_VGClientTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_VGClientTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		D6C8F8EBFC6E0E7ADE944584 /* Pods-VGClientTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-VGClientTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-VGClientTests/Pods-VGClientTests.debug.xcconfig"; sourceTree = "<group>"; };
 		ED1FA2163159E2B510EE053A /* Pods-VGClientUITests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-VGClientUITests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-VGClientUITests/Pods-VGClientUITests.debug.xcconfig"; sourceTree = "<group>"; };
@@ -220,8 +222,9 @@
 		18381A561E76EC2000AE8D98 /* Alternate Layout */ = {
 			isa = PBXGroup;
 			children = (
-				18381A521E76E74500AE8D98 /* CenterFlowLayout.swift */,
 				18381A541E76E85200AE8D98 /* AlternateLayout.swift */,
+				18381A521E76E74500AE8D98 /* CenterFlowLayout.swift */,
+				C801F50A1E7D22B000093B80 /* PaddingFlowLayout.swift */,
 			);
 			name = "Alternate Layout";
 			sourceTree = "<group>";
@@ -709,6 +712,7 @@
 				189418BE1E5159AF00207358 /* CoreDataManager.swift in Sources */,
 				18D27B471E6D45B200488F80 /* AudioDefaultValue.swift in Sources */,
 				18381A531E76E74500AE8D98 /* CenterFlowLayout.swift in Sources */,
+				C801F50B1E7D22B000093B80 /* PaddingFlowLayout.swift in Sources */,
 				189418891E4EDEB000207358 /* AppDelegate.swift in Sources */,
 				180B3BBF1E73F92800E13309 /* DataManager.swift in Sources */,
 				18D1CAEC1E5C29F30029A6F9 /* AudioDataSource.swift in Sources */,

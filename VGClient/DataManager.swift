@@ -202,6 +202,12 @@ class DataManager: NSObject {
         
         let start = self.record!.startRecording(filename: name, storageURL: localURL)
         
+        guard start else {
+            return false
+        }
+        
+        NotificationCenter.default.post(name: .recordbegin, object: nil)
+        
         return start
     }
     

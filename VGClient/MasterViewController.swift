@@ -124,14 +124,17 @@ class MasterViewController: UIViewController {
         
         ///
         
-        if DataManager.default.isRecording {
-            
-            listeningButton.pulsing()
-            
-        } else {
-            
-            listeningButton.removePulsing()
-        }
+        
+        
+        /// 接受开始录音的通知
+        NotificationCenter.default.addObserver(self, selector: #selector(recordDidBegin), name: .recordbegin, object: nil)
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        
+        /// 移除接受通知
+        NotificationCenter.default.removeObserver(self, name: .recordbegin, object: nil)
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
@@ -191,6 +194,22 @@ class MasterViewController: UIViewController {
         }
         
         dataSource.loadLocalData(completion: loadData)
+    }
+    
+    
+    /// 开始录音时广播通知的回调函数
+    /// 之所以使用通知是因为，一旦应用进入一次后台，再打开，波纹效果就不见了，只能每次都添加。
+    @objc fileprivate func recordDidBegin() {
+        
+        if DataManager.default.isRecording {
+            
+            listeningButton.pulsing()
+            
+        } else {
+            
+            listeningButton.removePulsing()
+        }
+
     }
     
 }

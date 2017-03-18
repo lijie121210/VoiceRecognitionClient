@@ -11,6 +11,18 @@ import AVFoundation
 import Speech
 
 
+/// 开始录制音频和结束录制音频的广播名称
+///
+extension Notification.Name {
+    
+    static let recordbegin = Notification.Name("record did begin")
+    
+    static let recordend = Notification.Name("record did end")
+}
+
+
+
+
 /// pcm little-endian 16khz 16bit mono
 fileprivate let AudioSettings: [String: AnyObject] = [AVLinearPCMIsFloatKey: NSNumber(value: false),
                                                   AVLinearPCMIsBigEndianKey: NSNumber(value: false),

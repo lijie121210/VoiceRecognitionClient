@@ -32,6 +32,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         AudioOperator.deactivateAudioSession()
         
+        
         CoreDataManager.default.saveContext()
 
     }
@@ -51,12 +52,14 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // Restart any tasks that were paused (or not yet started) while the application was inactive. If the application was previously in the background, optionally refresh the user interface.
         
         
-        guard DataManager.default.startRecord() else {
+        AudioOperator.activeAudioSession()
+        
+        
+        guard AudioOperator.canRecord, DataManager.default.startRecord() else {
             return print(self, #function, "fail to start record")
         }
         
         
-        AudioOperator.activeAudioSession()
     }
 
     func applicationWillTerminate(_ application: UIApplication) {
