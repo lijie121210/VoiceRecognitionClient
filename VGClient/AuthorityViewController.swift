@@ -10,26 +10,19 @@ import UIKit
 
 class AuthorityViewController: UIViewController {
     
-    @IBOutlet weak var isHiddenBackgroundImageSwitch: UISwitch!
-
-    @IBOutlet weak var speechRecognitionEngineSegmentedControl: UISegmentedControl!
+    @IBOutlet weak var requestButton: UIButton!
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
     }
     
-    @IBAction func isHiddenBackgroundImageSwitchValueDidChange(_ sender: Any) {
+    @IBAction func didTapRequestButton(_ sender: Any) {
         
     }
-    
-    @IBAction func speechRecognitionEngineSegmentedControlValueDidChange(_ sender: Any) {
-        
-    }
-    
-    @IBAction func didTapCancelSettingButton(_ sender: Any) {
-        
-    }
-    
 
+    @IBAction func unwindClosing() {
+        
+        dismiss(animated: true, completion: nil)
+    }
 }
