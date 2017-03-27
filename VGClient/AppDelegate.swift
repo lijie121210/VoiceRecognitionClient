@@ -28,9 +28,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // Use this method to pause ongoing tasks, disable timers, and invalidate graphics rendering callbacks. Games should use this method to pause the game.
         
         DataManager.default.cancelRecording()
-        
-        
-        AudioOperator.deactivateAudioSession()
+//        
+//        
+//        AudioOperator.deactivateAudioSession()
         
         
         CoreDataManager.default.saveContext()
@@ -52,12 +52,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // Restart any tasks that were paused (or not yet started) while the application was inactive. If the application was previously in the background, optionally refresh the user interface.
         
         
-        AudioOperator.activeAudioSession()
+//        AudioOperator.activeAudioSession()
         
         
-        guard AudioOperator.canRecord, DataManager.default.startRecord() else {
-            return print(self, #function, "fail to start record")
-        }
+//        guard AudioOperator.canRecord, DataManager.default.startRecord() else {
+//            return print(self, #function, "fail to start record")
+//        }
         
         
     }

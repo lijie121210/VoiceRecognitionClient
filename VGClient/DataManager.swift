@@ -7,7 +7,7 @@
 //
 
 import UIKit
-
+import Foundation
 
 class DataManager: NSObject {
 

@@ -9,30 +9,9 @@
 import UIKit
 import PulsingHalo
 
-
-/// Add MasterViewController as parent
-/// self.parent is the containing view controller, and will be set a value after didMove(_:) method called.
-extension RecordListViewController {
-    var masterParent: MasterViewController? {
-        return parent as? MasterViewController
-    }
-}
-
-
-extension DashboardViewController {
-    var masterParent: MasterViewController? {
-        return parent as? MasterViewController
-    }
-}
-
-
-/// Controller
+/// Main controller
 ///
 class MasterViewController: UIViewController {
-    
-    @IBOutlet weak var dashboardContainer: UIView!
-    
-    @IBOutlet weak var dashboardTopConstraint: NSLayoutConstraint!
     
     /// 背景图片
     @IBOutlet weak var backgroundImageView: UIImageView!
@@ -41,13 +20,14 @@ class MasterViewController: UIViewController {
     @IBOutlet weak var userButtonContainer: RectCornerView!
     @IBOutlet weak var userButton: UIButton!
     
+    
     /// 表示正在聆听的按钮
     @IBOutlet weak var listeningButton: PulsingHaloButton!
     
     /// 主滚动视图
     @IBOutlet weak var scrollView: UIScrollView!
     
-    //／ 监测数据显示
+    /// 监测数据显示
     @IBOutlet weak var monitoringInfoLabel: UILabel!
     
     @IBOutlet weak var monitoringInfoCollectionView: UICollectionView!
@@ -83,16 +63,18 @@ class MasterViewController: UIViewController {
         super.viewDidLoad()
         
         /// 一定要在layout之前设置代理；坑！
+        ///
+        /// 用于计算每个cell的高度.
         if let layout = accessoryCollectionView.collectionViewLayout as? AlternateLayout {
             layout.delegate = self
         }
         
-        
-        /// setup original layout
-        resetLayout()
-        
         /// setup background image base on user settting
         updateViewFromSettings()
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
         
         
     }
@@ -100,34 +82,14 @@ class MasterViewController: UIViewController {
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         
-        /// permission
-        requestPermission()
-        
-        
-        if AudioOperator.canRecord {
-            showDashboard()
-        }
-        
-        /// get existed local data
-        
-        fetchData()
-        
-        /// start networking connection
-        
-        clientSocket.connect()
-        
-        
-        /// 去掉注释可以使得设备的集合视图完全显示，而不会滚动。
-        accessoryViewHeightConstraint.constant = accessoryCollectionView.contentSize.height + 150.0
-        
-        scrollView.layoutIfNeeded()
-        
-        ///
-        
-        
-        
-        /// 接受开始录音的通知
-        NotificationCenter.default.addObserver(self, selector: #selector(recordDidBegin), name: .recordbegin, object: nil)
+        /// 如果没登录，显示登录界面
+//        if let user = UserManager.default.currentUser {
+//            
+//            viewDidAppear(withUser: user)
+//        } else {
+//
+//            viewDidAppearUnloggedin()
+//        }
     }
     
     override func viewWillDisappear(_ animated: Bool) {
@@ -164,14 +126,55 @@ class MasterViewController: UIViewController {
         
     }
     
+    /// 用户未登录
+    fileprivate func viewDidAppearUnloggedin() {
+        
+        /// 获取登录页面
+        guard let login = UIStoryboard.init(name: "Login", bundle: nil).instantiateInitialViewController() else {
+            return print(self, "#function", "no Login storyboard in bundle")
+        }
+        
+        show(login, sender: nil)
+    }
+    
+    /// 用户已经登录了
+    fileprivate func viewDidAppear(withUser user: VGUser) {
+        
+        /// permission
+        requestPermission()
+        
+        
+        /// get existed local data
+        
+        fetchData()
+        
+        /// start networking connection
+        
+        clientSocket.connect()
+        
+        
+        /// 去掉注释可以使得设备的集合视图完全显示，而不会滚动。
+        expandScrollViewHeight()
+        
+        ///
+        
+        
+        
+        /// 接受开始录音的通知
+        NotificationCenter.default.addObserver(self, selector: #selector(recordDidBegin), name: .recordbegin, object: nil)
+        
+    }
+    
+    
     func requestPermission() {
+        
         AudioOperator.requestAudioSessionAuthorization { permission in
             
             guard permission else {
                 return
             }
             
-            DispatchQueue.main.async(execute: self.showDashboard)
+            //
             
             guard #available(iOS 10.0, *) else {
                 return
@@ -237,11 +240,6 @@ extension MasterViewController {
     fileprivate var recordList: RecordListViewController? {
         
         return childViewControllers.filter { $0 is RecordListViewController }.first as? RecordListViewController
-    }
-    
-    fileprivate var dashboard: DashboardViewController? {
-        
-        return childViewControllers.filter { $0 is DashboardViewController }.first as? DashboardViewController
     }
     
     fileprivate var authority: AuthorityViewController? {
@@ -325,16 +323,12 @@ extension MasterViewController {
             return false
         }
         
-        showDashboardFully()
-        
         recordDidStart()
         
         return true
     }
     
     func attemptToCancelRecording() {
-        
-        showDashboard()
         
         /// trigger no delegate and block
         audioOperator.cancelRecord()
@@ -344,16 +338,12 @@ extension MasterViewController {
     
     func attemptToStopRecording() {
         
-        showDashboard()
-        
         /// The next operation should handle in completion handler.
         audioOperator.stopRecording()
     }
     
     /// this method will try to send current data of data source.
     func attemptToSendRecord() {
-        
-        showDashboard()
         
         if audioOperator.isRecording {
             
@@ -392,7 +382,7 @@ extension MasterViewController {
             
         }, timeIntervalReport: { (_, time) in
             
-            self.dashboard?.update(consoleTimeLabel: time)
+            //
             
         }, completionHandler: { (_, _, data) in
             
@@ -404,7 +394,7 @@ extension MasterViewController {
             
         }, failureHandler: { (_, error) in
             
-            self.showDashboard()
+            //
             
             self.recordDidEnd()
             
@@ -567,50 +557,6 @@ extension MasterViewController: SettingViewControllerDelegate {
         
         backgroundImageView.isHidden = isHidden
         
-    }
-}
-
-
-
-/// Adjustment of layouts
-extension MasterViewController {
-    
-    struct Constants {
-        
-        static let show_dashboard: CGFloat = 120
-        static let show_dashboard_fully: CGFloat = 280
-        static let hide_dashboard_fully: CGFloat = 0
-    }
-    
-    fileprivate func resetLayout() {
-        
-        dashboardTopConstraint.constant = Constants.hide_dashboard_fully
-
-        view.layoutIfNeeded()
-    }
-    
-    fileprivate func showDashboard() {
-        
-        UIView.animate(withDuration: 0.25) {
-            self.dashboardTopConstraint.constant = Constants.show_dashboard
-            self.view.layoutIfNeeded()
-        }
-    }
-    
-    fileprivate func showDashboardFully() {
-        
-        UIView.animate(withDuration: 0.25) {
-            self.dashboardTopConstraint.constant = Constants.show_dashboard_fully
-            self.view.layoutIfNeeded()
-        }
-    }
-    
-    fileprivate func hideDashboardFully() {
-        
-        UIView.animate(withDuration: 0.25) {
-            self.dashboardTopConstraint.constant = Constants.hide_dashboard_fully
-            self.view.layoutIfNeeded()
-        }
     }
 }
 

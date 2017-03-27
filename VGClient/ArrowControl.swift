@@ -16,7 +16,7 @@ import UIKit
 /// - Parameters:
 ///   - lhs: A value to compare.
 ///   - rhs: Another value to compare.
-public func ==(lhs: XLine.Line, rhs: XLine.Line) -> Bool {
+public func ==(lhs: VGLine, rhs: VGLine) -> Bool {
     return lhs.p2 == rhs.p2 && lhs.p1 == rhs.p1
 }
 
@@ -87,6 +87,7 @@ public func ==(lhs: ArrowPoint, rhs: ArrowPoint) -> Bool {
     open func drawAera(_ ctx: CGContext, rect: CGRect) {
        
         ctx.beginPath()
+        
         ctx.setFillColor(fillColor.cgColor)
         
         if isShadow {
@@ -94,7 +95,10 @@ public func ==(lhs: ArrowPoint, rhs: ArrowPoint) -> Bool {
         }
         
         ctx.addPath(UIBezierPath(roundedRect: rect, cornerRadius: rect.width * 0.5).cgPath)
+        
         ctx.fillPath()
+        
+        ctx.saveGState()
     }
 }
 
@@ -177,6 +181,8 @@ public struct ArrowPoint: Equatable {
 
 
 
+/// 绘制箭头
+///
 @IBDesignable open class ArrowControl: LineControl {
     
     /// 调整线段的长度
@@ -253,18 +259,20 @@ public struct ArrowPoint: Equatable {
 
 
 
+public struct VGLine: Equatable {
+    
+    public var p1: CGPoint
+    public var p2: CGPoint
+}
+
+
 
 public struct XLine: Equatable {
     
-    public struct Line: Equatable {
-
-        var p1: CGPoint
-        var p2: CGPoint
-    }
     
-    var top: Line
+    var top: VGLine
     
-    var bottom: Line
+    var bottom: VGLine
     
     init(frame: CGRect, offset: CGFloat) {
         
@@ -276,14 +284,16 @@ public struct XLine: Equatable {
         let cy0 = y0 + h * 0.5
         
         /// top left -> bottom right
-        top = Line(p1: CGPoint(x: cx0 - offset, y: cy0 - offset), p2: CGPoint(x: cx0 + offset, y: cy0 + offset))
+        top = VGLine(p1: CGPoint(x: cx0 - offset, y: cy0 - offset), p2: CGPoint(x: cx0 + offset, y: cy0 + offset))
         
         /// bottom left -> top right
-        bottom = Line(p1: CGPoint(x: cx0 - offset, y: cy0 + offset), p2: CGPoint(x: cx0 + offset, y: cy0 - offset))
+        bottom = VGLine(p1: CGPoint(x: cx0 - offset, y: cy0 + offset), p2: CGPoint(x: cx0 + offset, y: cy0 - offset))
     }    
 }
 
 
+/// 绘制 X
+///
 @IBDesignable open class XControl: LineControl {
     
     open override func draw(_ rect: CGRect) {
@@ -329,12 +339,17 @@ extension XLine {
         let cx0 = x0 + w * 0.5
         let cy0 = y0 + h * 0.5
         
-        top = Line(p1: CGPoint(x: cx0+x1, y: cy0+y1), p2: CGPoint(x: cx0+x2, y: cy0+y2))
+        top = VGLine(p1: CGPoint(x: cx0+x1, y: cy0+y1), p2: CGPoint(x: cx0+x2, y: cy0+y2))
         
-        bottom = Line(p1: CGPoint(x: cx0+x2, y: cy0+y2), p2: CGPoint(x: cx0+x3, y: cy0+y3))
+        bottom = VGLine(p1: CGPoint(x: cx0+x2, y: cy0+y2), p2: CGPoint(x: cx0+x3, y: cy0+y3))
     }
 }
 
+
+
+
+/// 绘制 ✅
+///
 @IBDesignable open class HookControl: LineControl {
     
     

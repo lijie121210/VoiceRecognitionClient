@@ -19,7 +19,9 @@ protocol AccessoryOperationDelegate: class {
 
 }
 
-
+///
+/// `Note` this class use as a view only.
+/// It will not trigger viewWillAppear or viewDidAppear
 class AccessoryViewController: UIViewController, UIPickerViewDataSource, UIPickerViewDelegate {
 
     @IBOutlet weak var container: RectCornerView!

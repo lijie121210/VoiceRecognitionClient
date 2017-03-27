@@ -10,6 +10,8 @@ import UIKit
 
 /// 只是显示一个正在录音或者没有录音的状态。
 ///
+/// `Note` this class use as a view only.
+/// It will not trigger viewWillAppear or viewDidAppear
 class ListenViewController: UIViewController {
 
     @IBOutlet weak var titleLabel: UILabel!

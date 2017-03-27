@@ -239,36 +239,10 @@ extension MasterViewController: AccessoryOperationDelegate {
         DataManager.default.fake_data.replaceSubrange((2..<3), with: [accdatas])
         
         accessoryCollectionView.performBatchUpdates({
-            
-//            self.accessoryCollectionView.reloadItems(at: [indexPath!])
-            
+                        
             self.accessoryCollectionView.deleteItems(at: [indexPath!])
             
         }, completion: nil)
         
-    }
-}
-
-
-
-
-/// 向上滚动隐藏user图标；向下显示
-
-extension MasterViewController {
-    
-    func scrollViewWillEndDragging(_ scrollView: UIScrollView, withVelocity velocity: CGPoint, targetContentOffset: UnsafeMutablePointer<CGPoint>) {
-        
-        guard scrollView == self.scrollView else {
-            return
-        }
-        
-        if (targetContentOffset.pointee.y - scrollView.contentOffset.y) > 0 {
-            /// 手指向上划，向下滚，隐藏
-            
-            self.userButtonContainer.isHidden = true
-        } else {
-            
-            self.userButtonContainer.isHidden = false
-        }
     }
 }

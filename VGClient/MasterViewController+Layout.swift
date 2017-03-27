@@ -9,10 +9,24 @@
 import UIKit
 
 
-/// 附件视图的布局
 
 extension MasterViewController: AlternateLayoutDelegate {
     
+    /// 调整滚动视图的高度；
+    /// 实际调整的是附件集合视图的父视图的高度，使之等于集合视图的内容的长度；
+    /// 因此，需要集合视图布局以后再掉用该方法。
+    ///
+    /// 也可以不掉用该方法，使集合视图处于滚动状态；因此，滚动视图和集合视图就会处于滚动嵌套的状态；
+    func expandScrollViewHeight() {
+        
+        accessoryViewHeightConstraint.constant = accessoryCollectionView.contentSize.height + 150.0
+        
+        scrollView.layoutIfNeeded()
+    }
+    
+    
+    /// 附件视图的布局
+    /// 计算每一个cell的高度，这里只用类型区分
     func collectionView(_ collectionView: UICollectionView, heightForItem atIndexPath: IndexPath, withWidth: CGFloat) -> CGFloat {
         
         guard let accdatas = DataManager.default.fake_data[2] as? [AccessoryData] else {
@@ -21,8 +35,8 @@ extension MasterViewController: AlternateLayoutDelegate {
         
         return accdatas[atIndexPath.item].type.isSingleActionTypes ? 130 : 170
     }
-    
 }
+
 
 
 /// 另外两个集合视图布局

@@ -10,7 +10,7 @@ import Foundation
 import UIKit
 import FlatUIColors
 
-extension UIColor {
+public extension UIColor {
     
     struct Flat {
         
@@ -27,7 +27,7 @@ extension UIColor {
             .map { $0! }
     }
     
-    static var randomFlatColor: UIColor {
+    public static var randomFlatColor: UIColor {
         
         let to = Flat.colors.count
         

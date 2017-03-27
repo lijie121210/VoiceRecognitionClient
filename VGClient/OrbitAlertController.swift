@@ -8,6 +8,8 @@
 
 import UIKit
 
+/// `Note` this class use as a view only.
+/// It will not trigger viewWillAppear or viewDidAppear
 class OrbitAlertController: UIViewController {
 
     @IBOutlet weak var orbitContainer: RectCornerView!

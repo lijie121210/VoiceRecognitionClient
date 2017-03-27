@@ -17,8 +17,8 @@ import UIKit
 //////// make a little change
 
 
-
-
+/// let collection view calculate height for each item.
+///
 protocol AlternateLayoutDelegate: class {
     
     func collectionView(_ collectionView: UICollectionView, heightForItem atIndexPath: IndexPath, withWidth: CGFloat) -> CGFloat
@@ -26,8 +26,9 @@ protocol AlternateLayoutDelegate: class {
 
 
 
-
-class AlternateLayoutAttributes:UICollectionViewLayoutAttributes {
+/// contains `height` property.
+///
+class AlternateLayoutAttributes: UICollectionViewLayoutAttributes {
     
     // 1. Custom attribute
     var height: CGFloat = 0.0
@@ -52,13 +53,16 @@ class AlternateLayoutAttributes:UICollectionViewLayoutAttributes {
 
 
 
-
+/// Alternate Layout
+///
 class AlternateLayout: UICollectionViewLayout {
 
-    //1. Pinterest Layout Delegate
+    //1. Alternate Layout Delegate
     weak var delegate: AlternateLayoutDelegate?
     
+    
     //2. Configurable properties
+    
     var numberOfColumns = 2
     
     var cellPadding: CGFloat = 10.0
@@ -67,15 +71,19 @@ class AlternateLayout: UICollectionViewLayout {
     //3. Array to keep a cache of attributes.
     fileprivate var cache: [AlternateLayoutAttributes] = []
     
+    
     //4. Content height and size
     fileprivate var contentHeight:CGFloat  = 0.0
+    
     fileprivate var contentWidth: CGFloat {
+        
         let insets = collectionView!.contentInset
+        
         return collectionView!.bounds.width - (insets.left + insets.right)
     }
     
     
-    
+    /// override point.
     override class var layoutAttributesClass : AnyClass {
         return AlternateLayoutAttributes.self
     }
@@ -107,6 +115,7 @@ class AlternateLayout: UICollectionViewLayout {
             
             
             // 4. Asks the delegate for the height of the picture and the annotation and calculates the cell frame.
+            
             let width = columnWidth - cellPadding*2
             
             let delegateHeight = delegate?.collectionView(collectionView!, heightForItem: indexPath, withWidth:width) ?? 130.0
@@ -116,7 +125,6 @@ class AlternateLayout: UICollectionViewLayout {
             let frame = CGRect(x: xOffset[column], y: yOffset[column], width: columnWidth, height: height)
             
             let insetFrame = frame.insetBy(dx: cellPadding, dy: cellPadding)
-            
             
             
             // 5. Creates an UICollectionViewLayoutItem with the frame and add it to the cache
@@ -141,6 +149,7 @@ class AlternateLayout: UICollectionViewLayout {
         }
     }
     
+    
     override var collectionViewContentSize : CGSize {
         
         return CGSize(width: contentWidth, height: contentHeight)
@@ -160,6 +169,7 @@ class AlternateLayout: UICollectionViewLayout {
         
         return layoutAttributes
     }
+    
     
     override func invalidateLayout() {
         

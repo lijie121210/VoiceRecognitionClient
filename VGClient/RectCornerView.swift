@@ -9,7 +9,7 @@
 import UIKit
 
 @IBDesignable
-public class RectCornerView: UIView {
+open class RectCornerView: UIView {
     
     public struct Shadow {
         let color: UIColor
@@ -24,6 +24,7 @@ public class RectCornerView: UIView {
     /// Corner
     @IBInspectable public var cornerRadiusX: CGFloat = 20.0
     @IBInspectable public var cornerRadiusY: CGFloat = 20.0
+    
     @IBInspectable public var isTopLeftCorner: Bool = true
     @IBInspectable public var isTopRightCorner: Bool = true
     @IBInspectable public var isBottomLeftCorner: Bool = false
@@ -37,20 +38,24 @@ public class RectCornerView: UIView {
     @IBInspectable public var shadowOffsetX: CGFloat = 0
     @IBInspectable public var shadowOffsetY: CGFloat = -2
     
+    /// make rect corner
     private var rectCorner: UIRectCorner {
-        var corner = UIRectCorner.allCorners
-        if !isTopLeftCorner {
-            corner.remove(UIRectCorner.topLeft)
+        
+        var corner = UIRectCorner()
+        
+        if isTopLeftCorner {
+            corner.insert(.topLeft)
         }
-        if !isTopRightCorner {
-            corner.remove(UIRectCorner.topRight)
+        if isTopRightCorner {
+            corner.insert(.topRight)
         }
-        if !isBottomLeftCorner {
-            corner.remove(UIRectCorner.bottomLeft)
+        if isBottomLeftCorner {
+            corner.insert(.bottomLeft)
         }
-        if !isBottomRightCorner {
-            corner.remove(UIRectCorner.bottomRight)
+        if isBottomRightCorner {
+            corner.insert(.bottomRight)
         }
+        
         return corner
     }
     
@@ -69,7 +74,7 @@ public class RectCornerView: UIView {
         initialization()
     }
     
-    public override func awakeFromNib() {
+    open override func awakeFromNib() {
         super.awakeFromNib()
         
         initialization()
@@ -83,7 +88,7 @@ public class RectCornerView: UIView {
         }
     }
     
-    public override func draw(_ rect: CGRect) {
+    open override func draw(_ rect: CGRect) {
         guard let ctx = UIGraphicsGetCurrentContext() else {
             return
         }

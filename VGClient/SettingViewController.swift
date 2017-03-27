@@ -17,6 +17,8 @@ protocol SettingViewControllerDelegate: class {
 /// 单例的设置界面；
 /// self.presentingViewController会被视为代理对象；
 ///
+/// `Note` this class use as a view only.
+/// It will not trigger viewWillAppear or viewDidAppear
 class SettingViewController: UIViewController {
     
     @IBOutlet weak var containerView: RectCornerView!
@@ -29,13 +31,10 @@ class SettingViewController: UIViewController {
                                                     .instantiateInitialViewController() as! SettingViewController
     
     // 检查自己的presentingViewController是否实现SettingViewControllerDelegate，如果实现了，则将其视为代理对象；
+    // 不需要设置该属性。
     weak var delegate: SettingViewControllerDelegate? {
         
-        if let c = self.presentingViewController as? SettingViewControllerDelegate {
-            return c
-        }
-        
-        return nil
+        return self.presentingViewController as? SettingViewControllerDelegate
     }
     
     override func unwind(for unwindSegue: UIStoryboardSegue, towardsViewController subsequentVC: UIViewController) {
