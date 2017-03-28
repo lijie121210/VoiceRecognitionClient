@@ -24,6 +24,9 @@ class FindPSViewController: UIViewController, KeyboardManagerHandler {
 
     let keyboardManager = KeyboardManager()
 
+    deinit {
+        print(self, #function)
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -31,7 +34,16 @@ class FindPSViewController: UIViewController, KeyboardManagerHandler {
         adjust(constraint: bottomConstraint, withKeyboard: keyboardManager)
     }
 
+    override func viewDidDisappear(_ animated: Bool) {
+        super.viewDidDisappear(animated)
+        
+        keyboardManager.clear()
+    }
+
     
+    
+    // MARK: - User Interaction
+
     @IBAction func didTapCancelButton(_ sender: Any) {
         
         shouldEndEditing()

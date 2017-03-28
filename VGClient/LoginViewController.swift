@@ -34,6 +34,10 @@ class LoginViewController: UIViewController, UITextFieldDelegate, KeyboardManage
     
     // MARK: - Life cycle
     
+    deinit {
+        print(self, #function)
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -192,25 +196,32 @@ class LoginViewController: UIViewController, UITextFieldDelegate, KeyboardManage
     /// 指纹识别验证身份
     private func touchIDAuthenticate() {
         
-        UserManager.default.touchIDAuthenticate(complete: { (result, error) in
-            
-            DispatchQueue.main.async {
-                if result {
-                    
-                    self.authenticateSuccessed()
-                } else {
-                    
-                    /// 去除遮罩
-                    self.coverView.isHidden = true
-                    
-                    /// 可以再次触发指纹识别
-                    self.fingerprintButton.isEnabled = true
-
-                    self.warning(message: "请输入登录信息，进行身份验证")
-                }
-            }
-        })
+        let success = {
+            self.authenticateSuccessed()
+        }
         
+        let fail = {
+            
+            /// 还是不要自动填充密码了
+            self.passwordTextField.text = nil
+            
+            /// 去除遮罩
+            self.coverView.isHidden = true
+            
+            /// 可以再次触发指纹识别
+            self.fingerprintButton.isEnabled = true
+            
+            self.warning(message: "请输入登录信息，进行身份验证")
+        }
+        
+        let complete = { (result: Bool, error: Error?) in
+        
+            DispatchQueue.main.async(execute: result ? success : fail )
+        }
+        
+        
+        UserManager.default.touchIDAuthenticate(complete: complete)
+                
     }
     
     /// 认证成功，跳转页面
@@ -220,6 +231,10 @@ class LoginViewController: UIViewController, UITextFieldDelegate, KeyboardManage
             return
         }
         
+        /// clear keyboard observe
+        keyboardManager.clear()
+        
+        /// switch to master
         app.shouldSwitchRootCOntrollerToMaster()
     }
 }

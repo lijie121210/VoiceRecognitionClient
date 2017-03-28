@@ -42,6 +42,10 @@ class RegisterViewController: UIViewController, UITextFieldDelegate, KeyboardMan
     
     // MARK: - Life cycle
     
+    deinit {
+        print(self, #function)
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -49,6 +53,11 @@ class RegisterViewController: UIViewController, UITextFieldDelegate, KeyboardMan
 
     }
     
+    override func viewDidDisappear(_ animated: Bool) {
+        super.viewDidDisappear(animated)
+        
+        keyboardManager.clear()
+    }
     
     
     // MARK: - User Interaction

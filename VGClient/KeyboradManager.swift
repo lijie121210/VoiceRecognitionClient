@@ -122,13 +122,39 @@ public final class KeyboardManager: NSObject {
     
     public var hideClosure: ( () -> Void )?
     
+    deinit {
+        print(self, #function)
+        
+        let center = NotificationCenter.default
+        center.removeObserver(self, name: .UIKeyboardWillHide, object: nil)
+        center.removeObserver(self, name: .UIKeyboardWillShow, object: nil)
+    }
     
     public override init() {
         super.init()
         
-        NotificationCenter.default.addObserver(self, selector: #selector(KeyboardManager.keyboardWillDisappear(sender:)), name: .UIKeyboardWillHide, object: nil)
+        NotificationCenter.default.addObserver(self,
+                                               selector: #selector(KeyboardManager.keyboardWillDisappear(sender:)),
+                                               name: .UIKeyboardWillHide,
+                                               object: nil)
         
-        NotificationCenter.default.addObserver(self, selector: #selector(KeyboardManager.keyboardWillAppear(sender:)), name: .UIKeyboardWillShow, object: nil)
+        NotificationCenter.default.addObserver(self,
+                                               selector: #selector(KeyboardManager.keyboardWillAppear(sender:)),
+                                               name: .UIKeyboardWillShow,
+                                               object: nil)
+    }
+    
+    // 不掉用这个方法也不一定会有内存泄漏的情况
+    public func clear() {
+    
+        // remove observe
+        let center = NotificationCenter.default
+        center.removeObserver(self, name: .UIKeyboardWillHide, object: nil)
+        center.removeObserver(self, name: .UIKeyboardWillShow, object: nil)
+        
+        // remove closure
+        showClosure = nil
+        hideClosure = nil
     }
     
     @objc private func keyboardWillAppear(sender: Any) {
