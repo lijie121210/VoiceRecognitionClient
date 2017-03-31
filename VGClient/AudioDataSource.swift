@@ -74,7 +74,7 @@ public class AudioDataSource {
             let workitem = {
                 let result = items.map { AudioData(filename: $0.filename!,
                                                    duration: $0.duration,
-                                                   recordDate: $0.createDate as! Date,
+                                                   recordDate: $0.createDate! as Date,
                                                    translation: $0.translation) }
                 
                 self.datas.append(contentsOf: result)
@@ -95,7 +95,7 @@ public class AudioDataSource {
             
             let result = items.map { AudioData(filename: $0.filename!,
                                                duration: $0.duration,
-                                               recordDate: $0.createDate as! Date,
+                                               recordDate: $0.createDate! as Date,
                                                translation: $0.translation) }
             
             self.datas.append(contentsOf: result)

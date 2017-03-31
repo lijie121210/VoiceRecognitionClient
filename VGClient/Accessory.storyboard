@@ -1,0 +1,173 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="11762" systemVersion="16D32" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="6FA-8b-rGD">
+    <device id="retina4_7" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
+    <dependencies>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="11757"/>
+        <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <scenes>
+        <!--Accessory View Controller-->
+        <scene sceneID="9aw-CP-EtC">
+            <objects>
+                <viewController storyboardIdentifier="AccessoryViewController" modalPresentationStyle="overFullScreen" useStoryboardIdentifierAsRestorationIdentifier="YES" id="6FA-8b-rGD" customClass="AccessoryViewController" customModule="VGClient" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="dTI-xI-rlu"/>
+                        <viewControllerLayoutGuide type="bottom" id="tZx-4b-QAr"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="Wu9-sL-Zfe">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="dXg-il-38y" customClass="RectCornerView" customModule="VGClient" customModuleProvider="target">
+                                <rect key="frame" x="16" y="309" width="343" height="350"/>
+                                <subviews>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="3Lm-Dm-YgM">
+                                        <rect key="frame" x="20" y="62" width="0.0" height="0.0"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="22"/>
+                                        <nil key="textColor"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="A61-TD-oDo">
+                                        <rect key="frame" x="20" y="62.5" width="0.0" height="0.0"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="22"/>
+                                        <nil key="textColor"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                    <pickerView contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="RQo-Gp-jIR">
+                                        <rect key="frame" x="0.0" y="70" width="343" height="200"/>
+                                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="200" id="9zp-D5-1Wp"/>
+                                        </constraints>
+                                        <connections>
+                                            <outlet property="dataSource" destination="6FA-8b-rGD" id="Tff-RL-bri"/>
+                                            <outlet property="delegate" destination="6FA-8b-rGD" id="6cb-4N-1Mv"/>
+                                        </connections>
+                                    </pickerView>
+                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Cev-AC-euv" customClass="RectCornerView" customModule="VGClient" customModuleProvider="target">
+                                        <rect key="frame" x="181.5" y="290" width="141.5" height="40"/>
+                                        <subviews>
+                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="qY5-1N-oAC">
+                                                <rect key="frame" x="0.0" y="0.5" width="141.5" height="40"/>
+                                                <state key="normal" image="done"/>
+                                                <connections>
+                                                    <action selector="didTapDoneButton:" destination="6FA-8b-rGD" eventType="touchUpInside" id="TTo-lT-Yss"/>
+                                                </connections>
+                                            </button>
+                                        </subviews>
+                                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                        <constraints>
+                                            <constraint firstItem="qY5-1N-oAC" firstAttribute="height" secondItem="Cev-AC-euv" secondAttribute="height" id="1Cc-5S-ycj"/>
+                                            <constraint firstItem="qY5-1N-oAC" firstAttribute="width" secondItem="Cev-AC-euv" secondAttribute="width" id="AB8-Wz-Vu9"/>
+                                            <constraint firstItem="qY5-1N-oAC" firstAttribute="centerX" secondItem="Cev-AC-euv" secondAttribute="centerX" id="MSl-pR-xCa"/>
+                                            <constraint firstItem="qY5-1N-oAC" firstAttribute="centerY" secondItem="Cev-AC-euv" secondAttribute="centerY" id="nsB-7C-t0p"/>
+                                        </constraints>
+                                        <userDefinedRuntimeAttributes>
+                                            <userDefinedRuntimeAttribute type="number" keyPath="shadowRadius">
+                                                <real key="value" value="3"/>
+                                            </userDefinedRuntimeAttribute>
+                                            <userDefinedRuntimeAttribute type="number" keyPath="shadowOffsetX">
+                                                <real key="value" value="0.0"/>
+                                            </userDefinedRuntimeAttribute>
+                                            <userDefinedRuntimeAttribute type="number" keyPath="shadowOffsetY">
+                                                <real key="value" value="-1"/>
+                                            </userDefinedRuntimeAttribute>
+                                            <userDefinedRuntimeAttribute type="boolean" keyPath="isBottomLeftCorner" value="YES"/>
+                                            <userDefinedRuntimeAttribute type="boolean" keyPath="isBottomRightCorner" value="YES"/>
+                                        </userDefinedRuntimeAttributes>
+                                    </view>
+                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="ZKm-qz-JcQ" customClass="RectCornerView" customModule="VGClient" customModuleProvider="target">
+                                        <rect key="frame" x="20" y="290" width="141.5" height="40"/>
+                                        <subviews>
+                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="uIA-OO-Wpe">
+                                                <rect key="frame" x="0.5" y="0.0" width="141.5" height="40"/>
+                                                <state key="normal" image="delete"/>
+                                                <connections>
+                                                    <action selector="didTapDeleteButton:" destination="6FA-8b-rGD" eventType="touchUpInside" id="m7v-ab-igS"/>
+                                                </connections>
+                                            </button>
+                                        </subviews>
+                                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                        <constraints>
+                                            <constraint firstItem="uIA-OO-Wpe" firstAttribute="height" secondItem="ZKm-qz-JcQ" secondAttribute="height" id="Uw5-m5-OeE"/>
+                                            <constraint firstItem="uIA-OO-Wpe" firstAttribute="width" secondItem="ZKm-qz-JcQ" secondAttribute="width" id="eDL-Ia-5F9"/>
+                                            <constraint firstAttribute="height" constant="40" id="iIV-Tr-7qz"/>
+                                            <constraint firstItem="uIA-OO-Wpe" firstAttribute="centerY" secondItem="ZKm-qz-JcQ" secondAttribute="centerY" id="inb-Zy-Xtx"/>
+                                            <constraint firstItem="uIA-OO-Wpe" firstAttribute="centerX" secondItem="ZKm-qz-JcQ" secondAttribute="centerX" id="kuM-Mg-fBG"/>
+                                        </constraints>
+                                        <userDefinedRuntimeAttributes>
+                                            <userDefinedRuntimeAttribute type="number" keyPath="shadowRadius">
+                                                <real key="value" value="3"/>
+                                            </userDefinedRuntimeAttribute>
+                                            <userDefinedRuntimeAttribute type="number" keyPath="shadowOffsetX">
+                                                <real key="value" value="0.0"/>
+                                            </userDefinedRuntimeAttribute>
+                                            <userDefinedRuntimeAttribute type="number" keyPath="shadowOffsetY">
+                                                <real key="value" value="-1"/>
+                                            </userDefinedRuntimeAttribute>
+                                            <userDefinedRuntimeAttribute type="boolean" keyPath="isBottomLeftCorner" value="YES"/>
+                                            <userDefinedRuntimeAttribute type="boolean" keyPath="isBottomRightCorner" value="YES"/>
+                                            <userDefinedRuntimeAttribute type="color" keyPath="shadowColor">
+                                                <color key="value" red="0.80000001190000003" green="0.40000000600000002" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                            </userDefinedRuntimeAttribute>
+                                        </userDefinedRuntimeAttributes>
+                                    </view>
+                                </subviews>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <constraints>
+                                    <constraint firstItem="Cev-AC-euv" firstAttribute="centerY" secondItem="ZKm-qz-JcQ" secondAttribute="centerY" id="CAJ-bF-rRq"/>
+                                    <constraint firstAttribute="trailing" secondItem="Cev-AC-euv" secondAttribute="trailing" constant="20" id="Fdt-Kv-0CM"/>
+                                    <constraint firstItem="RQo-Gp-jIR" firstAttribute="leading" secondItem="dXg-il-38y" secondAttribute="leading" id="GHc-kU-dKa"/>
+                                    <constraint firstItem="A61-TD-oDo" firstAttribute="leading" secondItem="3Lm-Dm-YgM" secondAttribute="trailing" id="OeI-xe-B6f"/>
+                                    <constraint firstItem="ZKm-qz-JcQ" firstAttribute="width" secondItem="Cev-AC-euv" secondAttribute="width" id="YDz-n3-ivp"/>
+                                    <constraint firstItem="ZKm-qz-JcQ" firstAttribute="leading" secondItem="dXg-il-38y" secondAttribute="leading" constant="20" id="a8S-oe-WXJ"/>
+                                    <constraint firstItem="RQo-Gp-jIR" firstAttribute="top" secondItem="3Lm-Dm-YgM" secondAttribute="bottom" constant="8" id="dfj-w8-wvd"/>
+                                    <constraint firstAttribute="trailing" secondItem="RQo-Gp-jIR" secondAttribute="trailing" id="kbz-nU-h6B"/>
+                                    <constraint firstItem="Cev-AC-euv" firstAttribute="top" secondItem="RQo-Gp-jIR" secondAttribute="bottom" constant="20" id="mAm-1U-PW6"/>
+                                    <constraint firstAttribute="bottom" secondItem="ZKm-qz-JcQ" secondAttribute="bottom" constant="20" id="nN1-Dv-hvP"/>
+                                    <constraint firstItem="A61-TD-oDo" firstAttribute="centerY" secondItem="3Lm-Dm-YgM" secondAttribute="centerY" id="ohr-pg-0HC"/>
+                                    <constraint firstItem="ZKm-qz-JcQ" firstAttribute="height" secondItem="Cev-AC-euv" secondAttribute="height" id="pcs-vF-N5O"/>
+                                    <constraint firstAttribute="height" constant="350" id="va2-rU-ajP"/>
+                                    <constraint firstItem="3Lm-Dm-YgM" firstAttribute="leading" secondItem="dXg-il-38y" secondAttribute="leading" constant="20" id="zRs-ag-N4r"/>
+                                    <constraint firstItem="Cev-AC-euv" firstAttribute="leading" secondItem="ZKm-qz-JcQ" secondAttribute="trailing" constant="20" id="zde-R2-Vne"/>
+                                </constraints>
+                            </view>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <gestureRecognizers/>
+                        <constraints>
+                            <constraint firstItem="tZx-4b-QAr" firstAttribute="top" secondItem="dXg-il-38y" secondAttribute="bottom" constant="8" id="86c-Lp-Fgb"/>
+                            <constraint firstItem="dXg-il-38y" firstAttribute="centerX" secondItem="Wu9-sL-Zfe" secondAttribute="centerX" id="M2P-hh-rHl"/>
+                            <constraint firstItem="dXg-il-38y" firstAttribute="leading" secondItem="Wu9-sL-Zfe" secondAttribute="leadingMargin" id="Tvc-Dd-4t1"/>
+                        </constraints>
+                        <connections>
+                            <outletCollection property="gestureRecognizers" destination="8L8-2V-M5a" appends="YES" id="40P-Ym-fhx"/>
+                        </connections>
+                    </view>
+                    <connections>
+                        <outlet property="container" destination="dXg-il-38y" id="wf1-1e-5j1"/>
+                        <outlet property="deleteButton" destination="uIA-OO-Wpe" id="1PT-Yh-EuU"/>
+                        <outlet property="doneButton" destination="qY5-1N-oAC" id="wTK-nQ-SJb"/>
+                        <outlet property="numberLabel" destination="3Lm-Dm-YgM" id="Bed-Ow-eeK"/>
+                        <outlet property="picker" destination="RQo-Gp-jIR" id="nNt-hA-opa"/>
+                        <outlet property="titleLabel" destination="A61-TD-oDo" id="S8c-0i-TSL"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="M5S-N3-G1G" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                <tapGestureRecognizer id="8L8-2V-M5a">
+                    <connections>
+                        <action selector="didTapOnView:" destination="6FA-8b-rGD" id="mXM-WL-a5l"/>
+                    </connections>
+                </tapGestureRecognizer>
+            </objects>
+            <point key="canvasLocation" x="-250.40000000000001" y="80.50974512743629"/>
+        </scene>
+    </scenes>
+    <resources>
+        <image name="delete" width="20" height="24"/>
+        <image name="done" width="25" height="25"/>
+    </resources>
+</document>

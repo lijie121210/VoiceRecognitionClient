@@ -33,6 +33,9 @@ class VGClientTests: XCTestCase {
         }
     }
     
+    
+    /// 测试appendingPathComponent能够自动区别最后的/
+
     func testPath() {
         let documentDirectory = NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true).first!
         
@@ -52,5 +55,74 @@ class VGClientTests: XCTestCase {
     }
     
     
+    /// 测试MeasurementType通过“\（MeasurementType.xxx）”强制全换能够得到正确的字符串
+    /// 
+    /// 这两个测试结果说明，不能随便重写description属性；这两个转换能成功就是因为description的默认值。
     
+    func testMeasurementType() {
+        
+        let t = MeasurementType.airTemperature
+        
+        XCTAssertEqual(t.icon, "airTemperature")
+        XCTAssertNotEqual(t.icon, "1")
+        XCTAssertNotEqual(t.icon, "0")
+
+    }
+    
+    func testAccessoryType() {
+        
+        let t = AccessoryType.fillLight
+        
+        XCTAssertEqual(t.icon, "fillLight")
+        XCTAssertNotEqual(t.icon, "1")
+        XCTAssertNotEqual(t.icon, "0")
+    }
+    
+    
+    /// 测试数组的替换方法
+    
+    func testArrayReplace() {
+        
+        var arr = [0,1,2,3,4,5]
+        
+        arr.replaceSubrange((1..<2), with: [6])
+        
+        XCTAssertEqual(arr[1], 6)
+        
+        arr.replaceSubrange((3..<4), with: [7])
+        
+        XCTAssertEqual(arr[3], 7)
+        
+        
+    }
+    
+    /// 测试随机数生成
+    
+    func testRandomInteger() {
+        
+        for _ in 0..<100 {
+            
+            let integer = randomInteger(from: 99, to: 100)
+            
+            XCTAssertEqual(integer, 99)
+        }
+        
+    }
+    
+    /// 测试range的使用
+    func testStringSearch() {
+        
+        let str = "3号补光灯"
+        
+        let range = str.range(of: "号")
+        
+        let sub = str.substring(to: range!.lowerBound)
+        
+        XCTAssertEqual(sub, "3")
+        
+        let sub2 = str.substring(from: range!.upperBound)
+        
+        XCTAssertEqual(sub2, "补光灯")
+        
+    }
 }

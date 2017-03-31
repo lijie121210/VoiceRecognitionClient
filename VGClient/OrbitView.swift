@@ -205,7 +205,7 @@ extension OrbitView {
         let outerRadius: CGFloat = min(size.height, size.width) / 2
         let innerRadius: CGFloat = outerRadius * starRatio
         
-        let stepAngle = CGFloat(2) * CGFloat(M_PI) / CGFloat(steps)
+        let stepAngle = CGFloat(2) * CGFloat.pi / CGFloat(steps)
         let center = CGPoint(x: size.width / 2, y: size.height / 2)
         
         let path = CGMutablePath()
@@ -213,7 +213,7 @@ extension OrbitView {
         for i in 0..<Int(steps) {
             let radius = i % 2 == 0 ? outerRadius : innerRadius
             
-            let angle = CGFloat(i) * stepAngle - CGFloat(M_PI_2)
+            let angle = CGFloat(i) * stepAngle - CGFloat.pi / 2.0
             
             let x = radius * cos(angle) + center.x
             let y = radius * sin(angle) + center.y

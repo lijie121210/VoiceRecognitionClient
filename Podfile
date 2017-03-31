@@ -2,16 +2,23 @@
 
 platform :ios, '8.0'
 
+# Pods for VGClient
+
 target 'VGClient' do
-  # Comment this line if you're not using Swift and don't want to use dynamic frameworks
   
   use_frameworks!
 
   inhibit_all_warnings!
 
-  # Pods for VGClient
-
   pod 'CocoaAsyncSocket'
+
+  pod 'PulsingHalo'
+
+  pod 'FlatUIColors'
+
+#  pod 'ZLSinusWaveView'
+
+#  pod 'SwiftCharts', '~> 0.5'
 
   target 'VGClientTests' do
     inherit! :search_paths

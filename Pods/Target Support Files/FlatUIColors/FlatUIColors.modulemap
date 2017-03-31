@@ -1,0 +1,6 @@
+framework module FlatUIColors {
+  umbrella header "FlatUIColors-umbrella.h"
+
+  export *
+  module * { export * }
+}
