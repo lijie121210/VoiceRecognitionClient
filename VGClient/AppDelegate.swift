@@ -53,6 +53,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // save core data storage
         CoreDataManager.default.saveContext()
     }
-    
 }
+
+
+
 

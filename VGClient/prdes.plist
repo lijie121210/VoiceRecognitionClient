@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<array>
+	<dict>
+		<key>type</key>
+		<integer>-1</integer>
+		<key>assets</key>
+		<string>listcheck</string>
+		<key>description</key>
+		<string>感谢您的授权；n您随时可以在系统设置应用中修改权限。</string>
+	</dict>
+	<dict>
+		<key>type</key>
+		<integer>0</integer>
+		<key>assets</key>
+		<string>requestmic</string>
+		<key>description</key>
+		<string>语音识别功能需要进行录音，因此，请允许使用您的麦克风；n通过麦克风还可以您还可以试听您的录音。</string>
+	</dict>
+	<dict>
+		<key>type</key>
+		<integer>1</integer>
+		<key>assets</key>
+		<string>speech</string>
+		<key>description</key>
+		<string>语音识别功能需要能够使用您的Speech框架，通过该框架，将为您提供语音识别功能；另外我们还会使用我们自建的语音识别引擎为您服务。n请授权。</string>
+	</dict>
+</array>
+</plist>

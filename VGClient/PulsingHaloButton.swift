@@ -15,57 +15,18 @@ import PulsingHalo
     
     @IBInspectable var duration: TimeInterval = 3.0
     
-    @IBInspectable var count: Int = 2
+    @IBInspectable var count: Int = 1
     
     override func awakeFromNib() {
         super.awakeFromNib()
         
-        pulsing()
+        startPulsing(number: count, duration: duration, color: color)
     }
     
-    var isPulsed: Bool {
-        
-        guard let sublayers = layer.sublayers else {
-            return false
-        }
-        
-        return !sublayers.filter { return $0 is PulsingHaloLayer }.isEmpty
-    }
-    
-    /// 添加动画图层
     func pulsing() {
         
-        if isPulsed {
-            return
-        }
+        removePulsing()
         
-        let halo = PulsingHaloLayer()
-        
-        halo.position = CGPoint(x: frame.width * 0.5, y: frame.height * 0.5)
-        
-        halo.haloLayerNumber = count
-        
-        halo.animationDuration = duration
-        
-        
-        
-        if let c = color {
-            halo.shadowColor = c.cgColor
-        }
-        
-        layer.addSublayer(halo)
-
-        halo.start()
-    }
-    
-    /// 找到这个图层，删除
-    func removePulsing() {
-        
-        guard let sublayers = layer.sublayers else {
-            return
-        }
-        for lay in sublayers where lay is PulsingHaloLayer {
-            lay.removeFromSuperlayer()
-        }
+        startPulsing(number: count, duration: duration, color: color)
     }
 }

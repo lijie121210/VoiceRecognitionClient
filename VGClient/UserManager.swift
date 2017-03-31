@@ -17,7 +17,7 @@ public final class UserManager: NSObject {
     private override init() {
         super.init()
         
-        // init current User
+        
     }
     
     public var currentUser: VGUser? {

@@ -1,10 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="11762" systemVersion="16A323" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="Lr8-kC-tpG">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="12118" systemVersion="16A323" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="Lr8-kC-tpG">
     <device id="retina4_7" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="11757"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="12086"/>
+        <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
@@ -20,14 +21,6 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="9fi-BB-1p5">
-                                <rect key="frame" x="164" y="318" width="46" height="30"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <state key="normal" title="Button"/>
-                                <connections>
-                                    <action selector="didTapRequestButton:" destination="Lr8-kC-tpG" eventType="touchUpInside" id="Viz-HD-Ebx"/>
-                                </connections>
-                            </button>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="RO9-wt-dt2" customClass="ArrowControl" customModule="VGClient" customModuleProvider="target">
                                 <rect key="frame" x="165" y="603" width="44" height="44"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -50,25 +43,96 @@
                                         <real key="value" value="0.0"/>
                                     </userDefinedRuntimeAttribute>
                                     <userDefinedRuntimeAttribute type="color" keyPath="strokeColor">
-                                        <color key="value" red="0.0" green="0.50196081400000003" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                        <color key="value" red="1" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                     </userDefinedRuntimeAttribute>
                                     <userDefinedRuntimeAttribute type="number" keyPath="distance">
                                         <real key="value" value="6"/>
                                     </userDefinedRuntimeAttribute>
                                 </userDefinedRuntimeAttributes>
                                 <connections>
-                                    <action selector="unwindClosing" destination="Lr8-kC-tpG" eventType="touchUpInside" id="Bhs-n6-aEi"/>
+                                    <action selector="unwindClosing:" destination="Lr8-kC-tpG" eventType="touchUpInside" id="Zw9-fd-A7l"/>
                                 </connections>
                             </view>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="0R4-tq-fbo" customClass="RectCornerView" customModule="VGClient" customModuleProvider="target">
+                                <rect key="frame" x="87.5" y="412.5" width="200" height="40"/>
+                                <subviews>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="9fi-BB-1p5">
+                                        <rect key="frame" x="-0.5" y="0.0" width="200" height="40"/>
+                                        <state key="normal" title="Button"/>
+                                        <connections>
+                                            <action selector="didTapRequestButton:" destination="Lr8-kC-tpG" eventType="touchUpInside" id="Viz-HD-Ebx"/>
+                                        </connections>
+                                    </button>
+                                </subviews>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <constraints>
+                                    <constraint firstItem="9fi-BB-1p5" firstAttribute="centerX" secondItem="0R4-tq-fbo" secondAttribute="centerX" id="2Ns-dg-RCo"/>
+                                    <constraint firstItem="9fi-BB-1p5" firstAttribute="width" secondItem="0R4-tq-fbo" secondAttribute="width" id="ANI-C0-4tl"/>
+                                    <constraint firstAttribute="width" constant="200" id="UY5-Fv-AnB"/>
+                                    <constraint firstItem="9fi-BB-1p5" firstAttribute="height" secondItem="0R4-tq-fbo" secondAttribute="height" id="eJo-eB-GvQ"/>
+                                    <constraint firstItem="9fi-BB-1p5" firstAttribute="centerY" secondItem="0R4-tq-fbo" secondAttribute="centerY" id="gxS-Yd-hqg"/>
+                                    <constraint firstAttribute="height" constant="40" id="yka-ti-dro"/>
+                                </constraints>
+                                <userDefinedRuntimeAttributes>
+                                    <userDefinedRuntimeAttribute type="number" keyPath="cornerRadiusX">
+                                        <real key="value" value="20"/>
+                                    </userDefinedRuntimeAttribute>
+                                    <userDefinedRuntimeAttribute type="number" keyPath="cornerRadiusY">
+                                        <real key="value" value="20"/>
+                                    </userDefinedRuntimeAttribute>
+                                    <userDefinedRuntimeAttribute type="boolean" keyPath="isBottomLeftCorner" value="YES"/>
+                                    <userDefinedRuntimeAttribute type="boolean" keyPath="isBottomRightCorner" value="YES"/>
+                                    <userDefinedRuntimeAttribute type="number" keyPath="shadowRadius">
+                                        <real key="value" value="8"/>
+                                    </userDefinedRuntimeAttribute>
+                                    <userDefinedRuntimeAttribute type="color" keyPath="shadowColor">
+                                        <color key="value" red="0.7019608021" green="0.7019608021" blue="0.7019608021" alpha="1" colorSpace="calibratedRGB"/>
+                                    </userDefinedRuntimeAttribute>
+                                </userDefinedRuntimeAttributes>
+                            </view>
+                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" scrollEnabled="NO" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" editable="NO" text="语音识别功能需要进行录音，因此，请允许使用您的麦克风；通过麦克风还可以您还可以试听您的录音。" textAlignment="justified" selectable="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Ilu-JI-uiz">
+                                <rect key="frame" x="36" y="295.5" width="303" height="77"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
+                            </textView>
+                            <imageView userInteractionEnabled="NO" contentMode="center" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="requestmic" translatesAutoresizingMaskIntoConstraints="NO" id="cLS-Yk-EtQ">
+                                <rect key="frame" x="137" y="155.5" width="100" height="100"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="100" id="Vzo-z9-QIb"/>
+                                    <constraint firstAttribute="height" constant="100" id="r4x-ou-e3j"/>
+                                </constraints>
+                            </imageView>
+                            <progressView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="751" horizontalCompressionResistancePriority="751" verticalCompressionResistancePriority="751" progress="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="BsM-Uy-BfJ">
+                                <rect key="frame" x="0.0" y="28" width="374" height="8"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="8" id="Zdf-A4-fh0"/>
+                                </constraints>
+                                <color key="trackTintColor" red="0.90196079019999997" green="0.90196079019999997" blue="0.90196079019999997" alpha="1" colorSpace="calibratedRGB"/>
+                            </progressView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
+                            <constraint firstItem="BsM-Uy-BfJ" firstAttribute="top" secondItem="B1G-X8-qhE" secondAttribute="bottom" constant="8" id="2Xy-UF-WHo"/>
+                            <constraint firstItem="Ilu-JI-uiz" firstAttribute="leading" secondItem="tCy-Y0-EbG" secondAttribute="leadingMargin" constant="20" id="2ZQ-8s-Ult"/>
+                            <constraint firstItem="0R4-tq-fbo" firstAttribute="top" secondItem="Ilu-JI-uiz" secondAttribute="bottom" constant="40" id="4vd-MV-NPN"/>
+                            <constraint firstItem="Ilu-JI-uiz" firstAttribute="top" secondItem="cLS-Yk-EtQ" secondAttribute="bottom" constant="40" id="8Kx-pv-sl9"/>
+                            <constraint firstItem="cLS-Yk-EtQ" firstAttribute="centerX" secondItem="tCy-Y0-EbG" secondAttribute="centerX" id="CNb-HR-5f3"/>
+                            <constraint firstItem="BsM-Uy-BfJ" firstAttribute="leading" secondItem="tCy-Y0-EbG" secondAttribute="leadingMargin" constant="-16" id="NrY-Tp-SXW"/>
                             <constraint firstItem="RO9-wt-dt2" firstAttribute="centerX" secondItem="tCy-Y0-EbG" secondAttribute="centerX" id="RZ4-wi-akO"/>
                             <constraint firstItem="So5-71-DOv" firstAttribute="top" secondItem="RO9-wt-dt2" secondAttribute="bottom" constant="20" id="RsQ-Rj-ryd"/>
+                            <constraint firstItem="Ilu-JI-uiz" firstAttribute="centerY" secondItem="tCy-Y0-EbG" secondAttribute="centerY" id="Y02-bb-07C"/>
+                            <constraint firstItem="BsM-Uy-BfJ" firstAttribute="centerX" secondItem="tCy-Y0-EbG" secondAttribute="centerX" id="bJD-Sk-8bE"/>
+                            <constraint firstItem="Ilu-JI-uiz" firstAttribute="centerX" secondItem="tCy-Y0-EbG" secondAttribute="centerX" id="e6v-bF-9bS"/>
+                            <constraint firstItem="0R4-tq-fbo" firstAttribute="centerX" secondItem="tCy-Y0-EbG" secondAttribute="centerX" id="xi4-oz-qq9"/>
                         </constraints>
                     </view>
                     <connections>
+                        <outlet property="imageView" destination="cLS-Yk-EtQ" id="M6A-8i-FmR"/>
+                        <outlet property="progressView" destination="BsM-Uy-BfJ" id="EKp-Bd-fV7"/>
                         <outlet property="requestButton" destination="9fi-BB-1p5" id="pgm-9u-o8N"/>
+                        <outlet property="requestButtonContainer" destination="0R4-tq-fbo" id="HGC-p7-cws"/>
+                        <outlet property="textView" destination="Ilu-JI-uiz" id="7t9-rf-DeF"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="gud-XV-1h7" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -76,4 +140,7 @@
             <point key="canvasLocation" x="-215" y="160"/>
         </scene>
     </scenes>
+    <resources>
+        <image name="requestmic" width="64" height="64"/>
+    </resources>
 </document>

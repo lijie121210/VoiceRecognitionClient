@@ -13,13 +13,14 @@ import PulsingHalo
 ///
 class MasterViewController: UIViewController {
     
+    // MARK - Outlet
+    
     /// 背景图片
     @IBOutlet weak var backgroundImageView: UIImageView!
     
     /// 设置按钮
     @IBOutlet weak var userButtonContainer: RectCornerView!
     @IBOutlet weak var userButton: UIButton!
-    
     
     /// 表示正在聆听的按钮
     @IBOutlet weak var listeningButton: PulsingHaloButton!
@@ -52,6 +53,9 @@ class MasterViewController: UIViewController {
     @IBOutlet weak var accessoryCollectionView: UICollectionView!
     
     
+    
+    // MARK - Properties
+
     /// It needs to be responsible for the full operation of the data, including access, playing and sending
     fileprivate var dataSource: AudioDataSource = AudioDataSource()
     
@@ -59,6 +63,9 @@ class MasterViewController: UIViewController {
     
     fileprivate var clientSocket: AudioClient = AudioClient()
     
+    
+    // MARK - View Controller
+
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -71,32 +78,50 @@ class MasterViewController: UIViewController {
         
         /// setup background image base on user settting
         updateViewFromSettings()
+        
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
-        
+        if PermissionDefaultValue.isRequestedPermission {
+            scrollView.alpha = 1.0
+        } else {
+            scrollView.alpha = 0.0
+        }
     }
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         
-        /// 如果没登录，显示登录界面
-//        if let user = UserManager.default.currentUser {
-//            
-//            viewDidAppear(withUser: user)
-//        } else {
-//
-//            viewDidAppearUnloggedin()
-//        }
+        if PermissionDefaultValue.isRequestedPermission {
+            
+            
+            /// get existed local data
+//            fetchData()
+            
+            /// start networking connection
+//            clientSocket.connect()
+            
+            /// 去掉注释可以使得设备的集合视图完全显示，而不会滚动。
+            expandScrollViewHeight()
+            
+        } else {
+            
+            /// 显示申请授权的页面
+            requestPermission()
+        }
+        
+        
+        /// 接受开始录音的通知
+        NotificationCenter.default.addObserver(self, selector: #selector(recordDidBegin), name: .UIApplicationWillEnterForeground, object: nil)
     }
     
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
         
         /// 移除接受通知
-        NotificationCenter.default.removeObserver(self, name: .recordbegin, object: nil)
+        NotificationCenter.default.removeObserver(self, name: .UIApplicationWillEnterForeground, object: nil)
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
@@ -126,64 +151,14 @@ class MasterViewController: UIViewController {
         
     }
     
-    /// 用户未登录
-    fileprivate func viewDidAppearUnloggedin() {
-        
-        /// 获取登录页面
-        guard let login = UIStoryboard.init(name: "Login", bundle: nil).instantiateInitialViewController() else {
-            return print(self, "#function", "no Login storyboard in bundle")
-        }
-        
-        show(login, sender: nil)
-    }
-    
-    /// 用户已经登录了
-    fileprivate func viewDidAppear(withUser user: VGUser) {
-        
-        /// permission
-        requestPermission()
-        
-        
-        /// get existed local data
-        
-        fetchData()
-        
-        /// start networking connection
-        
-        clientSocket.connect()
-        
-        
-        /// 去掉注释可以使得设备的集合视图完全显示，而不会滚动。
-        expandScrollViewHeight()
-        
-        ///
-        
-        
-        
-        /// 接受开始录音的通知
-        NotificationCenter.default.addObserver(self, selector: #selector(recordDidBegin), name: .recordbegin, object: nil)
-        
-    }
-    
     
     func requestPermission() {
         
-        AudioOperator.requestAudioSessionAuthorization { permission in
-            
-            guard permission else {
-                return
-            }
-            
-            //
-            
-            guard #available(iOS 10.0, *) else {
-                return
-            }
-            
-            DispatchQueue.main.asyncAfter(deadline: .now() + 1, execute: {
-                AudioOperator.requestSpeechAuthorization(completion: { (_) in })
-            })
+        guard let authority = UIStoryboard(name: "Authority", bundle: nil).instantiateInitialViewController() else {
+            return
         }
+        
+        show(authority, sender: nil)
     }
     
     func fetchData() {
@@ -204,15 +179,7 @@ class MasterViewController: UIViewController {
     /// 之所以使用通知是因为，一旦应用进入一次后台，再打开，波纹效果就不见了，只能每次都添加。
     @objc fileprivate func recordDidBegin() {
         
-        if DataManager.default.isRecording {
-            
-            listeningButton.pulsing()
-            
-        } else {
-            
-            listeningButton.removePulsing()
-        }
-
+        listeningButton.pulsing()
     }
     
 }
