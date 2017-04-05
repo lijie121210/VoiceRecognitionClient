@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="12118" systemVersion="16A323" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="03R-0L-mfK">
+    <device id="retina4_7" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
+    <dependencies>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="12086"/>
+        <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <scenes>
+        <!--Analysis Controller-->
+        <scene sceneID="Dnf-yv-ifA">
+            <objects>
+                <viewController storyboardIdentifier="AnalysisController" useStoryboardIdentifierAsRestorationIdentifier="YES" id="03R-0L-mfK" customClass="AnalysisController" customModule="VGClient" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="sH9-ML-88d"/>
+                        <viewControllerLayoutGuide type="bottom" id="4iz-YH-1YL"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="gg6-1i-Lhe">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="数据分析" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="RmE-8T-L6g">
+                                <rect key="frame" x="16" y="20" width="97.5" height="29"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="24"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="Q3d-Gw-oNv" customClass="MeasurementPickerTextField" customModule="VGClient" customModuleProvider="target">
+                                <rect key="frame" x="139" y="60" width="97" height="30"/>
+                                <nil key="textColor"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <textInputTraits key="textInputTraits"/>
+                            </textField>
+                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="EFQ-Ya-vHK" customClass="DatePickerTextField" customModule="VGClient" customModuleProvider="target">
+                                <rect key="frame" x="139" y="114" width="97" height="30"/>
+                                <nil key="textColor"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <textInputTraits key="textInputTraits"/>
+                            </textField>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="EFQ-Ya-vHK" firstAttribute="centerX" secondItem="Q3d-Gw-oNv" secondAttribute="centerX" id="1Ey-FD-vMZ"/>
+                            <constraint firstItem="Q3d-Gw-oNv" firstAttribute="top" secondItem="RmE-8T-L6g" secondAttribute="bottom" constant="11" id="1sx-lo-6Km"/>
+                            <constraint firstItem="EFQ-Ya-vHK" firstAttribute="width" secondItem="Q3d-Gw-oNv" secondAttribute="width" id="5PZ-hW-jT1"/>
+                            <constraint firstItem="Q3d-Gw-oNv" firstAttribute="leading" secondItem="gg6-1i-Lhe" secondAttribute="leadingMargin" constant="123" id="LZ9-3R-s9A"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="Q3d-Gw-oNv" secondAttribute="trailing" constant="123" id="a07-LE-Fu4"/>
+                            <constraint firstItem="EFQ-Ya-vHK" firstAttribute="top" secondItem="Q3d-Gw-oNv" secondAttribute="bottom" constant="24" id="c8Q-Rp-WBF"/>
+                            <constraint firstItem="EFQ-Ya-vHK" firstAttribute="height" secondItem="Q3d-Gw-oNv" secondAttribute="height" id="lbj-8B-BkZ"/>
+                            <constraint firstAttribute="leadingMargin" secondItem="RmE-8T-L6g" secondAttribute="leading" id="spY-Ha-osF"/>
+                            <constraint firstItem="RmE-8T-L6g" firstAttribute="top" secondItem="sH9-ML-88d" secondAttribute="bottom" id="wIV-3i-UIn"/>
+                        </constraints>
+                    </view>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="VQO-1H-bRf" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="94" y="114"/>
+        </scene>
+    </scenes>
+</document>

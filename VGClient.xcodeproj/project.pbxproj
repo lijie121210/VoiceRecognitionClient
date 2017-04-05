@@ -60,6 +60,11 @@
 		C855F8701E9484DA00A338C9 /* VGNetwork.swift in Sources */ = {isa = PBXBuildFile; fileRef = C855F86F1E9484DA00A338C9 /* VGNetwork.swift */; };
 		C855F8721E94AF0A00A338C9 /* VGRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = C855F8711E94AF0A00A338C9 /* VGRequest.swift */; };
 		C855F8751E94D5B100A338C9 /* MasterViewController+Authority.swift in Sources */ = {isa = PBXBuildFile; fileRef = C855F8741E94D5B100A338C9 /* MasterViewController+Authority.swift */; };
+		C855F8771E94DDCB00A338C9 /* MeasurementPickerTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = C855F8761E94DDCB00A338C9 /* MeasurementPickerTextField.swift */; };
+		C855F8791E94E20B00A338C9 /* MeasurementTypePickerData.swift in Sources */ = {isa = PBXBuildFile; fileRef = C855F8781E94E20B00A338C9 /* MeasurementTypePickerData.swift */; };
+		C855F87B1E94EC2B00A338C9 /* AnalysisController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C855F87A1E94EC2B00A338C9 /* AnalysisController.swift */; };
+		C855F87E1E94EC5300A338C9 /* Analysis.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = C855F87D1E94EC5300A338C9 /* Analysis.storyboard */; };
+		C855F8801E95256B00A338C9 /* DatePickerTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = C855F87F1E95256B00A338C9 /* DatePickerTextField.swift */; };
 		C8B400591E8DEBE30052E5FF /* PermissionRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = C8B400581E8DEBE30052E5FF /* PermissionRequest.swift */; };
 		C8B4005B1E8E005F0052E5FF /* prdes.plist in Resources */ = {isa = PBXBuildFile; fileRef = C8B4005A1E8E005F0052E5FF /* prdes.plist */; };
 		C8F8D1F71E8649A20035A19F /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C8F8D1F61E8649A20035A19F /* LoginViewController.swift */; };
@@ -164,6 +169,11 @@
 		C855F86F1E9484DA00A338C9 /* VGNetwork.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VGNetwork.swift; sourceTree = "<group>"; };
 		C855F8711E94AF0A00A338C9 /* VGRequest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VGRequest.swift; sourceTree = "<group>"; };
 		C855F8741E94D5B100A338C9 /* MasterViewController+Authority.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "MasterViewController+Authority.swift"; sourceTree = "<group>"; };
+		C855F8761E94DDCB00A338C9 /* MeasurementPickerTextField.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MeasurementPickerTextField.swift; sourceTree = "<group>"; };
+		C855F8781E94E20B00A338C9 /* MeasurementTypePickerData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MeasurementTypePickerData.swift; sourceTree = "<group>"; };
+		C855F87A1E94EC2B00A338C9 /* AnalysisController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AnalysisController.swift; sourceTree = "<group>"; };
+		C855F87D1E94EC5300A338C9 /* Analysis.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Analysis.storyboard; sourceTree = "<group>"; };
+		C855F87F1E95256B00A338C9 /* DatePickerTextField.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DatePickerTextField.swift; sourceTree = "<group>"; };
 		C8B400581E8DEBE30052E5FF /* PermissionRequest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PermissionRequest.swift; sourceTree = "<group>"; };
 		C8B4005A1E8E005F0052E5FF /* prdes.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = prdes.plist; sourceTree = "<group>"; };
 		C8F8D1F61E8649A20035A19F /* LoginViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
@@ -318,6 +328,7 @@
 				C8F8D1FB1E8656240035A19F /* Login */,
 				C8F8D21D1E890E680035A19F /* Authority */,
 				C8F8D2201E8A4F7D0035A19F /* Record */,
+				C855F87C1E94EC3200A338C9 /* Analysis */,
 			);
 			name = Controllers;
 			sourceTree = "<group>";
@@ -362,6 +373,8 @@
 			isa = PBXGroup;
 			children = (
 				C8F8D2081E86C3EE0035A19F /* BorderTextField.swift */,
+				C855F8761E94DDCB00A338C9 /* MeasurementPickerTextField.swift */,
+				C855F87F1E95256B00A338C9 /* DatePickerTextField.swift */,
 				187868751E757A4000F6D102 /* PulsingHaloButton.swift */,
 				180B3BC01E74FF5D00E13309 /* LineChart.swift */,
 				189418CB1E5197F500207358 /* RectCornerView.swift */,
@@ -446,6 +459,14 @@
 			name = Network;
 			sourceTree = "<group>";
 		};
+		C855F87C1E94EC3200A338C9 /* Analysis */ = {
+			isa = PBXGroup;
+			children = (
+				C855F87A1E94EC2B00A338C9 /* AnalysisController.swift */,
+			);
+			name = Analysis;
+			sourceTree = "<group>";
+		};
 		C8B400561E8DEA5D0052E5FF /* User */ = {
 			isa = PBXGroup;
 			children = (
@@ -459,6 +480,7 @@
 			isa = PBXGroup;
 			children = (
 				180B3BB81E739D3900E13309 /* MeasurementData.swift */,
+				C855F8781E94E20B00A338C9 /* MeasurementTypePickerData.swift */,
 				180B3BBA1E73AEC500E13309 /* MeasurementCurveData.swift */,
 				180B3BBC1E73BEA200E13309 /* AccessoryData.swift */,
 				180B3BBE1E73F92800E13309 /* DataManager.swift */,
@@ -539,6 +561,7 @@
 				C8F8D2061E8690330035A19F /* Login.storyboard */,
 				C8F8D21B1E890E5F0035A19F /* Authority.storyboard */,
 				C8F8D2211E8A4FE50035A19F /* RecordList.storyboard */,
+				C855F87D1E94EC5300A338C9 /* Analysis.storyboard */,
 			);
 			name = "contraoller storyboard";
 			sourceTree = "<group>";
@@ -697,6 +720,7 @@
 				1880FF401E710313000A0D1C /* Setting.storyboard in Resources */,
 				18381A501E7697AF00AE8D98 /* Accessory.storyboard in Resources */,
 				C8B4005B1E8E005F0052E5FF /* prdes.plist in Resources */,
+				C855F87E1E94EC5300A338C9 /* Analysis.storyboard in Resources */,
 				C8F8D2071E8690330035A19F /* Login.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -851,6 +875,7 @@
 				C8F8D1FF1E8666470035A19F /* UserManager.swift in Sources */,
 				185500371E5982A600DADEF7 /* AudioOperator.swift in Sources */,
 				C8F8D20F1E87AB250035A19F /* KeyboradManager.swift in Sources */,
+				C855F8801E95256B00A338C9 /* DatePickerTextField.swift in Sources */,
 				18381A421E76366B00AE8D98 /* RandomNumber.swift in Sources */,
 				C8F8D2031E8667C20035A19F /* TimeIntervalEx.swift in Sources */,
 				1880FF4A1E724991000A0D1C /* ArrowControl.swift in Sources */,
@@ -880,10 +905,12 @@
 				C855F8721E94AF0A00A338C9 /* VGRequest.swift in Sources */,
 				C8F8D1FD1E86593A0035A19F /* RecordListCell.swift in Sources */,
 				C8F8D2131E87E5C60035A19F /* RegisterViewController.swift in Sources */,
+				C855F87B1E94EC2B00A338C9 /* AnalysisController.swift in Sources */,
 				180B3BB31E73944A00E13309 /* DataCurveCell.swift in Sources */,
 				C8B400591E8DEBE30052E5FF /* PermissionRequest.swift in Sources */,
 				1855003F1E5A886200DADEF7 /* RecordListViewController.swift in Sources */,
 				18D27B491E6D727800488F80 /* OrbitView.swift in Sources */,
+				C855F8771E94DDCB00A338C9 /* MeasurementPickerTextField.swift in Sources */,
 				1880FF451E723D23000A0D1C /* ListenViewController.swift in Sources */,
 				C8F8D2011E8667010035A19F /* VGUser.swift in Sources */,
 				185500431E5A895E00DADEF7 /* AuthorityViewController.swift in Sources */,
@@ -891,6 +918,7 @@
 				18381A4C1E766F4D00AE8D98 /* AccessoryCell.swift in Sources */,
 				189418BE1E5159AF00207358 /* CoreDataManager.swift in Sources */,
 				18D27B471E6D45B200488F80 /* AudioDefaultValue.swift in Sources */,
+				C855F8791E94E20B00A338C9 /* MeasurementTypePickerData.swift in Sources */,
 				C8F8D2171E88F82F0035A19F /* UITextField+Regular.swift in Sources */,
 				18381A531E76E74500AE8D98 /* CenterFlowLayout.swift in Sources */,
 				C801F50B1E7D22B000093B80 /* PaddingFlowLayout.swift in Sources */,

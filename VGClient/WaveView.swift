@@ -152,7 +152,6 @@ open class WaveView: UIView {
             
             while x < waveWidth + density {
                 
-                
                 let scaling = -pow(x / waveMid - 1, 2) + 1
                 
                 let si = 2 * CGFloat.pi * (x / waveWidth) * frequency * phase

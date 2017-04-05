@@ -74,12 +74,6 @@ open class RectCornerView: UIView {
         initialization()
     }
     
-    open override func awakeFromNib() {
-        super.awakeFromNib()
-        
-        initialization()
-    }
-    
     fileprivate func initialization() {
         backgroundColor = UIColor.clear
         

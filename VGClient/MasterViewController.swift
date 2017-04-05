@@ -21,6 +21,7 @@ class MasterViewController: UIViewController {
     /// 设置按钮
     @IBOutlet weak var userButtonContainer: RectCornerView!
     @IBOutlet weak var userButton: UIButton!
+    @IBOutlet weak var analysisButton: UIButton!
     
     /// 表示正在聆听的按钮
     @IBOutlet weak var listeningButton: PulsingHaloButton!
