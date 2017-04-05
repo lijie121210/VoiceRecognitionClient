@@ -88,7 +88,7 @@ class LoginViewController: UIViewController, UITextFieldDelegate, KeyboardManage
         
         if segue.identifier == "RegisterViewController", let vc = segue.destination as? RegisterViewController {
             
-            vc.register = self
+            vc.registerDelegate = self
         }
     }
 
@@ -108,40 +108,21 @@ class LoginViewController: UIViewController, UITextFieldDelegate, KeyboardManage
     }
     
     @IBAction func didTapLoginButton(_ sender: Any) {
-        
+        /// 用户名检查
+        guard usernameTextField.isUsernameText, let username = usernameTextField.text else {
+            warning(message: "账号格式错误!", style: .actionSheet, sourceView: usernameTextField)
+            return
+        }
+        /// 密码检查
+        guard passwordTextField.isPasswordText, let password = passwordTextField.text else {
+            warning(message: "密码格式错误!", style: .actionSheet, sourceView: passwordTextField)
+            return
+        }
         /// end editing
         shouldEndEditing()
         
-        /// 用户名检查
-        guard usernameTextField.isUsernameText, let username = usernameTextField.text else {
-            
-            warning(message: "账号格式错误!", style: .actionSheet, sourceView: usernameTextField)
-                
-            return
-        }
-        
-        /// 密码检查
-        guard passwordTextField.isPasswordText, let password = passwordTextField.text else {
-            
-            warning(message: "密码格式错误!", style: .actionSheet, sourceView: passwordTextField)
-
-            return
-        }
-        
         /// 登录
-        UserManager.default.login(username: username, password: password) { (result) in
-            
-            DispatchQueue.main.async {
-                if result {
-                    
-                    self.authenticateSuccessed()
-                }else {
-                    
-                    self.warning(message: "登录失败")
-                }
-            }
-        }
-        
+        login(username: username, password: password)
     }
     
     
@@ -150,11 +131,10 @@ class LoginViewController: UIViewController, UITextFieldDelegate, KeyboardManage
     
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         
-        shouldEndEditing()
+        textField.resignFirstResponder()
         
         return false
     }
-    
     
     
     // MARK: - KeyboardManagerHandler
@@ -164,34 +144,67 @@ class LoginViewController: UIViewController, UITextFieldDelegate, KeyboardManage
     }
     
     public var tapGesture: UITapGestureRecognizer?
-
+    
     public func shouldEndEditing() {
         
         view.endEditing(true)
     }
     
     
-    
     // MARK: - RegisterDelegate
     
-    func register(_ vc: RegisterViewController, didFinishWithUser user: VGUser?) {
+    func register(_ vc: RegisterViewController, username: String, password: String, deviceid: String) {
+        let alert = OrbitAlertController.show(with: "正在注册", on: vc)
         
-        if let user = user {
-            
-            usernameTextField.text = user.username
-
-            DispatchQueue.main.asyncAfter(deadline: .now() + 1.0, execute: { 
-                self.warning(message: "注册成功, 请登录", style: .actionSheet, sourceView: self.loginButton)
-            })
-
-        } else {
-            
-            warning(message: "注册失败")
+        UserManager.default.register(username: username, password: password, deviceID: deviceid) { (finish) in
+            let item = {
+                if finish {
+                    alert?.update(prompt: "注册完成")
+                    DispatchQueue.main.asyncAfter(deadline: .now() + 1.5, execute: {
+                        
+                        alert?.dismiss(animated: true, completion: nil)
+                        
+                        vc.dismiss(animated: true, completion: {
+                            self.login(username: username, password: password)
+                        })
+                    })
+                } else {
+                    alert?.update(prompt: "注册失败")
+                    DispatchQueue.main.asyncAfter(deadline: .now() + 1.5, execute: {
+                        alert?.dismiss(animated: true, completion: nil)
+                    })
+                }
+            }
+            DispatchQueue.main.async(execute: item)
         }
     }
     
     
     // MARK: - Helper
+    
+    /// login
+    private func login(username: String, password: String) {
+        let alert = OrbitAlertController.show(with: "正在登录", on: self)
+        
+        UserManager.default.login(username: username, password: password) { (result) in
+            let item = {
+                if result {
+                    alert?.update(prompt: "登录成功")
+                    DispatchQueue.main.asyncAfter(deadline: .now() + 1.0, execute: {
+                        alert?.dismiss(animated: true, completion: nil)
+                        
+                        self.authenticateSuccessed()
+                    })
+                }else {
+                    alert?.update(prompt: "登录失败")
+                    DispatchQueue.main.asyncAfter(deadline: .now() + 1.0, execute: {
+                        alert?.dismiss(animated: true, completion: nil)
+                    })
+                }
+            }
+            DispatchQueue.main.async(execute: item)
+        }
+    }
     
     /// 指纹识别验证身份
     private func touchIDAuthenticate() {

@@ -11,49 +11,32 @@ import UIKit
 
 
 
+/// 点击了附件编辑与添加的事件
+///
 extension MasterViewController {
     
-    /// 点击了附件编辑与添加的事件
-    
-    //    var isEditing: Bool
-    
     @IBAction func didTapAccessoryEditButton(_ sender: Any) {
-        
-        
-        if isEditing {
+        /// 开始编辑
+        let startEditing = {
+            self.isEditing = true
+            self.accessoryEditButton.setImage(UIImage(named: "done"), for: .normal)
             
-            isEditing = false
-            
-            accessoryEditButton.setImage(UIImage(named: "edit"), for: .normal)
-            
-            /// 除了在这里修改，还要在代理方法里面做判断
-            
-            for cell in accessoryCollectionView.visibleCells {
-                
-                cell.alpha = 1
-            }
-            
-        } else {
-            
-            isEditing = true
-            
-            accessoryEditButton.setImage(UIImage(named: "done"), for: .normal)
-            
-            for cell in accessoryCollectionView.visibleCells {
-                
-                cell.alpha = 0.6
-            }
+            /// 除了在这里修改，还要在CollectionView数据源代理方法里面做判断
+            self.accessoryCollectionView.visibleCells.forEach { $0.alpha = 0.6 }
+        }
+        /// 编辑完成
+        let endEditing = {
+            self.isEditing = false
+            self.accessoryEditButton.setImage(UIImage(named: "edit"), for: .normal)
+            self.accessoryCollectionView.visibleCells.forEach { $0.alpha = 1.0 }
         }
         
+        isEditing ? endEditing() : startEditing()
     }
     
     @IBAction func didTapAccessoryAddButton(_ sender: Any) {
-        
         /// auto perform segue
     }
-    
-    
-    
 }
 
 

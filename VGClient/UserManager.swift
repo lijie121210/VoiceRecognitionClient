@@ -10,17 +10,15 @@ import Foundation
 import LocalAuthentication
 
 
-public final class UserManager: NSObject {
+final class UserManager: NSObject {
     
-    public static let `default` = UserManager()
+    static let `default` = UserManager()
     
     private override init() {
         super.init()
-        
-        
     }
     
-    public var currentUser: VGUser? {
+    var currentUser: VGUser? {
         
         return VGUserDefaultValue.currentUser
     }
@@ -28,52 +26,59 @@ public final class UserManager: NSObject {
     
     // MARK: - 登录
     
-    // 登录
-    public func login(username: String, password: String, completion: @escaping (Bool) -> Void ) {
-        
-        /// 假装服务器返回的信息
-        let deviceID = "#ffea324eadcf3"
-        
-        let user = VGUser(username: username, password: password, deviceID: deviceID)
-        
-        /// 保存
-        VGUserDefaultValue.currentUser = user
-        
-        DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) { 
-            
-            completion(true)
-        }
-    }
     
     // 指纹认证
     @available(iOS 8.0, *)
-    public func touchIDAuthenticate(complete: @escaping (Bool, Error?) -> Void ) {
-        
+    func touchIDAuthenticate(complete: @escaping (Bool, Error?) -> Void ) {
         let context = LAContext()
         let result = "请验证您的身份"
         var error: NSError?
         
         if context.canEvaluatePolicy(LAPolicy.deviceOwnerAuthenticationWithBiometrics, error: &error) {
-            
             context.evaluatePolicy(.deviceOwnerAuthenticationWithBiometrics, localizedReason: result, reply: complete)
         } else {
-            
             context.evaluatePolicy(.deviceOwnerAuthentication, localizedReason: result, reply: complete)
         }
     }
     
     
+    // 登录
+    func login(username: String, password: String, completion: @escaping (Bool) -> Void ) {
+
+        VGNetwork.default.login(username: username, password: password) { (data, response, error) in
+            guard
+                let data = data,
+                error == nil,
+                let http = response as? HTTPURLResponse,
+                http.statusCode == 200,
+                let jsonObj = try? JSONSerialization.jsonObject(with: data, options: .mutableContainers),
+                let userinfo = jsonObj as? [String:Any],
+                let deviceid = userinfo["deviceid"] as? String,
+                let id = userinfo["id"] as? Int else {
+                    completion(false)
+                    return
+            }
+            
+            let user = VGUser(username: username, password: password, deviceID: deviceid, id: id)
+            
+            VGUserDefaultValue.currentUser = user
+            
+            completion(true)
+
+        }
+    }
     
     // MARK: - 注册
     
     // 注册
-    public func register(username: String, password: String, deviceID: String, completion: @escaping (Bool) -> Void ) {
+    func register(username: String, password: String, deviceID: String, completion: @escaping (Bool) -> Void ) {
         
-        
-        
-        DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
-            
-            completion(true)
+        VGNetwork.default.register(username: username, password: password, deviceid: deviceID) { (data, response, error) in
+            if let _ = data, error == nil, let http = response as? HTTPURLResponse, http.statusCode == 200 {
+                completion(true)
+            } else {
+                completion(false)
+            }
         }
     }
 }

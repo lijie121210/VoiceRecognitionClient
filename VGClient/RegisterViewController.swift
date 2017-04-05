@@ -12,7 +12,7 @@ import UIKit
 
 protocol RegisterDelegate: class {
     
-    func register(_ vc: RegisterViewController, didFinishWithUser user: VGUser?)
+    func register(_ vc: RegisterViewController, username: String, password: String, deviceid: String)
     
 }
 
@@ -35,7 +35,7 @@ class RegisterViewController: UIViewController, UITextFieldDelegate, KeyboardMan
     
     // MARK: - properties
     
-    public weak var register: RegisterDelegate?
+    weak var registerDelegate: RegisterDelegate?
     
     let keyboardManager = KeyboardManager()
 
@@ -50,7 +50,6 @@ class RegisterViewController: UIViewController, UITextFieldDelegate, KeyboardMan
         super.viewDidLoad()
 
         adjust(constraint: bottomConstraint, withKeyboard: keyboardManager)
-
     }
     
     override func viewDidDisappear(_ animated: Bool) {
@@ -71,52 +70,31 @@ class RegisterViewController: UIViewController, UITextFieldDelegate, KeyboardMan
     
     
     @IBAction func didTapDoneButton(_ sender: Any) {
+        /// 用户名检查
+        guard let username = usernameTextField.text, usernameTextField.isUsernameText else {
+            warning(message: "账号格式错误!", style: .actionSheet, sourceView: usernameTextField)
+            return
+        }
+        /// 密码检查
+        guard let password = passwordTextField.text, passwordTextField.isPasswordText else {
+            warning(message: "密码格式错误!", style: .actionSheet, sourceView: passwordTextField)
+            return
+        }
+        /// 密码确认
+        guard passwordTextField.textEqual(to: passwordTextField) else {
+            warning(message: "密码不能为空, 且应该相同！", style: .actionSheet, sourceView: confirmPSTextField)
+            return
+        }
+        /// 设备编号
+        guard let deviceID = deviceIDTextField.text, deviceIDTextField.isDeviceIDText else {
+            warning(message: "设备编号格式错误！", style: .actionSheet, sourceView: confirmPSTextField)
+            return
+        }
         
         shouldEndEditing()
         
-        /// 用户名检查
-        guard let username = usernameTextField.text, usernameTextField.isUsernameText else {
-            
-            warning(message: "账号格式错误!", style: .actionSheet, sourceView: usernameTextField)
-            
-            return
-        }
-        
-        /// 密码检查
-        guard let password = passwordTextField.text, passwordTextField.isPasswordText else {
-            
-            warning(message: "密码格式错误!", style: .actionSheet, sourceView: passwordTextField)
-            
-            return
-        }
-        
-        /// 密码确认
-        guard passwordTextField.textEqual(to: passwordTextField) else {
-            
-            warning(message: "密码不能为空, 且应该相同！", style: .actionSheet, sourceView: confirmPSTextField)
-            
-            return
-        }
-        
-        /// 设备编号
-        guard let deviceID = deviceIDTextField.text, deviceIDTextField.isDeviceIDText else {
-            
-            warning(message: "设备编号格式错误！", style: .actionSheet, sourceView: confirmPSTextField)
-
-            return
-        }
-        
-        UserManager.default.register(username: username, password: password, deviceID: deviceID) { (_) in
-            
-            let user = VGUser(username: username, password: password, deviceID: deviceID)
-            
-            self.register?.register(self, didFinishWithUser: user)
-
-            self.dismiss(animated: true, completion: nil)
-        }
-        
+        registerDelegate?.register(self, username: username, password: password, deviceid: deviceID)
     }
-    
     
     
     // MARK: - KeyboardManagerHandler

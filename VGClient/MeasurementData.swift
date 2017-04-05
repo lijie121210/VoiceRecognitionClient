@@ -7,7 +7,7 @@
 //
 
 import UIKit
-import Foundation
+//import Foundation
 
 
 /// 监测信息的单位
@@ -58,7 +58,7 @@ public enum MeasurementType: Int, Equatable {
 }
 
 /// 文字描述
-
+///
 extension MeasurementType {
     
     var textDescription: String {
@@ -76,7 +76,7 @@ extension MeasurementType {
 }
 
 /// 使用监测信息种类可以直接获得单位
-
+///
 extension MeasurementType {
     
     var unit: MeasurementUnit {
@@ -91,7 +91,7 @@ extension MeasurementType {
 }
 
 /// 使用监测信息种类可以直接获得图标
-
+///
 extension MeasurementType {
     
     var icon: String {
@@ -107,7 +107,7 @@ extension MeasurementType {
 }
 
 /// 监控信息数据结构
-
+///
 public struct MeasurementData {
     
     let itemType: MeasurementType

@@ -53,10 +53,10 @@ class MasterViewController: UIViewController {
     @IBOutlet weak var accessoryCollectionView: UICollectionView!
     
     
-    
     // MARK - Properties
 
-    /// It needs to be responsible for the full operation of the data, including access, playing and sending
+    /// It needs to be responsible for the full operation of the data, 
+    /// including access, playing and sending
     fileprivate var dataSource: AudioDataSource = AudioDataSource()
     
     fileprivate var audioOperator: AudioOperator!
@@ -69,7 +69,7 @@ class MasterViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        /// 一定要在layout之前设置代理；坑！
+        /// `Note`: 一定要在layout之前设置代理.
         ///
         /// 用于计算每个cell的高度.
         if let layout = accessoryCollectionView.collectionViewLayout as? AlternateLayout {
@@ -81,69 +81,52 @@ class MasterViewController: UIViewController {
         
     }
     
+    /// 这些方法都可能调用多次
+    
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
-        if PermissionDefaultValue.isRequestedPermission {
-            scrollView.alpha = 1.0
-        } else {
-            scrollView.alpha = 0.0
-        }
+        checkPermissionAppearing()
     }
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         
-        if PermissionDefaultValue.isRequestedPermission {
-            
-            
-            /// get existed local data
-//            fetchData()
-            
-            /// start networking connection
-//            clientSocket.connect()
-            
-            /// 去掉注释可以使得设备的集合视图完全显示，而不会滚动。
-            expandScrollViewHeight()
-            
-        } else {
-            
-            /// 显示申请授权的页面
-            requestPermission()
-        }
-        
+        checkPermissionAppeared()
         
         /// 接受开始录音的通知
-        NotificationCenter.default.addObserver(self, selector: #selector(recordDidBegin), name: .UIApplicationWillEnterForeground, object: nil)
+        NotificationCenter.default.addObserver(self,
+                                               selector: #selector(recordDidBegin),
+                                               name: .UIApplicationWillEnterForeground,
+                                               object: nil)
     }
     
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
         
         /// 移除接受通知
-        NotificationCenter.default.removeObserver(self, name: .UIApplicationWillEnterForeground, object: nil)
+        NotificationCenter.default.removeObserver(self,
+                                                  name: .UIApplicationWillEnterForeground,
+                                                  object: nil)
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         super.prepare(for: segue, sender: sender)
         
-        guard let des = segue.destination as? AccessoryViewController else {
-            return
+        /// 准备 编辑／添加 设备
+        if let des = segue.destination as? AccessoryViewController {
+            /// 设置控制器代理
+            des.delegate = self
+            /// 添加
+            guard
+                let id = segue.identifier, id == "\(AccessoryViewController.self)",
+                let sender = sender as? [String:Any],
+                let editing = sender["editing"] as? Bool, editing == true else {
+                    return
+            }
+            des.currentIndexPath = sender["indexPath"] as? IndexPath
+            des.currentAccessory = sender["data"] as? AccessoryData
         }
-        
-        des.delegate = self
-        
-        guard
-            let id = segue.identifier, id == "\(AccessoryViewController.self)",
-            let sender = sender as? [String:Any],
-            let editing = sender["editing"] as? Bool, editing == true else {
-                
-                return
-        }
-        
-        des.currentIndexPath = sender["indexPath"] as? IndexPath
-        
-        des.currentAccessory = sender["data"] as? AccessoryData
     }
     
     override func didReceiveMemoryWarning() {
@@ -151,34 +134,9 @@ class MasterViewController: UIViewController {
         
     }
     
-    
-    func requestPermission() {
-        
-        guard let authority = UIStoryboard(name: "Authority", bundle: nil).instantiateInitialViewController() else {
-            return
-        }
-        
-        show(authority, sender: nil)
-    }
-    
-    func fetchData() {
-        
-        let loadData = { (result: [AudioData]) in
-            DispatchQueue.main.asyncAfter(deadline: .now(), execute: {
-                
-                self.recordList?.reloadDataSource(data: result)
-                
-            })
-        }
-        
-        dataSource.loadLocalData(completion: loadData)
-    }
-    
-    
     /// 开始录音时广播通知的回调函数
     /// 之所以使用通知是因为，一旦应用进入一次后台，再打开，波纹效果就不见了，只能每次都添加。
     @objc fileprivate func recordDidBegin() {
-        
         listeningButton.pulsing()
     }
     

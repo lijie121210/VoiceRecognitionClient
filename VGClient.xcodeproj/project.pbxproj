@@ -57,6 +57,9 @@
 		63C1FC1BD26B63E7F768193B /* Pods_VGClient.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C662A5A8E0CDADBF09F6851F /* Pods_VGClient.framework */; };
 		662A97DBF4DDE4773C71FEA2 /* Pods_VGClientTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D43BB5E3486CDFD5E6648240 /* Pods_VGClientTests.framework */; };
 		C801F50B1E7D22B000093B80 /* PaddingFlowLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = C801F50A1E7D22B000093B80 /* PaddingFlowLayout.swift */; };
+		C855F8701E9484DA00A338C9 /* VGNetwork.swift in Sources */ = {isa = PBXBuildFile; fileRef = C855F86F1E9484DA00A338C9 /* VGNetwork.swift */; };
+		C855F8721E94AF0A00A338C9 /* VGRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = C855F8711E94AF0A00A338C9 /* VGRequest.swift */; };
+		C855F8751E94D5B100A338C9 /* MasterViewController+Authority.swift in Sources */ = {isa = PBXBuildFile; fileRef = C855F8741E94D5B100A338C9 /* MasterViewController+Authority.swift */; };
 		C8B400591E8DEBE30052E5FF /* PermissionRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = C8B400581E8DEBE30052E5FF /* PermissionRequest.swift */; };
 		C8B4005B1E8E005F0052E5FF /* prdes.plist in Resources */ = {isa = PBXBuildFile; fileRef = C8B4005A1E8E005F0052E5FF /* prdes.plist */; };
 		C8F8D1F71E8649A20035A19F /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C8F8D1F61E8649A20035A19F /* LoginViewController.swift */; };
@@ -158,6 +161,9 @@
 		BA53FF96E1403A27DFC055AC /* Pods-VGClient.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-VGClient.debug.xcconfig"; path = "Pods/Target Support Files/Pods-VGClient/Pods-VGClient.debug.xcconfig"; sourceTree = "<group>"; };
 		C662A5A8E0CDADBF09F6851F /* Pods_VGClient.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_VGClient.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		C801F50A1E7D22B000093B80 /* PaddingFlowLayout.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PaddingFlowLayout.swift; sourceTree = "<group>"; };
+		C855F86F1E9484DA00A338C9 /* VGNetwork.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VGNetwork.swift; sourceTree = "<group>"; };
+		C855F8711E94AF0A00A338C9 /* VGRequest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VGRequest.swift; sourceTree = "<group>"; };
+		C855F8741E94D5B100A338C9 /* MasterViewController+Authority.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "MasterViewController+Authority.swift"; sourceTree = "<group>"; };
 		C8B400581E8DEBE30052E5FF /* PermissionRequest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PermissionRequest.swift; sourceTree = "<group>"; };
 		C8B4005A1E8E005F0052E5FF /* prdes.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = prdes.plist; sourceTree = "<group>"; };
 		C8F8D1F61E8649A20035A19F /* LoginViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
@@ -282,6 +288,7 @@
 				189418CF1E51E60E00207358 /* AudioClient.swift */,
 				18D27B461E6D45B200488F80 /* AudioDefaultValue.swift */,
 				C8B400581E8DEBE30052E5FF /* PermissionRequest.swift */,
+				C855F8731E94B5D300A338C9 /* Network */,
 			);
 			name = Models;
 			sourceTree = "<group>";
@@ -430,6 +437,15 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
+		C855F8731E94B5D300A338C9 /* Network */ = {
+			isa = PBXGroup;
+			children = (
+				C855F8711E94AF0A00A338C9 /* VGRequest.swift */,
+				C855F86F1E9484DA00A338C9 /* VGNetwork.swift */,
+			);
+			name = Network;
+			sourceTree = "<group>";
+		};
 		C8B400561E8DEA5D0052E5FF /* User */ = {
 			isa = PBXGroup;
 			children = (
@@ -454,6 +470,7 @@
 			isa = PBXGroup;
 			children = (
 				1855003C1E5A86CF00DADEF7 /* MasterViewController.swift */,
+				C855F8741E94D5B100A338C9 /* MasterViewController+Authority.swift */,
 				18381A451E76593000AE8D98 /* MasterViewController+DataSource.swift */,
 				18206BBE1E72E5AF00E70E9A /* MasterViewController+Layout.swift */,
 				18381A471E76597300AE8D98 /* MasterViewController+Action.swift */,
@@ -852,6 +869,7 @@
 				1855003D1E5A86CF00DADEF7 /* MasterViewController.swift in Sources */,
 				189418D01E51E60E00207358 /* AudioClient.swift in Sources */,
 				C8F8D20D1E8793840035A19F /* AppDelegate+Root.swift in Sources */,
+				C855F8701E9484DA00A338C9 /* VGNetwork.swift in Sources */,
 				180B3BBB1E73AEC500E13309 /* MeasurementCurveData.swift in Sources */,
 				C8F8D2151E88F5400035A19F /* UIViewController+Warning.swift in Sources */,
 				187868761E757A4000F6D102 /* PulsingHaloButton.swift in Sources */,
@@ -859,6 +877,7 @@
 				1880FF4E1E728DB0000A0D1C /* MInfoCell.swift in Sources */,
 				18381A4E1E76979600AE8D98 /* AccessoryViewController.swift in Sources */,
 				1838560E1E5C79180094C811 /* AudioData.swift in Sources */,
+				C855F8721E94AF0A00A338C9 /* VGRequest.swift in Sources */,
 				C8F8D1FD1E86593A0035A19F /* RecordListCell.swift in Sources */,
 				C8F8D2131E87E5C60035A19F /* RegisterViewController.swift in Sources */,
 				180B3BB31E73944A00E13309 /* DataCurveCell.swift in Sources */,
@@ -880,6 +899,7 @@
 				C8F8D1F71E8649A20035A19F /* LoginViewController.swift in Sources */,
 				C8F8D2051E8668260035A19F /* DateEx.swift in Sources */,
 				18D1CAEC1E5C29F30029A6F9 /* AudioDataSource.swift in Sources */,
+				C855F8751E94D5B100A338C9 /* MasterViewController+Authority.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

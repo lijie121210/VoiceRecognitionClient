@@ -43,6 +43,10 @@ class AuthorityViewController: UIViewController {
     
     // MARK: - View controller
     
+    deinit {
+        print(self, #function)
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
