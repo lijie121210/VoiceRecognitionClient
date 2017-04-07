@@ -37,16 +37,51 @@
                                                 <nil key="textColor"/>
                                                 <nil key="highlightedColor"/>
                                             </label>
-                                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="p8i-vL-yJM" customClass="RectCornerView" customModule="VGClient" customModuleProvider="target">
-                                                <rect key="frame" x="364.33333333333326" y="18" width="40.666666666666686" height="34"/>
+                                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="HkQ-Xp-PSg" customClass="RectCornerView" customModule="VGClient" customModuleProvider="target">
+                                                <rect key="frame" x="371" y="17.666666666666668" width="34" height="34"/>
                                                 <subviews>
-                                                    <button opaque="NO" contentMode="scaleAspectFit" contentHorizontalAlignment="center" contentVerticalAlignment="center" reversesTitleShadowWhenHighlighted="YES" showsTouchWhenHighlighted="YES" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="qf4-yo-7V4">
-                                                        <rect key="frame" x="0.0" y="0.0" width="40.666666666666686" height="34"/>
-                                                        <color key="tintColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
+                                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="2l9-mh-Fs7">
+                                                        <rect key="frame" x="0.0" y="0.0" width="34" height="34.000000000000007"/>
                                                         <state key="normal" image="switch"/>
                                                         <connections>
-                                                            <segue destination="j18-gz-AdY" kind="presentation" id="ENT-aj-QvO"/>
+                                                            <action selector="didTapAccessoryAddButton:" destination="Re3-tb-fq7" eventType="touchUpInside" id="ljD-JX-shy"/>
+                                                            <segue destination="j18-gz-AdY" kind="presentation" id="XmN-Ok-n1D"/>
                                                         </connections>
+                                                    </button>
+                                                </subviews>
+                                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                                <constraints>
+                                                    <constraint firstItem="2l9-mh-Fs7" firstAttribute="centerX" secondItem="HkQ-Xp-PSg" secondAttribute="centerX" id="4KO-Ag-uI3"/>
+                                                    <constraint firstAttribute="width" constant="34" id="KRG-Z1-WCS"/>
+                                                    <constraint firstItem="2l9-mh-Fs7" firstAttribute="centerY" secondItem="HkQ-Xp-PSg" secondAttribute="centerY" id="R5m-qe-cI7"/>
+                                                    <constraint firstItem="2l9-mh-Fs7" firstAttribute="width" secondItem="HkQ-Xp-PSg" secondAttribute="width" id="bff-1L-SS6"/>
+                                                    <constraint firstItem="2l9-mh-Fs7" firstAttribute="height" secondItem="HkQ-Xp-PSg" secondAttribute="height" id="wD8-JL-gV1"/>
+                                                    <constraint firstAttribute="height" constant="34" id="zZX-p2-qQe"/>
+                                                </constraints>
+                                                <userDefinedRuntimeAttributes>
+                                                    <userDefinedRuntimeAttribute type="boolean" keyPath="isBottomRightCorner" value="YES"/>
+                                                    <userDefinedRuntimeAttribute type="boolean" keyPath="isBottomLeftCorner" value="YES"/>
+                                                    <userDefinedRuntimeAttribute type="number" keyPath="shadowRadius">
+                                                        <real key="value" value="4"/>
+                                                    </userDefinedRuntimeAttribute>
+                                                    <userDefinedRuntimeAttribute type="color" keyPath="shadowColor">
+                                                        <color key="value" red="0.80000001190000003" green="0.80000001190000003" blue="0.80000001190000003" alpha="1" colorSpace="calibratedRGB"/>
+                                                    </userDefinedRuntimeAttribute>
+                                                    <userDefinedRuntimeAttribute type="number" keyPath="cornerRadiusX">
+                                                        <real key="value" value="17"/>
+                                                    </userDefinedRuntimeAttribute>
+                                                    <userDefinedRuntimeAttribute type="number" keyPath="cornerRadiusY">
+                                                        <real key="value" value="17"/>
+                                                    </userDefinedRuntimeAttribute>
+                                                </userDefinedRuntimeAttributes>
+                                            </view>
+                                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="p8i-vL-yJM" customClass="RectCornerView" customModule="VGClient" customModuleProvider="target">
+                                                <rect key="frame" x="285" y="18" width="70" height="34"/>
+                                                <subviews>
+                                                    <button opaque="NO" contentMode="scaleAspectFit" contentHorizontalAlignment="center" contentVerticalAlignment="center" reversesTitleShadowWhenHighlighted="YES" showsTouchWhenHighlighted="YES" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="qf4-yo-7V4">
+                                                        <rect key="frame" x="0.0" y="0.0" width="70" height="34"/>
+                                                        <color key="tintColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
+                                                        <state key="normal" image="houses"/>
                                                     </button>
                                                 </subviews>
                                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -56,52 +91,16 @@
                                                     <constraint firstAttribute="height" constant="34" id="FAl-a3-BQz"/>
                                                     <constraint firstItem="qf4-yo-7V4" firstAttribute="centerY" secondItem="p8i-vL-yJM" secondAttribute="centerY" id="HjU-tW-af4"/>
                                                     <constraint firstItem="qf4-yo-7V4" firstAttribute="height" secondItem="p8i-vL-yJM" secondAttribute="height" id="IYL-60-ae4"/>
-                                                    <constraint firstAttribute="width" secondItem="p8i-vL-yJM" secondAttribute="height" multiplier="1.2:1" id="iMf-t5-Gp0"/>
+                                                    <constraint firstAttribute="width" constant="70" id="yxs-LB-nqO"/>
                                                 </constraints>
                                                 <userDefinedRuntimeAttributes>
                                                     <userDefinedRuntimeAttribute type="boolean" keyPath="isBottomRightCorner" value="YES"/>
                                                     <userDefinedRuntimeAttribute type="boolean" keyPath="isBottomLeftCorner" value="YES"/>
                                                     <userDefinedRuntimeAttribute type="number" keyPath="shadowRadius">
-                                                        <real key="value" value="2"/>
+                                                        <real key="value" value="4"/>
                                                     </userDefinedRuntimeAttribute>
-                                                    <userDefinedRuntimeAttribute type="number" keyPath="shadowOffsetX">
-                                                        <real key="value" value="0.0"/>
-                                                    </userDefinedRuntimeAttribute>
-                                                    <userDefinedRuntimeAttribute type="number" keyPath="shadowOffsetY">
-                                                        <real key="value" value="0.0"/>
-                                                    </userDefinedRuntimeAttribute>
-                                                </userDefinedRuntimeAttributes>
-                                            </view>
-                                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="YjW-2s-8pF" customClass="RectCornerView" customModule="VGClient" customModuleProvider="target">
-                                                <rect key="frame" x="268.33333333333331" y="18" width="80" height="34"/>
-                                                <subviews>
-                                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="hzJ-JE-Sgh">
-                                                        <rect key="frame" x="0.0" y="0.0" width="80" height="34"/>
-                                                        <state key="normal" image="analysis"/>
-                                                        <connections>
-                                                            <segue destination="zhe-dQ-kyY" kind="show" identifier="AnalysisController" id="WrJ-zi-csn"/>
-                                                        </connections>
-                                                    </button>
-                                                </subviews>
-                                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                                <constraints>
-                                                    <constraint firstItem="hzJ-JE-Sgh" firstAttribute="centerX" secondItem="YjW-2s-8pF" secondAttribute="centerX" id="5au-oH-zyQ"/>
-                                                    <constraint firstItem="hzJ-JE-Sgh" firstAttribute="width" secondItem="YjW-2s-8pF" secondAttribute="width" id="Ern-4A-6X0"/>
-                                                    <constraint firstAttribute="width" constant="80" id="TE6-L1-gOR"/>
-                                                    <constraint firstItem="hzJ-JE-Sgh" firstAttribute="centerY" secondItem="YjW-2s-8pF" secondAttribute="centerY" id="to6-w6-Ndo"/>
-                                                    <constraint firstItem="hzJ-JE-Sgh" firstAttribute="height" secondItem="YjW-2s-8pF" secondAttribute="height" id="wHu-Bs-fMZ"/>
-                                                </constraints>
-                                                <userDefinedRuntimeAttributes>
-                                                    <userDefinedRuntimeAttribute type="boolean" keyPath="isBottomLeftCorner" value="YES"/>
-                                                    <userDefinedRuntimeAttribute type="boolean" keyPath="isBottomRightCorner" value="YES"/>
-                                                    <userDefinedRuntimeAttribute type="number" keyPath="shadowRadius">
-                                                        <real key="value" value="2"/>
-                                                    </userDefinedRuntimeAttribute>
-                                                    <userDefinedRuntimeAttribute type="number" keyPath="shadowOffsetX">
-                                                        <real key="value" value="0.0"/>
-                                                    </userDefinedRuntimeAttribute>
-                                                    <userDefinedRuntimeAttribute type="number" keyPath="shadowOffsetY">
-                                                        <real key="value" value="0.0"/>
+                                                    <userDefinedRuntimeAttribute type="color" keyPath="shadowColor">
+                                                        <color key="value" red="0.80000001190000003" green="0.80000001190000003" blue="0.80000001190000003" alpha="1" colorSpace="calibratedRGB"/>
                                                     </userDefinedRuntimeAttribute>
                                                 </userDefinedRuntimeAttributes>
                                             </view>
@@ -186,10 +185,13 @@
                                                                             <real key="value" value="0.0"/>
                                                                         </userDefinedRuntimeAttribute>
                                                                         <userDefinedRuntimeAttribute type="number" keyPath="shadowOffsetY">
-                                                                            <real key="value" value="-1"/>
+                                                                            <real key="value" value="0.0"/>
                                                                         </userDefinedRuntimeAttribute>
                                                                         <userDefinedRuntimeAttribute type="number" keyPath="shadowRadius">
-                                                                            <real key="value" value="3"/>
+                                                                            <real key="value" value="4"/>
+                                                                        </userDefinedRuntimeAttribute>
+                                                                        <userDefinedRuntimeAttribute type="color" keyPath="shadowColor">
+                                                                            <color key="value" red="0.80000001190000003" green="0.80000001190000003" blue="0.80000001190000003" alpha="1" colorSpace="calibratedRGB"/>
                                                                         </userDefinedRuntimeAttribute>
                                                                     </userDefinedRuntimeAttributes>
                                                                 </view>
@@ -221,17 +223,16 @@
                                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                         <constraints>
                                             <constraint firstAttribute="bottom" secondItem="ww9-iz-o34" secondAttribute="bottom" id="0pu-r8-UmY"/>
-                                            <constraint firstItem="YjW-2s-8pF" firstAttribute="centerY" secondItem="p8i-vL-yJM" secondAttribute="centerY" id="9Mt-oe-qoT"/>
+                                            <constraint firstAttribute="trailing" secondItem="HkQ-Xp-PSg" secondAttribute="trailing" constant="8" id="DtQ-eX-92T"/>
+                                            <constraint firstItem="HkQ-Xp-PSg" firstAttribute="leading" secondItem="p8i-vL-yJM" secondAttribute="trailing" constant="16" id="EWj-XT-zoY"/>
                                             <constraint firstItem="p8i-vL-yJM" firstAttribute="centerY" secondItem="Cet-Cw-vkG" secondAttribute="centerY" id="F2Q-aM-RiG"/>
                                             <constraint firstItem="Cet-Cw-vkG" firstAttribute="leading" secondItem="sTc-y8-Jz4" secondAttribute="leading" constant="20" id="LYQ-a8-8sb"/>
-                                            <constraint firstAttribute="trailing" secondItem="p8i-vL-yJM" secondAttribute="trailing" constant="8" id="MVr-kf-CKD"/>
                                             <constraint firstItem="ww9-iz-o34" firstAttribute="top" secondItem="Cet-Cw-vkG" secondAttribute="bottom" constant="8" id="RIM-jL-WiM"/>
+                                            <constraint firstItem="HkQ-Xp-PSg" firstAttribute="centerY" secondItem="Cet-Cw-vkG" secondAttribute="centerY" id="aAv-tN-TKR"/>
                                             <constraint firstItem="Cet-Cw-vkG" firstAttribute="top" secondItem="sTc-y8-Jz4" secondAttribute="top" constant="20" id="ehh-3Y-J3G"/>
-                                            <constraint firstItem="p8i-vL-yJM" firstAttribute="leading" secondItem="YjW-2s-8pF" secondAttribute="trailing" constant="16" id="f5W-JA-4p2"/>
                                             <constraint firstItem="ww9-iz-o34" firstAttribute="centerX" secondItem="sTc-y8-Jz4" secondAttribute="centerX" id="fyq-LZ-hEU"/>
                                             <constraint firstAttribute="height" constant="210" id="xMH-28-ge3"/>
                                             <constraint firstItem="ww9-iz-o34" firstAttribute="leading" secondItem="sTc-y8-Jz4" secondAttribute="leading" id="yQk-tI-pnb"/>
-                                            <constraint firstItem="YjW-2s-8pF" firstAttribute="height" secondItem="p8i-vL-yJM" secondAttribute="height" id="yml-Kl-17f"/>
                                         </constraints>
                                     </view>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="HoZ-bg-hzN" userLabel="container2">
@@ -243,13 +244,44 @@
                                                 <nil key="textColor"/>
                                                 <nil key="highlightedColor"/>
                                             </label>
+                                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="YjW-2s-8pF" customClass="RectCornerView" customModule="VGClient" customModuleProvider="target">
+                                                <rect key="frame" x="335" y="18" width="70" height="34"/>
+                                                <subviews>
+                                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="hzJ-JE-Sgh">
+                                                        <rect key="frame" x="0.0" y="0.0" width="70" height="34"/>
+                                                        <state key="normal" image="analysis"/>
+                                                        <connections>
+                                                            <segue destination="zhe-dQ-kyY" kind="show" identifier="AnalysisController" id="WrJ-zi-csn"/>
+                                                        </connections>
+                                                    </button>
+                                                </subviews>
+                                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                                <constraints>
+                                                    <constraint firstItem="hzJ-JE-Sgh" firstAttribute="centerX" secondItem="YjW-2s-8pF" secondAttribute="centerX" id="5au-oH-zyQ"/>
+                                                    <constraint firstItem="hzJ-JE-Sgh" firstAttribute="width" secondItem="YjW-2s-8pF" secondAttribute="width" id="Ern-4A-6X0"/>
+                                                    <constraint firstAttribute="width" constant="70" id="TE6-L1-gOR"/>
+                                                    <constraint firstAttribute="height" constant="34" id="fbT-rY-rYz"/>
+                                                    <constraint firstItem="hzJ-JE-Sgh" firstAttribute="centerY" secondItem="YjW-2s-8pF" secondAttribute="centerY" id="to6-w6-Ndo"/>
+                                                    <constraint firstItem="hzJ-JE-Sgh" firstAttribute="height" secondItem="YjW-2s-8pF" secondAttribute="height" id="wHu-Bs-fMZ"/>
+                                                </constraints>
+                                                <userDefinedRuntimeAttributes>
+                                                    <userDefinedRuntimeAttribute type="boolean" keyPath="isBottomLeftCorner" value="YES"/>
+                                                    <userDefinedRuntimeAttribute type="boolean" keyPath="isBottomRightCorner" value="YES"/>
+                                                    <userDefinedRuntimeAttribute type="number" keyPath="shadowRadius">
+                                                        <real key="value" value="4"/>
+                                                    </userDefinedRuntimeAttribute>
+                                                    <userDefinedRuntimeAttribute type="color" keyPath="shadowColor">
+                                                        <color key="value" red="0.80000001190000003" green="0.80000001190000003" blue="0.80000001190000003" alpha="1" colorSpace="calibratedRGB"/>
+                                                    </userDefinedRuntimeAttribute>
+                                                </userDefinedRuntimeAttributes>
+                                            </view>
                                             <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="rbE-Lp-QL6">
                                                 <rect key="frame" x="0.0" y="57" width="413" height="293"/>
                                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                                 <collectionViewLayout key="collectionViewLayout" id="F4o-kE-RFd" customClass="CenterFlowLayout" customModule="VGClient" customModuleProvider="target"/>
                                                 <cells>
                                                     <collectionViewCell opaque="NO" multipleTouchEnabled="YES" contentMode="center" restorationIdentifier="DataCurveCell" reuseIdentifier="DataCurveCell" id="G1C-w9-4Bg" customClass="DataCurveCell" customModule="VGClient" customModuleProvider="target">
-                                                        <rect key="frame" x="32.666666666666664" y="0.0" width="348" height="223"/>
+                                                        <rect key="frame" x="33" y="0.0" width="348" height="223"/>
                                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                         <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
                                                             <rect key="frame" x="0.0" y="0.0" width="348" height="223"/>
@@ -312,14 +344,9 @@
                                                                         <userDefinedRuntimeAttribute type="number" keyPath="cornerRadiusY">
                                                                             <real key="value" value="8"/>
                                                                         </userDefinedRuntimeAttribute>
-                                                                        <userDefinedRuntimeAttribute type="number" keyPath="shadowRadius">
-                                                                            <real key="value" value="3"/>
-                                                                        </userDefinedRuntimeAttribute>
-                                                                        <userDefinedRuntimeAttribute type="number" keyPath="shadowOffsetX">
-                                                                            <real key="value" value="0.0"/>
-                                                                        </userDefinedRuntimeAttribute>
-                                                                        <userDefinedRuntimeAttribute type="number" keyPath="shadowOffsetY">
-                                                                            <real key="value" value="-1"/>
+                                                                        <userDefinedRuntimeAttribute type="boolean" keyPath="isShadowEnabled" value="NO"/>
+                                                                        <userDefinedRuntimeAttribute type="color" keyPath="shadowColor">
+                                                                            <color key="value" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                                                         </userDefinedRuntimeAttribute>
                                                                     </userDefinedRuntimeAttributes>
                                                                 </view>
@@ -351,10 +378,12 @@
                                         <constraints>
                                             <constraint firstAttribute="bottom" secondItem="rbE-Lp-QL6" secondAttribute="bottom" id="ACr-Pj-sJH"/>
                                             <constraint firstItem="rbE-Lp-QL6" firstAttribute="top" secondItem="gWV-mg-xzE" secondAttribute="bottom" constant="8" id="AuL-yy-LEW"/>
+                                            <constraint firstItem="YjW-2s-8pF" firstAttribute="centerY" secondItem="gWV-mg-xzE" secondAttribute="centerY" id="KzE-sT-yaL"/>
                                             <constraint firstItem="rbE-Lp-QL6" firstAttribute="centerX" secondItem="HoZ-bg-hzN" secondAttribute="centerX" id="LCL-6t-Lfo"/>
                                             <constraint firstItem="rbE-Lp-QL6" firstAttribute="leading" secondItem="HoZ-bg-hzN" secondAttribute="leading" id="YMX-HC-SdQ"/>
                                             <constraint firstAttribute="height" constant="350" id="YfX-pp-PAy"/>
                                             <constraint firstItem="gWV-mg-xzE" firstAttribute="leading" secondItem="HoZ-bg-hzN" secondAttribute="leading" constant="20" id="ZNQ-ee-eI2"/>
+                                            <constraint firstAttribute="trailing" secondItem="YjW-2s-8pF" secondAttribute="trailing" constant="8" id="cOd-Mq-LG5"/>
                                             <constraint firstItem="gWV-mg-xzE" firstAttribute="top" secondItem="HoZ-bg-hzN" secondAttribute="top" constant="20" id="tDa-g0-mjR"/>
                                         </constraints>
                                     </view>
@@ -511,10 +540,10 @@
                                                 </connections>
                                             </collectionView>
                                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="OcU-iG-tct" customClass="RectCornerView" customModule="VGClient" customModuleProvider="target">
-                                                <rect key="frame" x="352.33333333333326" y="21" width="40.666666666666686" height="34"/>
+                                                <rect key="frame" x="371" y="21" width="34" height="34"/>
                                                 <subviews>
                                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="fMc-vg-nIS">
-                                                        <rect key="frame" x="0.0" y="0.0" width="40.666666666666686" height="34"/>
+                                                        <rect key="frame" x="0.0" y="0.0" width="34" height="34"/>
                                                         <state key="normal" image="add"/>
                                                         <connections>
                                                             <action selector="didTapAccessoryAddButton:" destination="Re3-tb-fq7" eventType="touchUpInside" id="XBC-71-6Af"/>
@@ -529,24 +558,21 @@
                                                     <constraint firstItem="fMc-vg-nIS" firstAttribute="height" secondItem="OcU-iG-tct" secondAttribute="height" id="Ipz-ET-tl4"/>
                                                     <constraint firstItem="fMc-vg-nIS" firstAttribute="centerX" secondItem="OcU-iG-tct" secondAttribute="centerX" id="qDr-Q1-Pv4"/>
                                                     <constraint firstItem="fMc-vg-nIS" firstAttribute="centerY" secondItem="OcU-iG-tct" secondAttribute="centerY" id="rIk-pN-dFd"/>
-                                                    <constraint firstAttribute="width" secondItem="OcU-iG-tct" secondAttribute="height" multiplier="1.2:1" id="vme-I1-lFI"/>
+                                                    <constraint firstAttribute="width" secondItem="OcU-iG-tct" secondAttribute="height" multiplier="1:1" id="vme-I1-lFI"/>
                                                 </constraints>
                                                 <userDefinedRuntimeAttributes>
                                                     <userDefinedRuntimeAttribute type="boolean" keyPath="isBottomRightCorner" value="YES"/>
                                                     <userDefinedRuntimeAttribute type="boolean" keyPath="isBottomLeftCorner" value="YES"/>
                                                     <userDefinedRuntimeAttribute type="number" keyPath="shadowRadius">
-                                                        <real key="value" value="2"/>
+                                                        <real key="value" value="4"/>
                                                     </userDefinedRuntimeAttribute>
-                                                    <userDefinedRuntimeAttribute type="number" keyPath="shadowOffsetX">
-                                                        <real key="value" value="0.0"/>
-                                                    </userDefinedRuntimeAttribute>
-                                                    <userDefinedRuntimeAttribute type="number" keyPath="shadowOffsetY">
-                                                        <real key="value" value="0.0"/>
+                                                    <userDefinedRuntimeAttribute type="color" keyPath="shadowColor">
+                                                        <color key="value" red="0.80000001190000003" green="0.80000001190000003" blue="0.80000001190000003" alpha="1" colorSpace="calibratedRGB"/>
                                                     </userDefinedRuntimeAttribute>
                                                 </userDefinedRuntimeAttributes>
                                             </view>
                                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Hh8-Gf-cmU" customClass="RectCornerView" customModule="VGClient" customModuleProvider="target">
-                                                <rect key="frame" x="256.33333333333331" y="22" width="80" height="34"/>
+                                                <rect key="frame" x="275" y="22" width="80" height="34"/>
                                                 <subviews>
                                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="h25-yG-idy">
                                                         <rect key="frame" x="0.0" y="0.0" width="80" height="34"/>
@@ -568,13 +594,10 @@
                                                     <userDefinedRuntimeAttribute type="boolean" keyPath="isBottomLeftCorner" value="YES"/>
                                                     <userDefinedRuntimeAttribute type="boolean" keyPath="isBottomRightCorner" value="YES"/>
                                                     <userDefinedRuntimeAttribute type="number" keyPath="shadowRadius">
-                                                        <real key="value" value="2"/>
+                                                        <real key="value" value="4"/>
                                                     </userDefinedRuntimeAttribute>
-                                                    <userDefinedRuntimeAttribute type="number" keyPath="shadowOffsetX">
-                                                        <real key="value" value="0.0"/>
-                                                    </userDefinedRuntimeAttribute>
-                                                    <userDefinedRuntimeAttribute type="number" keyPath="shadowOffsetY">
-                                                        <real key="value" value="0.0"/>
+                                                    <userDefinedRuntimeAttribute type="color" keyPath="shadowColor">
+                                                        <color key="value" red="0.80000001190000003" green="0.80000001190000003" blue="0.80000001190000003" alpha="1" colorSpace="calibratedRGB"/>
                                                     </userDefinedRuntimeAttribute>
                                                 </userDefinedRuntimeAttributes>
                                             </view>
@@ -583,7 +606,7 @@
                                         <constraints>
                                             <constraint firstItem="o6e-rq-yz1" firstAttribute="top" secondItem="7H9-cc-07H" secondAttribute="bottom" constant="8" id="0cg-RE-79r"/>
                                             <constraint firstAttribute="height" constant="400" id="18Z-KS-32f"/>
-                                            <constraint firstAttribute="trailing" secondItem="OcU-iG-tct" secondAttribute="trailing" constant="20" id="8A8-qO-DZc"/>
+                                            <constraint firstAttribute="trailing" secondItem="OcU-iG-tct" secondAttribute="trailing" constant="8" id="8A8-qO-DZc"/>
                                             <constraint firstItem="o6e-rq-yz1" firstAttribute="leading" secondItem="n0Q-4o-mzn" secondAttribute="leading" id="LFq-K0-Byi"/>
                                             <constraint firstItem="OcU-iG-tct" firstAttribute="centerY" secondItem="7H9-cc-07H" secondAttribute="centerY" id="Smf-Iw-Wno"/>
                                             <constraint firstItem="Hh8-Gf-cmU" firstAttribute="height" secondItem="OcU-iG-tct" secondAttribute="height" id="aiI-HY-L4w"/>
@@ -695,15 +718,16 @@
         </scene>
     </scenes>
     <resources>
-        <image name="add" width="23" height="23"/>
-        <image name="analysis" width="32" height="28"/>
+        <image name="add" width="20" height="20"/>
+        <image name="analysis" width="29" height="24"/>
         <image name="background.PNG" width="600" height="800"/>
         <image name="blinkmic" width="20" height="24"/>
         <image name="close" width="36" height="36"/>
-        <image name="edit" width="23" height="23"/>
+        <image name="edit" width="22" height="20"/>
+        <image name="houses" width="24" height="20"/>
         <image name="open" width="36" height="36"/>
         <image name="power" width="20" height="20"/>
         <image name="stop" width="36" height="36"/>
-        <image name="switch" width="27" height="28"/>
+        <image name="switch" width="29" height="18"/>
     </resources>
 </document>

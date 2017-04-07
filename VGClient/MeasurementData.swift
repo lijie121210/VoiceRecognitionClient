@@ -73,6 +73,19 @@ extension MeasurementType {
         case .integrated: return "综合"
         }
     }
+    
+    init?(textDescription: String) {
+        switch textDescription {
+        case "空气湿度": self = MeasurementType.airHumidity
+        case "空气温度": self = MeasurementType.airTemperature
+        case "土壤湿度": self = MeasurementType.soilHumidity
+        case "土壤温度": self = MeasurementType.soilTemperature
+        case "CO2浓度": self = MeasurementType.co2Concentration
+        case "光照强度": self = MeasurementType.lightIntensity
+        case "综合": self = MeasurementType.integrated
+        default: return nil
+        }
+    }
 }
 
 /// 使用监测信息种类可以直接获得单位

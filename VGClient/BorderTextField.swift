@@ -59,24 +59,52 @@ public extension CGRect {
     
     /// which border;
     /// `default` is bottom;
-    @IBInspectable open var borderNumber: UInt = 1<<2
+    @IBInspectable open var borderNumber: UInt = 1<<2 {
+        didSet {
+            setNeedsDisplay()
+        }
+    }
     
     /// background color
     
-    @IBInspectable open var isFilled: Bool = false
+    @IBInspectable open var isFilled: Bool = false {
+        didSet {
+            setNeedsDisplay()
+        }
+    }
     
-    @IBInspectable open var fillColor: UIColor = .clear
+    @IBInspectable open var fillColor: UIColor = .clear {
+        didSet {
+            setNeedsDisplay()
+        }
+    }
     
     /// stoke
-    @IBInspectable open var strokeColor: UIColor = .black
+    @IBInspectable open var strokeColor: UIColor = .black {
+        didSet {
+            setNeedsDisplay()
+        }
+    }
     
     /// line
     
-    @IBInspectable open var isLineDash: Bool = false
+    @IBInspectable open var isLineDash: Bool = false {
+        didSet {
+            setNeedsDisplay()
+        }
+    }
     
-    @IBInspectable open var lineWidth: CGFloat = 2.0
+    @IBInspectable open var lineWidth: CGFloat = 2.0 {
+        didSet {
+            setNeedsDisplay()
+        }
+    }
     
-    @IBInspectable open var lineDash: CGFloat = 1.0
+    @IBInspectable open var lineDash: CGFloat = 1.0 {
+        didSet {
+            setNeedsDisplay()
+        }
+    }
     
     
     open override func draw(_ rect: CGRect) {

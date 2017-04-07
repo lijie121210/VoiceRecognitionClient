@@ -27,7 +27,7 @@ public struct LineConfig: Equatable {
     var isAnimatable: Bool = true
     var isLabelsVisible: Bool = true
     var isArea: Bool = true
-    var gridCount: CGFloat = 7
+    var gridCount: CGFloat = 5
     var color: [UIColor] = [UIColor.randomFlatColor] + UIColor.Flat.colors
 }
 
@@ -75,6 +75,8 @@ public struct MeasurementCurveData {
         
         if config == self.config {
             self.config.gridCount = CGFloat(columns.count)
+        } else {
+            self.config = config
         }
     }
 }

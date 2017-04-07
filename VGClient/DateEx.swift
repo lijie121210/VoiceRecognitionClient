@@ -38,3 +38,27 @@ public extension Date {
             .replacingOccurrences(of: "GMT+8", with: "")
     }
 }
+
+enum DateConvertError: Error {
+    case invalidFormat
+}
+
+extension String {
+    
+    /// String format: yyyy-MM-dd HH:mm:ss
+    ///
+    func date() -> Date? {
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "yyyy-MM-dd HH:mm:ss"
+        return dateFormatter.date(from: self)
+    }
+    
+    func dateTimeIntervalFrom1970() throws -> Double {
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "yyyy-MM-dd HH:mm:ss"
+        guard let date = dateFormatter.date(from: self) else {
+            throw DateConvertError.invalidFormat
+        }
+        return date.timeIntervalSince1970
+    }
+}

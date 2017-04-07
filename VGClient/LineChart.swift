@@ -110,8 +110,7 @@ open class LineChart: UIView {
     }
     fileprivate var drawingWidth: CGFloat = 0 {
         didSet {
-            let data = dataStore[0]
-            x.linear = LinearScale(domain: [0.0, CGFloat(data.count - 1)], range: [0, drawingWidth])
+            x.linear = LinearScale(domain: [0.0, CGFloat(dataStore[0].count - 1)], range: [0, drawingWidth])
             x.scale = x.linear.scale()
             x.invert = x.linear.invert()
             x.ticks = x.linear.ticks(Int(x.grid.count))
@@ -458,7 +457,7 @@ open class LineChart: UIView {
         let y1: CGFloat = self.bounds.height - y.axis.inset
         let y2: CGFloat = y.axis.inset
         let (start, stop, step) = self.x.ticks
-        for i in stride(from: start, through: stop, by: step){
+        for i in stride(from: start, through: stop, by: step) {
             x1 = self.x.scale(i) + x.axis.inset
             path.move(to: CGPoint(x: x1, y: y1))
             path.addLine(to: CGPoint(x: x1, y: y2))

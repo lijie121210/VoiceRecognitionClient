@@ -61,7 +61,7 @@ class DataManager: NSObject {
         return [
             MeasurementCurveData(type: .airTemperature,
                                  fromDate: "02/03 08:00",
-                                 toDate: "02/10 08:00",
+                                 toDate: "02/9 08:00",
                                  columns: [
                                     LineColumn(value: 20, prompt: "02/03"),
                                     LineColumn(value: 22, prompt: "02/04"),
@@ -69,11 +69,10 @@ class DataManager: NSObject {
                                     LineColumn(value: 24, prompt: "02/06"),
                                     LineColumn(value: 25, prompt: "02/07"),
                                     LineColumn(value: 24, prompt: "02/08"),
-                                    LineColumn(value: 25, prompt: "02/09"),
-                                    LineColumn(value: 19, prompt: "02/10")]),
+                                    LineColumn(value: 25, prompt: "02/09")]),
             MeasurementCurveData(type: .airHumidity,
                                  fromDate: "02/03 08:00",
-                                 toDate: "02/10 08:00",
+                                 toDate: "02/9 08:00",
                                  columns: [
                                     LineColumn(value: 50, prompt: "02/03"),
                                     LineColumn(value: 35, prompt: "02/04"),
@@ -81,11 +80,10 @@ class DataManager: NSObject {
                                     LineColumn(value: 93, prompt: "02/06"),
                                     LineColumn(value: 86, prompt: "02/07"),
                                     LineColumn(value: 74, prompt: "02/08"),
-                                    LineColumn(value: 86, prompt: "02/09"),
-                                    LineColumn(value: 69, prompt: "02/10")]),
+                                    LineColumn(value: 86, prompt: "02/09")]),
             MeasurementCurveData(type: .soilTemperature,
                                  fromDate: "02/03 08:00",
-                                 toDate: "02/10 08:00",
+                                 toDate: "02/9 08:00",
                                  columns: [
                                     LineColumn(value: 18, prompt: "02/03"),
                                     LineColumn(value: 19, prompt: "02/04"),
@@ -93,11 +91,10 @@ class DataManager: NSObject {
                                     LineColumn(value: 15, prompt: "02/06"),
                                     LineColumn(value: 18.6, prompt: "02/07"),
                                     LineColumn(value: 20, prompt: "02/08"),
-                                    LineColumn(value: 16.5, prompt: "02/09"),
-                                    LineColumn(value: 21.5, prompt: "02/10")]),
+                                    LineColumn(value: 16.5, prompt: "02/09")]),
             MeasurementCurveData(type: .soilHumidity,
                                  fromDate: "02/03 08:00",
-                                 toDate: "02/10 08:00",
+                                 toDate: "02/9 08:00",
                                  columns: [
                                     LineColumn(value: 65, prompt: "02/03"),
                                     LineColumn(value: 54, prompt: "02/04"),
@@ -105,11 +102,10 @@ class DataManager: NSObject {
                                     LineColumn(value: 98, prompt: "02/06"),
                                     LineColumn(value: 89, prompt: "02/07"),
                                     LineColumn(value: 79, prompt: "02/08"),
-                                    LineColumn(value: 92, prompt: "02/09"),
-                                    LineColumn(value: 76, prompt: "02/10")]),
+                                    LineColumn(value: 92, prompt: "02/09")]),
             MeasurementCurveData(type: .lightIntensity,
                                  fromDate: "02/03 08:00",
-                                 toDate: "02/10 08:00",
+                                 toDate: "02/9 08:00",
                                  columns: [
                                     LineColumn(value: 14.6, prompt: "02/03"),
                                     LineColumn(value: 15.8, prompt: "02/04"),
@@ -117,11 +113,10 @@ class DataManager: NSObject {
                                     LineColumn(value: 22.4, prompt: "02/06"),
                                     LineColumn(value: 25.6, prompt: "02/07"),
                                     LineColumn(value: 19.8, prompt: "02/08"),
-                                    LineColumn(value: 24.9, prompt: "02/09"),
-                                    LineColumn(value: 19.4, prompt: "02/10")]),
+                                    LineColumn(value: 24.9, prompt: "02/09")]),
             MeasurementCurveData(type: .co2Concentration,
                                  fromDate: "02/03 08:00",
-                                 toDate: "02/10 08:00",
+                                 toDate: "02/9 08:00",
                                  columns: [
                                     LineColumn(value: 668.3, prompt: "02/03"),
                                     LineColumn(value: 658.3, prompt: "02/04"),
@@ -129,8 +124,7 @@ class DataManager: NSObject {
                                     LineColumn(value: 630.3, prompt: "02/06"),
                                     LineColumn(value: 589, prompt: "02/07"),
                                     LineColumn(value: 630, prompt: "02/08"),
-                                    LineColumn(value: 593, prompt: "02/09"),
-                                    LineColumn(value: 624, prompt: "02/10")])
+                                    LineColumn(value: 593, prompt: "02/09")])
         ]
     }
     

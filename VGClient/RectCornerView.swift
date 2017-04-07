@@ -19,24 +19,89 @@ open class RectCornerView: UIView {
     }
     
     /// Background
-    @IBInspectable public var fillColor: UIColor = .white
+    @IBInspectable public var fillColor: UIColor = .white {
+        didSet {
+            setNeedsDisplay()
+        }
+    }
 
     /// Corner
-    @IBInspectable public var cornerRadiusX: CGFloat = 20.0
-    @IBInspectable public var cornerRadiusY: CGFloat = 20.0
+    @IBInspectable public var cornerRadiusX: CGFloat = 20.0 {
+        didSet {
+            setNeedsDisplay()
+        }
+    }
     
-    @IBInspectable public var isTopLeftCorner: Bool = true
-    @IBInspectable public var isTopRightCorner: Bool = true
-    @IBInspectable public var isBottomLeftCorner: Bool = false
-    @IBInspectable public var isBottomRightCorner: Bool = false
+    @IBInspectable public var cornerRadiusY: CGFloat = 20.0 {
+        didSet {
+            setNeedsDisplay()
+        }
+    }
+    
+    @IBInspectable public var isTopLeftCorner: Bool = true {
+        didSet {
+            setNeedsDisplay()
+        }
+    }
+    
+    @IBInspectable public var isTopRightCorner: Bool = true {
+        didSet {
+            setNeedsDisplay()
+        }
+    }
+    
+    @IBInspectable public var isBottomLeftCorner: Bool = false {
+        didSet {
+            setNeedsDisplay()
+        }
+    }
+    
+    @IBInspectable public var isBottomRightCorner: Bool = false {
+        didSet {
+            setNeedsDisplay()
+        }
+    }
     
     /// Shadow
-    @IBInspectable public var isShadowEnabled: Bool = true
-    @IBInspectable public var shadowColor: UIColor = .darkGray
-    @IBInspectable public var shadowRadius: CGFloat = 15.0
-    @IBInspectable public var shadowOpacity: Float = 0.4
-    @IBInspectable public var shadowOffsetX: CGFloat = 0
-    @IBInspectable public var shadowOffsetY: CGFloat = -2
+    @IBInspectable public var isShadowEnabled: Bool = true {
+        didSet {
+            if isShadowEnabled {
+                addShadow()
+            } else {
+                removeShadow()
+            }
+        }
+    }
+    
+    @IBInspectable public var shadowColor: UIColor = .darkGray {
+        didSet {
+            addShadow()
+        }
+    }
+    
+    @IBInspectable public var shadowRadius: CGFloat = 15.0 {
+        didSet {
+            addShadow()
+        }
+    }
+    
+    @IBInspectable public var shadowOpacity: Float = 0.4 {
+        didSet {
+            addShadow()
+        }
+    }
+    
+    @IBInspectable public var shadowOffsetX: CGFloat = 0 {
+        didSet {
+            addShadow()
+        }
+    }
+    
+    @IBInspectable public var shadowOffsetY: CGFloat = -2 {
+        didSet {
+            addShadow()
+        }
+    }
     
     /// make rect corner
     private var rectCorner: UIRectCorner {
@@ -86,64 +151,24 @@ open class RectCornerView: UIView {
         guard let ctx = UIGraphicsGetCurrentContext() else {
             return
         }
+        
         let path = UIBezierPath(roundedRect: bounds,
                                 byRoundingCorners: rectCorner,
-                                cornerRadii: CGSize(width: cornerRadiusX, height: cornerRadiusY))
+                                cornerRadii: CGSize(width: cornerRadiusX,
+                                                    height: cornerRadiusY))
         ctx.beginPath()
         ctx.addPath(path.cgPath)
         ctx.setFillColor(fillColor.cgColor)
         ctx.fillPath()
     }
     
+    // MARK: -  Shadow
     
-    /// Background
-    
-    public func setFillColor(color: UIColor) {
-        
-        fillColor = color
-        
-        setNeedsDisplay()
-    }
-    
-    /// Corner
-    
-    public func setCornerRadiusX(radius: CGFloat) {
-        
-        cornerRadiusX = radius
-        
-        setNeedsDisplay()
-    }
-    
-    public func setCornerRadius(x: CGFloat, y: CGFloat) {
-        cornerRadiusX = x
-        cornerRadiusY = y
-        
-        setNeedsDisplay()
-    }
-    
-    public func setCornerRadiusY(radius: CGFloat) {
-        
-        cornerRadiusY = radius
-        
-        setNeedsDisplay()
-    }
-    
-    /// Shadow
     public func addShadow() {
         layer.shadowColor = shadowColor.cgColor
         layer.shadowOffset = CGSize(width: shadowOffsetX, height: shadowOffsetY)
         layer.shadowRadius = shadowRadius
         layer.shadowOpacity = shadowOpacity
-    }
-    
-    public func setShadow(shadow: Shadow) {
-        shadowColor = shadow.color
-        shadowRadius = shadow.radius
-        shadowOpacity = shadow.opacity
-        shadowOffsetX = shadow.offset.width
-        shadowOffsetY = shadow.offset.height
-        
-        addShadow()
     }
     
     public func removeShadow() {

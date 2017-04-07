@@ -90,15 +90,9 @@ class AccessoryCell: UICollectionViewCell {
     
         /// 设置模糊效果的显示和隐藏
         
-        if data.state == .opened {
-            
-            container.setFillColor(color: UIColor(white: 1, alpha: 1))
-            
-        } else {
-            
-            container.setFillColor(color: UIColor(white: 1, alpha: 0.5))
-        }
-        
+        let alpha: CGFloat = data.state == .opened ? 1 : 0.5
+        container.fillColor = UIColor(white: 1, alpha: alpha)
+
         ///
         
         if data.type.isSingleActionTypes {

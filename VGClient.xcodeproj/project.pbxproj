@@ -65,6 +65,8 @@
 		C855F87B1E94EC2B00A338C9 /* AnalysisController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C855F87A1E94EC2B00A338C9 /* AnalysisController.swift */; };
 		C855F87E1E94EC5300A338C9 /* Analysis.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = C855F87D1E94EC5300A338C9 /* Analysis.storyboard */; };
 		C855F8801E95256B00A338C9 /* DatePickerTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = C855F87F1E95256B00A338C9 /* DatePickerTextField.swift */; };
+		C855F8821E95E35400A338C9 /* MeasurementManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = C855F8811E95E35400A338C9 /* MeasurementManager.swift */; };
+		C855F8841E967D9200A338C9 /* LineChartView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C855F8831E967D9200A338C9 /* LineChartView.swift */; };
 		C8B400591E8DEBE30052E5FF /* PermissionRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = C8B400581E8DEBE30052E5FF /* PermissionRequest.swift */; };
 		C8B4005B1E8E005F0052E5FF /* prdes.plist in Resources */ = {isa = PBXBuildFile; fileRef = C8B4005A1E8E005F0052E5FF /* prdes.plist */; };
 		C8F8D1F71E8649A20035A19F /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C8F8D1F61E8649A20035A19F /* LoginViewController.swift */; };
@@ -174,6 +176,8 @@
 		C855F87A1E94EC2B00A338C9 /* AnalysisController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AnalysisController.swift; sourceTree = "<group>"; };
 		C855F87D1E94EC5300A338C9 /* Analysis.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Analysis.storyboard; sourceTree = "<group>"; };
 		C855F87F1E95256B00A338C9 /* DatePickerTextField.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DatePickerTextField.swift; sourceTree = "<group>"; };
+		C855F8811E95E35400A338C9 /* MeasurementManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MeasurementManager.swift; sourceTree = "<group>"; };
+		C855F8831E967D9200A338C9 /* LineChartView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LineChartView.swift; sourceTree = "<group>"; };
 		C8B400581E8DEBE30052E5FF /* PermissionRequest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PermissionRequest.swift; sourceTree = "<group>"; };
 		C8B4005A1E8E005F0052E5FF /* prdes.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = prdes.plist; sourceTree = "<group>"; };
 		C8F8D1F61E8649A20035A19F /* LoginViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
@@ -377,6 +381,7 @@
 				C855F87F1E95256B00A338C9 /* DatePickerTextField.swift */,
 				187868751E757A4000F6D102 /* PulsingHaloButton.swift */,
 				180B3BC01E74FF5D00E13309 /* LineChart.swift */,
+				C855F8831E967D9200A338C9 /* LineChartView.swift */,
 				189418CB1E5197F500207358 /* RectCornerView.swift */,
 				1880FF491E724991000A0D1C /* ArrowControl.swift */,
 				187868771E7597D700F6D102 /* WaveView.swift */,
@@ -484,6 +489,7 @@
 				180B3BBA1E73AEC500E13309 /* MeasurementCurveData.swift */,
 				180B3BBC1E73BEA200E13309 /* AccessoryData.swift */,
 				180B3BBE1E73F92800E13309 /* DataManager.swift */,
+				C855F8811E95E35400A338C9 /* MeasurementManager.swift */,
 			);
 			name = Data;
 			sourceTree = "<group>";
@@ -889,6 +895,7 @@
 				1880FF3E1E710300000A0D1C /* SettingViewController.swift in Sources */,
 				180B3BB91E739D3900E13309 /* MeasurementData.swift in Sources */,
 				18381A481E76597300AE8D98 /* MasterViewController+Action.swift in Sources */,
+				C855F8821E95E35400A338C9 /* MeasurementManager.swift in Sources */,
 				18381A551E76E85200AE8D98 /* AlternateLayout.swift in Sources */,
 				C8F8D21F1E8A24170035A19F /* UIView+PulsingHalo.swift in Sources */,
 				1855003D1E5A86CF00DADEF7 /* MasterViewController.swift in Sources */,
@@ -897,6 +904,7 @@
 				C855F8701E9484DA00A338C9 /* VGNetwork.swift in Sources */,
 				180B3BBB1E73AEC500E13309 /* MeasurementCurveData.swift in Sources */,
 				C8F8D2151E88F5400035A19F /* UIViewController+Warning.swift in Sources */,
+				C855F8841E967D9200A338C9 /* LineChartView.swift in Sources */,
 				187868761E757A4000F6D102 /* PulsingHaloButton.swift in Sources */,
 				C8F8D2111E87E5950035A19F /* FindPSViewController.swift in Sources */,
 				1880FF4E1E728DB0000A0D1C /* MInfoCell.swift in Sources */,
