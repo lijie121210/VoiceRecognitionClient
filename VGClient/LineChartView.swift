@@ -20,6 +20,7 @@ class LineChartView: UIView {
             chart = nil
         }
         chart = LineChart()
+        chart?.translatesAutoresizingMaskIntoConstraints = false
         addSubview(chart!)
         layout(lineChart: chart!)
     }
@@ -29,13 +30,14 @@ class LineChartView: UIView {
     
     private func layout(lineChart c: LineChart) {
         let views = ["v":c]
+        let options: NSLayoutFormatOptions = [.alignAllCenterX,.alignAllCenterY]
         addConstraints(
             NSLayoutConstraint.constraints(withVisualFormat: "V:|-(0)-[v]-(0)-|",
-                                           options: .alignAllCenterY,
+                                           options: options,
                                            metrics: nil,
                                            views: views) +
             NSLayoutConstraint.constraints(withVisualFormat: "H:|-(0)-[v]-(0)-|",
-                                           options: .alignAllCenterX,
+                                           options: options,
                                            metrics: nil,
                                            views: views)
         )

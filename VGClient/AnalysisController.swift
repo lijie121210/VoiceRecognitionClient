@@ -31,12 +31,20 @@ class AnalysisController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        lineChartView.reloadView()
-        lineChartView.chart!.x.labels.visible = false
-        lineChartView.chart!.y.labels.visible = false
-        lineChartView.chart!.addLine([0,1,-1,0])
-        
         reLayoutContentView()
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        
+        lineChartView.reloadView()
+        guard let chart = lineChartView.chart else {
+            return
+        }
+        chart.x.labels.visible = false
+        chart.y.labels.visible = false
+        chart.colors = [UIColor.lightGray]
+        chart.addLine([0,1,-1,0])
     }
 
     
@@ -100,8 +108,6 @@ class AnalysisController: UIViewController {
     private func analysis(type: MeasurementType, fromDate: String, toDate: String) {
         
         OrbitAlertController.show(with: "加载数据", on: self)
-
-        lineChartView.reloadView()
         
         contentLabel.alpha = 0.0
         
@@ -130,6 +136,9 @@ class AnalysisController: UIViewController {
     private func drawChart(data: MeasurementCurveData) {
         
         let config = LineConfig()
+        
+        self.lineChartView.reloadView()
+        
         let lineChartView = self.lineChartView.chart!
         
         lineChartView.animation.enabled = config.isAnimatable
