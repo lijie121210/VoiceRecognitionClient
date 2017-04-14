@@ -16,13 +16,34 @@ enum VGRequestError: Error {
 
 
 enum VGRoute: String {
+    
+    case integrate = "/basic/integrated"
+    
     case login = "/users/login"
     case register = "/users/register"
+    case findPassword = "/users/findPassword"
+    
+    case airts = "/airts"
+    case airtsrange = "/airts/range"
+    
+    case airhs = "/airhs"
+    case airhsrange = "/airhs/range"
+    
+    case soilhs = "/soilhs"
+    case soilhsrange = "/soilhs/range"
+    
+    case soilts = "/soilts"
+    case soiltsrange = "/soilts/range"
+    
+    case lightis = "/lightis"
+    case lightisrange = "/lightis/range"
+    
+    case coocs = "/coocs"
+    case coocsrange = "/coocs/range"
 }
 
 
 enum VGMethod: String {
-    
     case get = "GET"
     case post = "POST"
     case delete = "DELETE"

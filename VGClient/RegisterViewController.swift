@@ -12,7 +12,7 @@ import UIKit
 
 protocol RegisterDelegate: class {
     
-    func register(_ vc: RegisterViewController, username: String, password: String, deviceid: String)
+    func register(_ vc: RegisterViewController, username: String, password: String, deviceid: String, email: String?)
     
 }
 
@@ -23,6 +23,8 @@ class RegisterViewController: UIViewController, UITextFieldDelegate, KeyboardMan
     // MARK: - IBOutlet
 
     @IBOutlet weak var usernameTextField: BorderTextField!
+    
+    @IBOutlet weak var emailTextField: BorderTextField!
     
     @IBOutlet weak var passwordTextField: BorderTextField!
     
@@ -75,6 +77,7 @@ class RegisterViewController: UIViewController, UITextFieldDelegate, KeyboardMan
             warning(message: "账号格式错误!", style: .actionSheet, sourceView: usernameTextField)
             return
         }
+        
         /// 密码检查
         guard let password = passwordTextField.text, passwordTextField.isPasswordText else {
             warning(message: "密码格式错误!", style: .actionSheet, sourceView: passwordTextField)
@@ -91,9 +94,23 @@ class RegisterViewController: UIViewController, UITextFieldDelegate, KeyboardMan
             return
         }
         
+        /// 邮箱
+        var email: String? = nil
+        
+        /// 可以不填邮箱，但是填了，就要格式正确才行；
+        if let e = emailTextField.text {
+            
+            if emailTextField.isEmailText {
+                email = e
+            } else {
+                warning(message: "邮箱格式错误!", style: .actionSheet, sourceView: usernameTextField)
+                return
+            }
+        }
+        
         shouldEndEditing()
         
-        registerDelegate?.register(self, username: username, password: password, deviceid: deviceID)
+        registerDelegate?.register(self, username: username, password: password, deviceid: deviceID, email: email)
     }
     
     

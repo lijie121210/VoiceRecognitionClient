@@ -46,34 +46,29 @@ final class UserManager: NSObject {
     func login(username: String, password: String, completion: @escaping (Bool) -> Void ) {
 
         VGNetwork.default.login(username: username, password: password) { (data, response, error) in
-            guard
-                let data = data,
-                error == nil,
-                let http = response as? HTTPURLResponse,
-                http.statusCode == 200,
-                let jsonObj = try? JSONSerialization.jsonObject(with: data, options: .mutableContainers),
-                let userinfo = jsonObj as? [String:Any],
-                let deviceid = userinfo["deviceid"] as? String,
-                let id = userinfo["id"] as? Int else {
-                    completion(false)
-                    return
+            guard let data = data, error == nil, let http = response as? HTTPURLResponse, http.statusCode == 200 else {
+                completion(false)
+                return
             }
-            
-            let user = VGUser(username: username, password: password, deviceID: deviceid, id: id)
-            
-            VGUserDefaultValue.currentUser = user
-            
-            completion(true)
-
+            do {
+                /// 能创建成功，说明数据解析没问题，直接保存数据就好了
+                let _ = try VGUser(data: data)
+                
+                VGUserDefaultValue.save(user: data)
+                
+                completion(true)
+            } catch {
+                completion(false)
+            }
         }
     }
     
     // MARK: - 注册
     
     // 注册
-    func register(username: String, password: String, deviceID: String, completion: @escaping (Bool) -> Void ) {
+    func register(username: String, password: String, deviceID: String, email: String?, completion: @escaping (Bool) -> Void ) {
         
-        VGNetwork.default.register(username: username, password: password, deviceid: deviceID) { (data, response, error) in
+        VGNetwork.default.register(username: username, password: password, deviceid: deviceID, email: email) { (data, response, error) in
             if let _ = data, error == nil, let http = response as? HTTPURLResponse, http.statusCode == 200 {
                 completion(true)
             } else {

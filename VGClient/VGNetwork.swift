@@ -30,6 +30,9 @@ final class VGNetwork: NSObject {
         super.init()
     }
     
+    
+    // MARK: - Api
+    
     func login(username: String, password: String, completionHandler: @escaping VGRequestHandler) {
         let dic = ["username":username, "password":password]
         let data: Data
@@ -43,8 +46,11 @@ final class VGNetwork: NSObject {
         request.post(route: .login, httpBody: data, handler: completionHandler)
     }
     
-    func register(username: String, password: String, deviceid: String, completionHandler: @escaping VGRequestHandler) {
-        let dic = ["username":username, "password":password, "deviceid":deviceid]
+    func register(username: String, password: String, deviceid: String, email: String?, completionHandler: @escaping VGRequestHandler) {
+        var dic = ["username":username, "password":password, "deviceid":deviceid]
+        if let email = email {
+            dic["email"] = email
+        }
         let data: Data
         do {
             data = try JSONSerialization.data(withJSONObject: dic, options: .prettyPrinted)
@@ -54,5 +60,9 @@ final class VGNetwork: NSObject {
         }
         
         request.post(route: .register, httpBody: data, handler: completionHandler)
+    }
+    
+    func integrate(completionHandler: @escaping VGRequestHandler) {
+        request.get(route: .integrate, handler: completionHandler)
     }
 }

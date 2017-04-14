@@ -67,6 +67,7 @@
 		C855F8801E95256B00A338C9 /* DatePickerTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = C855F87F1E95256B00A338C9 /* DatePickerTextField.swift */; };
 		C855F8821E95E35400A338C9 /* MeasurementManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = C855F8811E95E35400A338C9 /* MeasurementManager.swift */; };
 		C855F8841E967D9200A338C9 /* LineChartView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C855F8831E967D9200A338C9 /* LineChartView.swift */; };
+		C86701681E9FAD08001E20B4 /* VGError.swift in Sources */ = {isa = PBXBuildFile; fileRef = C86701671E9FAD08001E20B4 /* VGError.swift */; };
 		C8B400591E8DEBE30052E5FF /* PermissionRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = C8B400581E8DEBE30052E5FF /* PermissionRequest.swift */; };
 		C8B4005B1E8E005F0052E5FF /* prdes.plist in Resources */ = {isa = PBXBuildFile; fileRef = C8B4005A1E8E005F0052E5FF /* prdes.plist */; };
 		C8F8D1F71E8649A20035A19F /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C8F8D1F61E8649A20035A19F /* LoginViewController.swift */; };
@@ -178,6 +179,7 @@
 		C855F87F1E95256B00A338C9 /* DatePickerTextField.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DatePickerTextField.swift; sourceTree = "<group>"; };
 		C855F8811E95E35400A338C9 /* MeasurementManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MeasurementManager.swift; sourceTree = "<group>"; };
 		C855F8831E967D9200A338C9 /* LineChartView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LineChartView.swift; sourceTree = "<group>"; };
+		C86701671E9FAD08001E20B4 /* VGError.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VGError.swift; sourceTree = "<group>"; };
 		C8B400581E8DEBE30052E5FF /* PermissionRequest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PermissionRequest.swift; sourceTree = "<group>"; };
 		C8B4005A1E8E005F0052E5FF /* prdes.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = prdes.plist; sourceTree = "<group>"; };
 		C8F8D1F61E8649A20035A19F /* LoginViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
@@ -303,6 +305,7 @@
 				18D27B461E6D45B200488F80 /* AudioDefaultValue.swift */,
 				C8B400581E8DEBE30052E5FF /* PermissionRequest.swift */,
 				C855F8731E94B5D300A338C9 /* Network */,
+				C86701671E9FAD08001E20B4 /* VGError.swift */,
 			);
 			name = Models;
 			sourceTree = "<group>";
@@ -934,6 +937,7 @@
 				180B3BBF1E73F92800E13309 /* DataManager.swift in Sources */,
 				C8F8D1F71E8649A20035A19F /* LoginViewController.swift in Sources */,
 				C8F8D2051E8668260035A19F /* DateEx.swift in Sources */,
+				C86701681E9FAD08001E20B4 /* VGError.swift in Sources */,
 				18D1CAEC1E5C29F30029A6F9 /* AudioDataSource.swift in Sources */,
 				C855F8751E94D5B100A338C9 /* MasterViewController+Authority.swift in Sources */,
 			);

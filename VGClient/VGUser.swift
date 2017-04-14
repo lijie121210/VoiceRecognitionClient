@@ -18,7 +18,9 @@ import Foundation
 ///   - lhs: A value to compare.
 ///   - rhs: Another value to compare.
 func ==(lhs: VGUser, rhs: VGUser) -> Bool {
-    return lhs.username == rhs.username && lhs.password == rhs.password && lhs.deviceID == rhs.deviceID
+    return
+        lhs.username == rhs.username && lhs.password == rhs.password &&
+        lhs.deviceid == rhs.deviceid && lhs.id == rhs.id && lhs.email == rhs.email
 }
 
 
@@ -34,15 +36,39 @@ struct VGUser: Equatable {
     
     let password: String
     
-    let deviceID: String
+    let deviceid: String
     
-    init(username: String, password: String, deviceID: String, id: Int? = nil) {
+    var email: String?
+    
+    init(username: String, password: String, deviceid: String, id: Int? = nil, email: String?) {
         self.username = username
         self.password = password
-        self.deviceID = deviceID
+        self.deviceid = deviceid
         self.id = id
+        self.email = email
     }
     
+}
+
+extension VGUser{
+    
+    init(data: Data) throws {
+        let json = try JSONSerialization.jsonObject(with: data, options: .mutableContainers)
+        
+        guard
+            let userinfo = json as? [String:Any],
+            let username = userinfo["username"] as? String,
+            let password = userinfo["password"] as? String,
+            let deviceid = userinfo["deviceid"] as? String else {
+                throw VGError.badParameter
+        }
+        
+        self.username = username
+        self.password = password
+        self.deviceid = deviceid
+        self.email = userinfo["email"] as? String
+        self.id = userinfo["id"] as? Int
+    }
 }
 
 
@@ -57,45 +83,22 @@ public struct VGUserDefaultValue {
     static var currentUser: VGUser? {
         get {
             /// 解析
-            guard
-                let val = UserDefaults.standard.value(forKey: currentUserKey) as? Data,
-                let json = try? JSONSerialization.jsonObject(with: val, options: .mutableContainers),
-                let dic = json as? [String : Any],
-                let username = dic["username"] as? String,
-                let password = dic["password"] as? String,
-                let deviceID = dic["deviceID"] as? String,
-                let id = dic["id"] as? Int else {
-                    return nil
+            guard let data = UserDefaults.standard.value(forKey: currentUserKey) as? Data else {
+                return nil
             }
             
             /// 创建返回
-            return VGUser(username: username, password: password, deviceID: deviceID, id: id)
+            return try? VGUser(data: data)
         }
-        set {
-            
-            /// 设置nil，清除数据
-            guard let newValue = newValue, let id = newValue.id else {
-                
-                UserDefaults.standard.set(nil, forKey: currentUserKey)
-                UserDefaults.standard.synchronize()
-                
-                return
-            }
-            
-            /// 非nil，保存数据
-            let dic: [String:Any] = [
-                "username":newValue.username,
-                "password":newValue.password,
-                "deviceID":newValue.deviceID,
-                "id":id]
-            
-            /// 序列化
-            let json = try! JSONSerialization.data(withJSONObject: dic, options: .prettyPrinted)
-            
-            /// 保存
-            UserDefaults.standard.set(json, forKey: currentUserKey)
-            UserDefaults.standard.synchronize()
+    }
+    
+    static func save(user data: Data?) {
+        if let data = data {
+            UserDefaults.standard.set(data, forKey: currentUserKey)
+        } else {
+            UserDefaults.standard.set(nil, forKey: currentUserKey)
         }
+        UserDefaults.standard.synchronize()
     }
     
 }

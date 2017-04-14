@@ -18,7 +18,7 @@ public enum MeasurementUnit: String, Equatable {
     case temperature = "°C"
     
     /// 湿度
-    case humidity = "%"
+    case humidity = "% RH"
     
     /// 强度
     case intensity = "lx"
@@ -62,15 +62,14 @@ public enum MeasurementType: Int, Equatable {
 extension MeasurementType {
     
     var textDescription: String {
-        
         switch self {
-        case .airHumidity: return "空气湿度"
-        case .airTemperature: return "空气温度"
-        case .soilHumidity: return "土壤湿度"
-        case .soilTemperature: return "土壤温度"
+        case .airHumidity:      return "空气湿度"
+        case .airTemperature:   return "空气温度"
+        case .soilHumidity:     return "土壤湿度"
+        case .soilTemperature:  return "土壤温度"
         case .co2Concentration: return "CO2浓度"
-        case .lightIntensity: return "光照强度"
-        case .integrated: return "综合"
+        case .lightIntensity:   return "光照强度"
+        case .integrated:       return "综合"
         }
     }
     

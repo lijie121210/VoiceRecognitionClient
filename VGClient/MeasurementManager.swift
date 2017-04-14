@@ -15,9 +15,18 @@ final class MeasurementManager {
     
     private init() {  }
     
-    // MARK: - 
+    
+    // MARK: -
+    
+    func integrate(handler: () -> Void) {
+        VGNetwork.default.integrate { (data, response, error) in
+            print(self, #function, data ?? "no data", response ?? "no res", error?.localizedDescription ?? "no err des")
+        }
+    }
     
     func range(type: MeasurementType, fromDate: String, toDate: String, handler: () -> Void) {
         
     }
+    
+    
 }
