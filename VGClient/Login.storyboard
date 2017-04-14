@@ -349,12 +349,12 @@
                                         </connections>
                                     </textField>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="SzV-dQ-p02" customClass="RectCornerView" customModule="VGClient" customModuleProvider="target">
-                                        <rect key="frame" x="20" y="181.5" width="263" height="40"/>
+                                        <rect key="frame" x="100" y="181.5" width="183" height="40"/>
                                         <subviews>
                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" showsTouchWhenHighlighted="YES" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="B5E-qT-YR3">
-                                                <rect key="frame" x="0.0" y="0.5" width="263" height="40"/>
-                                                <fontDescription key="fontDescription" type="system" pointSize="15"/>
-                                                <state key="normal" title="确 定"/>
+                                                <rect key="frame" x="0.0" y="0.5" width="183" height="40"/>
+                                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                <state key="normal" title="找回密码"/>
                                                 <connections>
                                                     <action selector="didTapDoneButton:" destination="jos-cV-Lk0" eventType="touchUpInside" id="zoL-dI-39A"/>
                                                 </connections>
@@ -381,22 +381,52 @@
                                                 <real key="value" value="8"/>
                                             </userDefinedRuntimeAttribute>
                                             <userDefinedRuntimeAttribute type="color" keyPath="shadowColor">
-                                                <color key="value" red="0.7019608021" green="0.7019608021" blue="0.7019608021" alpha="1" colorSpace="calibratedRGB"/>
+                                                <color key="value" red="0.80000001190000003" green="0.80000001190000003" blue="0.80000001190000003" alpha="1" colorSpace="calibratedRGB"/>
                                             </userDefinedRuntimeAttribute>
                                         </userDefinedRuntimeAttributes>
+                                    </view>
+                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="j2v-kO-uFH" userLabel="X Control" customClass="XControl" customModule="VGClient" customModuleProvider="target">
+                                        <rect key="frame" x="20" y="176" width="60" height="50"/>
+                                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="50" id="5Oc-7e-QsH"/>
+                                            <constraint firstAttribute="width" constant="60" id="nQn-QC-XPc"/>
+                                        </constraints>
+                                        <userDefinedRuntimeAttributes>
+                                            <userDefinedRuntimeAttribute type="boolean" keyPath="isShadow" value="YES"/>
+                                            <userDefinedRuntimeAttribute type="color" keyPath="shadowColor">
+                                                <color key="value" red="0.80000001190000003" green="0.80000001190000003" blue="0.80000001190000003" alpha="1" colorSpace="calibratedRGB"/>
+                                            </userDefinedRuntimeAttribute>
+                                            <userDefinedRuntimeAttribute type="number" keyPath="shadowBlur">
+                                                <real key="value" value="8"/>
+                                            </userDefinedRuntimeAttribute>
+                                            <userDefinedRuntimeAttribute type="number" keyPath="xShadow">
+                                                <real key="value" value="0.0"/>
+                                            </userDefinedRuntimeAttribute>
+                                            <userDefinedRuntimeAttribute type="number" keyPath="yShadow">
+                                                <real key="value" value="0.0"/>
+                                            </userDefinedRuntimeAttribute>
+                                            <userDefinedRuntimeAttribute type="number" keyPath="radius">
+                                                <real key="value" value="20"/>
+                                            </userDefinedRuntimeAttribute>
+                                        </userDefinedRuntimeAttributes>
+                                        <connections>
+                                            <action selector="didTapCancelButton:" destination="jos-cV-Lk0" eventType="touchUpInside" id="mfs-e5-MZ8"/>
+                                        </connections>
                                     </view>
                                 </subviews>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <constraints>
                                     <constraint firstItem="5ut-f9-HrM" firstAttribute="centerX" secondItem="d3r-0E-D6V" secondAttribute="centerX" id="1Cv-3e-XTI"/>
-                                    <constraint firstItem="SzV-dQ-p02" firstAttribute="leading" secondItem="d3r-0E-D6V" secondAttribute="leading" constant="20" id="4xO-Wc-gRn"/>
                                     <constraint firstItem="5ut-f9-HrM" firstAttribute="top" secondItem="7g8-fV-Nec" secondAttribute="bottom" constant="8" id="6pl-vi-Yqe"/>
                                     <constraint firstItem="hUL-kj-2yV" firstAttribute="leading" secondItem="7g8-fV-Nec" secondAttribute="leading" id="8Xn-Es-V7I"/>
                                     <constraint firstItem="SzV-dQ-p02" firstAttribute="top" secondItem="cFJ-f6-RO5" secondAttribute="bottom" constant="20" id="AeY-0Y-tJI"/>
+                                    <constraint firstItem="j2v-kO-uFH" firstAttribute="leading" secondItem="d3r-0E-D6V" secondAttribute="leading" constant="20" id="IgT-OY-2Pi"/>
+                                    <constraint firstAttribute="trailing" secondItem="SzV-dQ-p02" secondAttribute="trailing" constant="20" id="Ktr-Qf-hd4"/>
+                                    <constraint firstItem="SzV-dQ-p02" firstAttribute="leading" secondItem="j2v-kO-uFH" secondAttribute="trailing" constant="20" id="OjQ-7g-dfk"/>
                                     <constraint firstItem="cFJ-f6-RO5" firstAttribute="top" secondItem="hUL-kj-2yV" secondAttribute="bottom" constant="8" id="Wlf-SP-mmf"/>
                                     <constraint firstItem="cFJ-f6-RO5" firstAttribute="centerX" secondItem="d3r-0E-D6V" secondAttribute="centerX" id="Yff-Gz-kgU"/>
                                     <constraint firstItem="cFJ-f6-RO5" firstAttribute="leading" secondItem="7g8-fV-Nec" secondAttribute="leading" id="ZEL-1U-Vi9"/>
-                                    <constraint firstItem="SzV-dQ-p02" firstAttribute="centerX" secondItem="d3r-0E-D6V" secondAttribute="centerX" id="dgk-5k-Evc"/>
                                     <constraint firstItem="hUL-kj-2yV" firstAttribute="top" secondItem="5ut-f9-HrM" secondAttribute="bottom" constant="16" id="giV-0h-aeC"/>
                                     <constraint firstAttribute="width" relation="lessThanOrEqual" constant="400" id="h7I-dM-HcP"/>
                                     <constraint firstItem="cFJ-f6-RO5" firstAttribute="height" secondItem="5ut-f9-HrM" secondAttribute="height" id="hQR-cu-A3t"/>
@@ -404,44 +434,16 @@
                                     <constraint firstItem="7g8-fV-Nec" firstAttribute="top" secondItem="d3r-0E-D6V" secondAttribute="top" constant="20" id="irH-ij-oit"/>
                                     <constraint firstAttribute="bottom" secondItem="SzV-dQ-p02" secondAttribute="bottom" constant="8" id="irj-a8-bZ4"/>
                                     <constraint firstItem="5ut-f9-HrM" firstAttribute="leading" secondItem="7g8-fV-Nec" secondAttribute="leading" id="jSD-et-8vz"/>
+                                    <constraint firstItem="j2v-kO-uFH" firstAttribute="centerY" secondItem="SzV-dQ-p02" secondAttribute="centerY" id="xIW-y3-08n"/>
                                 </constraints>
-                            </view>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="找回密码" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="sCe-N3-oTX">
-                                <rect key="frame" x="142" y="37" width="89.5" height="26.5"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="22"/>
-                                <nil key="textColor"/>
-                                <nil key="highlightedColor"/>
-                            </label>
-                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="j2v-kO-uFH" userLabel="X Control" customClass="ArrowControl" customModule="VGClient" customModuleProvider="target">
-                                <rect key="frame" x="0.0" y="20" width="60" height="60"/>
-                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                                <constraints>
-                                    <constraint firstAttribute="height" constant="60" id="5Oc-7e-QsH"/>
-                                    <constraint firstAttribute="width" constant="60" id="nQn-QC-XPc"/>
-                                </constraints>
-                                <userDefinedRuntimeAttributes>
-                                    <userDefinedRuntimeAttribute type="number" keyPath="direction">
-                                        <integer key="value" value="1"/>
-                                    </userDefinedRuntimeAttribute>
-                                    <userDefinedRuntimeAttribute type="color" keyPath="strokeColor">
-                                        <color key="value" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
-                                    </userDefinedRuntimeAttribute>
-                                </userDefinedRuntimeAttributes>
-                                <connections>
-                                    <action selector="didTapCancelButton:" destination="jos-cV-Lk0" eventType="touchUpInside" id="mfs-e5-MZ8"/>
-                                </connections>
                             </view>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
                             <constraint firstItem="swd-d4-Yh3" firstAttribute="top" relation="greaterThanOrEqual" secondItem="d3r-0E-D6V" secondAttribute="bottom" constant="20" id="5Oe-bq-n9P"/>
                             <constraint firstItem="d3r-0E-D6V" firstAttribute="centerY" secondItem="zFf-pW-275" secondAttribute="centerY" priority="750" id="CsJ-dz-yb5"/>
-                            <constraint firstItem="sCe-N3-oTX" firstAttribute="centerX" secondItem="zFf-pW-275" secondAttribute="centerX" id="Wn2-Qx-hUl"/>
-                            <constraint firstItem="j2v-kO-uFH" firstAttribute="leading" secondItem="zFf-pW-275" secondAttribute="leading" id="maS-md-uO5"/>
-                            <constraint firstItem="j2v-kO-uFH" firstAttribute="top" secondItem="08L-LG-7R5" secondAttribute="bottom" id="nR3-rd-khb"/>
                             <constraint firstItem="d3r-0E-D6V" firstAttribute="centerX" secondItem="zFf-pW-275" secondAttribute="centerX" id="nsL-0i-tzq"/>
                             <constraint firstItem="d3r-0E-D6V" firstAttribute="leading" secondItem="zFf-pW-275" secondAttribute="leadingMargin" priority="750" constant="20" id="rMF-PY-0Rc"/>
-                            <constraint firstItem="sCe-N3-oTX" firstAttribute="centerY" secondItem="j2v-kO-uFH" secondAttribute="centerY" id="wfb-6t-qdt"/>
                         </constraints>
                     </view>
                     <connections>
@@ -554,12 +556,12 @@
                                         </connections>
                                     </textField>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Js6-wb-pM3" customClass="RectCornerView" customModule="VGClient" customModuleProvider="target">
-                                        <rect key="frame" x="20" y="344" width="263" height="40"/>
+                                        <rect key="frame" x="100" y="344" width="183" height="40"/>
                                         <subviews>
                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" showsTouchWhenHighlighted="YES" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="CV6-DA-WS6">
-                                                <rect key="frame" x="0.0" y="0.5" width="263" height="40"/>
-                                                <fontDescription key="fontDescription" type="system" pointSize="15"/>
-                                                <state key="normal" title="确 定"/>
+                                                <rect key="frame" x="0.0" y="0.5" width="183" height="40"/>
+                                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                <state key="normal" title="注 册"/>
                                                 <connections>
                                                     <action selector="didTapDoneButton:" destination="2iB-jN-smu" eventType="touchUpInside" id="r4U-ix-dTe"/>
                                                 </connections>
@@ -567,10 +569,10 @@
                                         </subviews>
                                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                         <constraints>
-                                            <constraint firstItem="CV6-DA-WS6" firstAttribute="centerX" secondItem="Js6-wb-pM3" secondAttribute="centerX" id="P0J-9K-lY5"/>
-                                            <constraint firstItem="CV6-DA-WS6" firstAttribute="width" secondItem="Js6-wb-pM3" secondAttribute="width" id="P1f-Lc-zo9"/>
                                             <constraint firstAttribute="height" constant="40" id="S2m-WU-Ngp"/>
+                                            <constraint firstAttribute="trailing" secondItem="CV6-DA-WS6" secondAttribute="trailing" id="YHu-6W-FVO"/>
                                             <constraint firstItem="CV6-DA-WS6" firstAttribute="height" secondItem="Js6-wb-pM3" secondAttribute="height" id="gza-YD-WAo"/>
+                                            <constraint firstItem="CV6-DA-WS6" firstAttribute="leading" secondItem="Js6-wb-pM3" secondAttribute="leading" id="pMa-0N-jZh"/>
                                             <constraint firstItem="CV6-DA-WS6" firstAttribute="centerY" secondItem="Js6-wb-pM3" secondAttribute="centerY" id="vDw-dg-V3R"/>
                                         </constraints>
                                         <userDefinedRuntimeAttributes>
@@ -586,7 +588,13 @@
                                                 <real key="value" value="8"/>
                                             </userDefinedRuntimeAttribute>
                                             <userDefinedRuntimeAttribute type="color" keyPath="shadowColor">
-                                                <color key="value" red="0.7019608021" green="0.7019608021" blue="0.7019608021" alpha="1" colorSpace="calibratedRGB"/>
+                                                <color key="value" red="0.80000001190000003" green="0.80000001190000003" blue="0.80000001190000003" alpha="1" colorSpace="calibratedRGB"/>
+                                            </userDefinedRuntimeAttribute>
+                                            <userDefinedRuntimeAttribute type="number" keyPath="shadowOffsetX">
+                                                <real key="value" value="0.0"/>
+                                            </userDefinedRuntimeAttribute>
+                                            <userDefinedRuntimeAttribute type="number" keyPath="shadowOffsetY">
+                                                <real key="value" value="0.0"/>
                                             </userDefinedRuntimeAttribute>
                                         </userDefinedRuntimeAttributes>
                                     </view>
@@ -629,14 +637,49 @@
                                             <outlet property="delegate" destination="2iB-jN-smu" id="TMY-gn-kzO"/>
                                         </connections>
                                     </textField>
+                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="ydd-SL-cpy" userLabel="X Control" customClass="XControl" customModule="VGClient" customModuleProvider="target">
+                                        <rect key="frame" x="20" y="339" width="60" height="50"/>
+                                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="50" id="RSg-mT-e0V"/>
+                                            <constraint firstAttribute="width" constant="60" id="p4l-WS-XMg"/>
+                                        </constraints>
+                                        <userDefinedRuntimeAttributes>
+                                            <userDefinedRuntimeAttribute type="color" keyPath="strokeColor">
+                                                <color key="value" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
+                                            </userDefinedRuntimeAttribute>
+                                            <userDefinedRuntimeAttribute type="color" keyPath="shadowColor">
+                                                <color key="value" red="0.80000001190000003" green="0.80000001190000003" blue="0.80000001190000003" alpha="1" colorSpace="calibratedRGB"/>
+                                            </userDefinedRuntimeAttribute>
+                                            <userDefinedRuntimeAttribute type="boolean" keyPath="isShadow" value="YES"/>
+                                            <userDefinedRuntimeAttribute type="color" keyPath="fillColor">
+                                                <color key="value" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                            </userDefinedRuntimeAttribute>
+                                            <userDefinedRuntimeAttribute type="number" keyPath="xShadow">
+                                                <real key="value" value="0.0"/>
+                                            </userDefinedRuntimeAttribute>
+                                            <userDefinedRuntimeAttribute type="number" keyPath="yShadow">
+                                                <real key="value" value="0.0"/>
+                                            </userDefinedRuntimeAttribute>
+                                            <userDefinedRuntimeAttribute type="number" keyPath="shadowBlur">
+                                                <real key="value" value="8"/>
+                                            </userDefinedRuntimeAttribute>
+                                            <userDefinedRuntimeAttribute type="number" keyPath="radius">
+                                                <real key="value" value="20"/>
+                                            </userDefinedRuntimeAttribute>
+                                        </userDefinedRuntimeAttributes>
+                                        <connections>
+                                            <action selector="didTapCancelControl:" destination="2iB-jN-smu" eventType="touchUpInside" id="k2Z-1z-oxZ"/>
+                                        </connections>
+                                    </view>
                                 </subviews>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <constraints>
                                     <constraint firstItem="O3b-G3-nzi" firstAttribute="centerX" secondItem="JTT-ma-W7O" secondAttribute="centerX" id="0Z4-TH-iqQ"/>
                                     <constraint firstAttribute="width" relation="lessThanOrEqual" constant="400" id="1UA-aM-bwk"/>
                                     <constraint firstItem="qNk-ci-6VR" firstAttribute="leading" secondItem="zKC-cG-RbJ" secondAttribute="leading" id="21P-em-FV3"/>
+                                    <constraint firstItem="Js6-wb-pM3" firstAttribute="leading" secondItem="ydd-SL-cpy" secondAttribute="trailing" constant="20" id="2aD-ik-L5a"/>
                                     <constraint firstItem="t3A-vq-udt" firstAttribute="centerX" secondItem="JTT-ma-W7O" secondAttribute="centerX" id="2le-j5-0we"/>
-                                    <constraint firstItem="Js6-wb-pM3" firstAttribute="centerX" secondItem="JTT-ma-W7O" secondAttribute="centerX" id="2n7-cd-dvr"/>
                                     <constraint firstItem="BPb-34-GHY" firstAttribute="centerX" secondItem="JTT-ma-W7O" secondAttribute="centerX" id="3pK-kB-iKN"/>
                                     <constraint firstItem="4KX-OM-xhq" firstAttribute="leading" secondItem="zKC-cG-RbJ" secondAttribute="leading" id="4gu-Fb-Bkv"/>
                                     <constraint firstItem="JtV-1o-mkZ" firstAttribute="top" secondItem="t3A-vq-udt" secondAttribute="bottom" constant="16" id="8Ee-oG-gRI"/>
@@ -644,14 +687,16 @@
                                     <constraint firstItem="zhz-uQ-8sg" firstAttribute="centerX" secondItem="JTT-ma-W7O" secondAttribute="centerX" id="A9N-il-3dy"/>
                                     <constraint firstItem="Js6-wb-pM3" firstAttribute="top" secondItem="O3b-G3-nzi" secondAttribute="bottom" constant="20" id="FhB-BE-aau"/>
                                     <constraint firstItem="zhz-uQ-8sg" firstAttribute="leading" secondItem="zKC-cG-RbJ" secondAttribute="leading" id="NDo-vZ-4Zz"/>
+                                    <constraint firstItem="ydd-SL-cpy" firstAttribute="leading" secondItem="JTT-ma-W7O" secondAttribute="leading" constant="20" id="P7d-z4-PIm"/>
                                     <constraint firstItem="4KX-OM-xhq" firstAttribute="centerX" secondItem="JTT-ma-W7O" secondAttribute="centerX" id="PNE-VK-ddU"/>
                                     <constraint firstItem="BPb-34-GHY" firstAttribute="top" secondItem="zhz-uQ-8sg" secondAttribute="bottom" constant="8" id="TIN-hi-PLa"/>
-                                    <constraint firstItem="Js6-wb-pM3" firstAttribute="leading" secondItem="JTT-ma-W7O" secondAttribute="leading" constant="20" id="Tlv-3A-C6G"/>
                                     <constraint firstItem="O3b-G3-nzi" firstAttribute="top" secondItem="JtV-1o-mkZ" secondAttribute="bottom" constant="8" id="WLr-7b-Q7f"/>
                                     <constraint firstItem="t3A-vq-udt" firstAttribute="leading" secondItem="zKC-cG-RbJ" secondAttribute="leading" id="WVQ-Qf-Ug7"/>
                                     <constraint firstItem="zKC-cG-RbJ" firstAttribute="top" secondItem="JTT-ma-W7O" secondAttribute="top" constant="8" id="XiR-BU-dI8"/>
+                                    <constraint firstAttribute="trailing" secondItem="Js6-wb-pM3" secondAttribute="trailing" constant="20" id="Yda-YD-v2Z"/>
                                     <constraint firstItem="qNk-ci-6VR" firstAttribute="top" secondItem="4KX-OM-xhq" secondAttribute="bottom" constant="16" id="cJx-YK-uTx"/>
                                     <constraint firstItem="zKC-cG-RbJ" firstAttribute="leading" secondItem="JTT-ma-W7O" secondAttribute="leading" constant="20" id="gdk-uF-BeK"/>
+                                    <constraint firstItem="ydd-SL-cpy" firstAttribute="centerY" secondItem="Js6-wb-pM3" secondAttribute="centerY" id="hbK-h1-TX0"/>
                                     <constraint firstItem="JtV-1o-mkZ" firstAttribute="leading" secondItem="zKC-cG-RbJ" secondAttribute="leading" id="if2-02-223"/>
                                     <constraint firstAttribute="bottom" secondItem="Js6-wb-pM3" secondAttribute="bottom" constant="8" id="qqF-Un-Hlc"/>
                                     <constraint firstItem="BPb-34-GHY" firstAttribute="leading" secondItem="zhz-uQ-8sg" secondAttribute="leading" id="sU6-ea-wbs"/>
@@ -660,42 +705,13 @@
                                     <constraint firstItem="t3A-vq-udt" firstAttribute="top" secondItem="qNk-ci-6VR" secondAttribute="bottom" constant="8" id="v7w-js-otr"/>
                                 </constraints>
                             </view>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="注册" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="gem-9B-p6Z">
-                                <rect key="frame" x="165" y="36.5" width="45" height="27"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="22"/>
-                                <nil key="textColor"/>
-                                <nil key="highlightedColor"/>
-                            </label>
-                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="ydd-SL-cpy" userLabel="X Control" customClass="ArrowControl" customModule="VGClient" customModuleProvider="target">
-                                <rect key="frame" x="16" y="20" width="60" height="60"/>
-                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                                <constraints>
-                                    <constraint firstAttribute="width" constant="60" id="Ct6-pG-M56"/>
-                                    <constraint firstAttribute="height" constant="60" id="vFZ-XS-BJF"/>
-                                </constraints>
-                                <userDefinedRuntimeAttributes>
-                                    <userDefinedRuntimeAttribute type="number" keyPath="direction">
-                                        <integer key="value" value="1"/>
-                                    </userDefinedRuntimeAttribute>
-                                    <userDefinedRuntimeAttribute type="color" keyPath="strokeColor">
-                                        <color key="value" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
-                                    </userDefinedRuntimeAttribute>
-                                </userDefinedRuntimeAttributes>
-                                <connections>
-                                    <action selector="didTapCancelControl:" destination="2iB-jN-smu" eventType="touchUpInside" id="k2Z-1z-oxZ"/>
-                                </connections>
-                            </view>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
-                            <constraint firstItem="gem-9B-p6Z" firstAttribute="centerX" secondItem="mZa-Kv-3MI" secondAttribute="centerX" id="0xg-ht-HFC"/>
                             <constraint firstItem="JTT-ma-W7O" firstAttribute="centerY" secondItem="mZa-Kv-3MI" secondAttribute="centerY" priority="750" id="9hj-zO-F2Q"/>
-                            <constraint firstItem="gem-9B-p6Z" firstAttribute="centerY" secondItem="ydd-SL-cpy" secondAttribute="centerY" id="GjB-VY-K0E"/>
                             <constraint firstItem="JTT-ma-W7O" firstAttribute="leading" secondItem="mZa-Kv-3MI" secondAttribute="leadingMargin" priority="750" constant="20" id="KmQ-2j-6fP"/>
                             <constraint firstItem="WVg-yp-P6h" firstAttribute="top" relation="greaterThanOrEqual" secondItem="JTT-ma-W7O" secondAttribute="bottom" constant="20" id="N0c-QQ-vyv"/>
-                            <constraint firstItem="ydd-SL-cpy" firstAttribute="top" secondItem="Osk-MC-pai" secondAttribute="bottom" id="Ohz-3B-p6A"/>
                             <constraint firstItem="JTT-ma-W7O" firstAttribute="centerX" secondItem="mZa-Kv-3MI" secondAttribute="centerX" id="f1V-lu-3t1"/>
-                            <constraint firstItem="ydd-SL-cpy" firstAttribute="leading" secondItem="mZa-Kv-3MI" secondAttribute="leadingMargin" id="sOO-HA-qux"/>
                         </constraints>
                     </view>
                     <connections>

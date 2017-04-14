@@ -12,7 +12,7 @@ import UIKit
 
 protocol RegisterDelegate: class {
     
-    func register(_ vc: RegisterViewController, username: String, password: String, deviceid: String, email: String?)
+    func register(_ vc: RegisterViewController, user: VGUser)
     
 }
 
@@ -110,7 +110,9 @@ class RegisterViewController: UIViewController, UITextFieldDelegate, KeyboardMan
         
         shouldEndEditing()
         
-        registerDelegate?.register(self, username: username, password: password, deviceid: deviceID, email: email)
+        let user = VGUser(username: username, password: password, deviceid: deviceID, email: email)
+        
+        registerDelegate?.register(self, user: user)
     }
     
     

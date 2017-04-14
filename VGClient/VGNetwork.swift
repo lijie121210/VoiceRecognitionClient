@@ -46,20 +46,14 @@ final class VGNetwork: NSObject {
         request.post(route: .login, httpBody: data, handler: completionHandler)
     }
     
-    func register(username: String, password: String, deviceid: String, email: String?, completionHandler: @escaping VGRequestHandler) {
-        var dic = ["username":username, "password":password, "deviceid":deviceid]
-        if let email = email {
-            dic["email"] = email
-        }
-        let data: Data
+    func register(user: VGUser, completionHandler: @escaping VGRequestHandler) {
         do {
-            data = try JSONSerialization.data(withJSONObject: dic, options: .prettyPrinted)
+            let data = try user.data(besideID: true)
+            request.post(route: .register, httpBody: data, handler: completionHandler)
         } catch {
             completionHandler(nil, nil, VGRequestError.badParameters)
             return
         }
-        
-        request.post(route: .register, httpBody: data, handler: completionHandler)
     }
     
     func integrate(completionHandler: @escaping VGRequestHandler) {

@@ -47,7 +47,7 @@ public func ==(lhs: ArrowPoint, rhs: ArrowPoint) -> Bool {
     /// 阴影的属性
     @IBInspectable open var isShadow: Bool = false
     
-    @IBInspectable open var shadowColor: UIColor = UIColor.darkGray.withAlphaComponent(0.6)
+    @IBInspectable open var shadowColor: UIColor = UIColor.darkGray.withAlphaComponent(0.4)
     
     @IBInspectable open var shadowBlur: CGFloat = 2.0
     

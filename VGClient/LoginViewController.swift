@@ -153,10 +153,10 @@ class LoginViewController: UIViewController, UITextFieldDelegate, KeyboardManage
     
     // MARK: - RegisterDelegate
     
-    func register(_ vc: RegisterViewController, username: String, password: String, deviceid: String, email: String?) {
+    func register(_ vc: RegisterViewController, user: VGUser) {
         let alert = OrbitAlertController.show(with: "正在注册", on: vc)
         
-        UserManager.default.register(username: username, password: password, deviceID: deviceid, email: email) { (finish) in
+        UserManager.default.register(user: user) { (finish) in
             let item = {
                 if finish {
                     alert?.update(prompt: "注册完成")
@@ -165,7 +165,7 @@ class LoginViewController: UIViewController, UITextFieldDelegate, KeyboardManage
                         alert?.dismiss(animated: true, completion: nil)
                         
                         vc.dismiss(animated: true, completion: {
-                            self.login(username: username, password: password)
+                            self.login(username: user.username, password: user.password)
                         })
                     })
                 } else {

@@ -69,6 +69,34 @@ extension VGUser{
         self.email = userinfo["email"] as? String
         self.id = userinfo["id"] as? Int
     }
+    
+    /// Convert to JSON Data
+    ///
+    /// 将VGUser转换成JSON格式；
+    /// `Note` 如果email或id不存在，则使用空字符串代替；id也会被作为字符串存储;
+    /// - parameter besidePassword 不包含password字段
+    /// - parameter besideID 不包含id字段
+    /// - parameter besideEmail 不包含email字段
+    /// - return JSON Serialized Data.
+    func data(besidePassword: Bool = false, besideID: Bool = false, besideEmail: Bool = false) throws -> Data {
+        var dic = [String:String]()
+        dic["username"] = username
+        dic["deviceid"] = deviceid
+        if !besidePassword {
+            dic["password"] = password
+        }
+        if !besideID {
+            dic["id"] = id == nil ? "" : "\(id!)"
+        }
+        if !besideEmail {
+            dic["email"] = email ?? ""
+        }
+        return try convert(json: dic)
+    }
+    
+    func convert(json: Any) throws -> Data {
+        return try JSONSerialization.data(withJSONObject: json, options: .prettyPrinted)
+    }
 }
 
 
@@ -86,7 +114,6 @@ public struct VGUserDefaultValue {
             guard let data = UserDefaults.standard.value(forKey: currentUserKey) as? Data else {
                 return nil
             }
-            
             /// 创建返回
             return try? VGUser(data: data)
         }

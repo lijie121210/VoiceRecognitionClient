@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="12118" systemVersion="16A323" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="Re3-tb-fq7">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="12118" systemVersion="16E195" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="Re3-tb-fq7">
     <device id="retina5_5" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
@@ -26,7 +26,7 @@
                                 <rect key="frame" x="0.0" y="0.0" width="414" height="736"/>
                             </imageView>
                             <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" horizontalHuggingPriority="252" verticalHuggingPriority="252" horizontalCompressionResistancePriority="752" verticalCompressionResistancePriority="752" directionalLockEnabled="YES" alwaysBounceVertical="YES" showsHorizontalScrollIndicator="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Uxk-rJ-r1U">
-                                <rect key="frame" x="0.0" y="20" width="414" height="716"/>
+                                <rect key="frame" x="0.0" y="220" width="414" height="516"/>
                                 <subviews>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="sTc-y8-Jz4" userLabel="container1">
                                         <rect key="frame" x="0.0" y="0.0" width="413" height="210"/>
@@ -38,10 +38,10 @@
                                                 <nil key="highlightedColor"/>
                                             </label>
                                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="HkQ-Xp-PSg" customClass="RectCornerView" customModule="VGClient" customModuleProvider="target">
-                                                <rect key="frame" x="371" y="17.666666666666668" width="34" height="34"/>
+                                                <rect key="frame" x="371" y="17.666666666666657" width="34" height="34.000000000000028"/>
                                                 <subviews>
                                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="2l9-mh-Fs7">
-                                                        <rect key="frame" x="0.0" y="0.0" width="34" height="34.000000000000007"/>
+                                                        <rect key="frame" x="0.0" y="0.0" width="34" height="34.000000000000028"/>
                                                         <state key="normal" image="switch"/>
                                                         <connections>
                                                             <action selector="didTapAccessoryAddButton:" destination="Re3-tb-fq7" eventType="touchUpInside" id="ljD-JX-shy"/>
@@ -115,7 +115,7 @@
                                                 </collectionViewFlowLayout>
                                                 <cells>
                                                     <collectionViewCell opaque="NO" multipleTouchEnabled="YES" contentMode="center" restorationIdentifier="MInfoCell" reuseIdentifier="MInfoCell" id="WQi-ca-nud" customClass="MInfoCell" customModule="VGClient" customModuleProvider="target">
-                                                        <rect key="frame" x="0.0" y="3" width="332" height="148"/>
+                                                        <rect key="frame" x="0.0" y="2.6666666666666665" width="332" height="148"/>
                                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                         <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
                                                             <rect key="frame" x="0.0" y="0.0" width="332" height="148"/>
@@ -281,7 +281,7 @@
                                                 <collectionViewLayout key="collectionViewLayout" id="F4o-kE-RFd" customClass="CenterFlowLayout" customModule="VGClient" customModuleProvider="target"/>
                                                 <cells>
                                                     <collectionViewCell opaque="NO" multipleTouchEnabled="YES" contentMode="center" restorationIdentifier="DataCurveCell" reuseIdentifier="DataCurveCell" id="G1C-w9-4Bg" customClass="DataCurveCell" customModule="VGClient" customModuleProvider="target">
-                                                        <rect key="frame" x="33" y="0.0" width="348" height="223"/>
+                                                        <rect key="frame" x="32.666666666666664" y="0.0" width="348" height="223"/>
                                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                         <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
                                                             <rect key="frame" x="0.0" y="0.0" width="348" height="223"/>
@@ -655,7 +655,7 @@
                             <constraint firstItem="Uxk-rJ-r1U" firstAttribute="width" secondItem="Zzk-dv-8jG" secondAttribute="width" priority="999" id="JcG-2x-S8Z"/>
                             <constraint firstItem="laZ-iD-0pN" firstAttribute="top" secondItem="Uxk-rJ-r1U" secondAttribute="bottom" id="MwW-pJ-Nuv"/>
                             <constraint firstItem="5xr-ee-fK6" firstAttribute="centerX" secondItem="1ha-i9-prm" secondAttribute="centerX" id="ZzD-jL-N0k"/>
-                            <constraint firstItem="Uxk-rJ-r1U" firstAttribute="top" secondItem="tsV-5g-Ebh" secondAttribute="bottom" id="lv3-pD-0vX"/>
+                            <constraint firstItem="Uxk-rJ-r1U" firstAttribute="top" secondItem="tsV-5g-Ebh" secondAttribute="bottom" constant="200" id="lv3-pD-0vX"/>
                             <constraint firstItem="Zzk-dv-8jG" firstAttribute="centerX" secondItem="1ha-i9-prm" secondAttribute="centerX" id="q7i-8G-3Oa"/>
                             <constraint firstItem="Zzk-dv-8jG" firstAttribute="height" secondItem="1ha-i9-prm" secondAttribute="height" id="sHv-9e-2Vk"/>
                             <constraint firstItem="Zzk-dv-8jG" firstAttribute="centerY" secondItem="1ha-i9-prm" secondAttribute="centerY" id="xp3-DI-tMb"/>

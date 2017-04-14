@@ -66,9 +66,9 @@ final class UserManager: NSObject {
     // MARK: - 注册
     
     // 注册
-    func register(username: String, password: String, deviceID: String, email: String?, completion: @escaping (Bool) -> Void ) {
+    func register(user: VGUser, completion: @escaping (Bool) -> Void ) {
         
-        VGNetwork.default.register(username: username, password: password, deviceid: deviceID, email: email) { (data, response, error) in
+        VGNetwork.default.register(user: user) { (data, response, error) in
             if let _ = data, error == nil, let http = response as? HTTPURLResponse, http.statusCode == 200 {
                 completion(true)
             } else {

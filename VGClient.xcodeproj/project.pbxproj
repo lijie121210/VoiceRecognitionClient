@@ -256,6 +256,7 @@
 		18381A431E7638C200AE8D98 /* Helper */ = {
 			isa = PBXGroup;
 			children = (
+				C86701671E9FAD08001E20B4 /* VGError.swift */,
 				C8F8D20E1E87AB250035A19F /* KeyboradManager.swift */,
 				18381A411E76366B00AE8D98 /* RandomNumber.swift */,
 				18381A491E7661EF00AE8D98 /* RandomColor.swift */,
@@ -305,7 +306,6 @@
 				18D27B461E6D45B200488F80 /* AudioDefaultValue.swift */,
 				C8B400581E8DEBE30052E5FF /* PermissionRequest.swift */,
 				C855F8731E94B5D300A338C9 /* Network */,
-				C86701671E9FAD08001E20B4 /* VGError.swift */,
 			);
 			name = Models;
 			sourceTree = "<group>";
