@@ -1,12 +1,20 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="11759" systemVersion="16D32" minimumToolsVersion="Automatic" sourceLanguage="Swift" userDefinedModelVersionIdentifier="">
+<model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="12141" systemVersion="16E195" minimumToolsVersion="Automatic" sourceLanguage="Swift" userDefinedModelVersionIdentifier="">
     <entity name="AudioRecordItem" representedClassName="AudioRecordItem" syncable="YES" codeGenerationType="class">
         <attribute name="createDate" optional="YES" attributeType="Date" usesScalarValueType="NO" syncable="YES"/>
         <attribute name="duration" optional="YES" attributeType="Double" defaultValueString="0.0" usesScalarValueType="YES" syncable="YES"/>
         <attribute name="filename" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="translation" optional="YES" attributeType="String" syncable="YES"/>
     </entity>
+    <entity name="MeasurementThreshold" representedClassName="MeasurementThreshold" syncable="YES" codeGenerationType="class">
+        <attribute name="effective_high_time" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="effective_low_time" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="high" optional="YES" attributeType="Double" defaultValueString="0.0" usesScalarValueType="YES" syncable="YES"/>
+        <attribute name="low" optional="YES" attributeType="Double" defaultValueString="0.0" usesScalarValueType="YES" syncable="YES"/>
+        <attribute name="type" optional="YES" attributeType="String" syncable="YES"/>
+    </entity>
     <elements>
         <element name="AudioRecordItem" positionX="-63" positionY="-18" width="128" height="105"/>
+        <element name="MeasurementThreshold" positionX="-63" positionY="9" width="128" height="120"/>
     </elements>
 </model>

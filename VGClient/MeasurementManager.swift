@@ -7,7 +7,7 @@
 //
 
 import Foundation
-
+import UIKit
 
 final class MeasurementManager {
     
@@ -16,17 +16,54 @@ final class MeasurementManager {
     private init() {  }
     
     
-    // MARK: -
+    // MARK: - Properties
     
-    func integrate(handler: () -> Void) {
+    var dataSource: MeasurementDataSource = MeasurementDataSource()
+    
+    var accessories: [AccessoryData] = []
+    
+    // MARK: - api
+    
+    func initialLoading(handler: @escaping (Bool) -> Void) {
+        recent(count: 5, handler: handler)
+    }
+    
+    func recent(count: Int, handler: @escaping (Bool) -> Void) {
+        VGNetwork.default.recent(count: count) { (data, response, error) in
+            guard let data = data, error == nil, let http = response as? HTTPURLResponse, http.statusCode == 200 else {
+                handler(false)
+                return
+            }
+            do {
+                self.dataSource = try MeasurementDataSource(from: data)
+                handler(true)
+            } catch {
+                handler(false)
+            }
+        }
+    }
+    
+    func integrate(handler: @escaping ([MeasurementData]) -> Void) {
         VGNetwork.default.integrate { (data, response, error) in
-            print(self, #function, data ?? "no data", response ?? "no res", error?.localizedDescription ?? "no err des")
+            guard let data = data, error == nil, let http = response as? HTTPURLResponse, http.statusCode == 200 else {
+                return handler([])
+            }
+            do {
+                let res = try MeasurementData.makeIntegratedMeasurements(from: data)
+                handler( res )
+            } catch {
+                handler([])
+            }
         }
     }
     
     func range(type: MeasurementType, fromDate: String, toDate: String, handler: () -> Void) {
         
     }
+    
+    
+    // MARK: - Helper
+    
     
     
 }

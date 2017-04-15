@@ -64,7 +64,7 @@ public struct MeasurementCurveData {
     }
     
     var title: String {
-        return type.textDescription + "数据变化曲线图"
+        return type.textDescription + "变化曲线图"
     }
     
     init(type: MeasurementType, fromDate: String, toDate: String, columns: [LineColumn], config: LineConfig = LineConfig()) {

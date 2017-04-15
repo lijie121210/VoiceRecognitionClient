@@ -14,34 +14,63 @@ enum VGRequestError: Error {
     case badParameters
 }
 
-
-enum VGRoute: String {
+enum VGRoute {
     
-    case integrate = "/basic/integrated"
+    case integrate
     
-    case login = "/users/login"
-    case register = "/users/register"
-    case findPassword = "/users/findPassword"
+    case login
+    case register
+    case findPassword
     
-    case airts = "/airts"
-    case airtsrange = "/airts/range"
+    case airts
+    case airtsrange
     
-    case airhs = "/airhs"
-    case airhsrange = "/airhs/range"
+    case airhs
+    case airhsrange
     
-    case soilhs = "/soilhs"
-    case soilhsrange = "/soilhs/range"
+    case soilhs
+    case soilhsrange
     
-    case soilts = "/soilts"
-    case soiltsrange = "/soilts/range"
+    case soilts
+    case soiltsrange
     
-    case lightis = "/lightis"
-    case lightisrange = "/lightis/range"
+    case lightis
+    case lightisrange
     
-    case coocs = "/coocs"
-    case coocsrange = "/coocs/range"
+    case coocs
+    case coocsrange
+    
+    case recent(Int)
+    
+    var rawValue: String {
+        switch self {
+        case .integrate: return "/basic/integrated"
+        case .login: return "/users/login"
+        case .register: return "/users/register"
+        case .findPassword: return "/users/findPassword"
+        
+        case .airts: return "/airts"
+        case .airtsrange: return "/airts/range"
+        
+        case .airhs: return "/airhs"
+        case .airhsrange: return "/airhs/range"
+        
+        case .soilhs: return "/soilhs"
+        case .soilhsrange: return "/soilhs/range"
+        
+        case .soilts: return "/soilts"
+        case .soiltsrange: return "/soilts/range"
+            
+        case .lightis: return "/lightis"
+        case .lightisrange: return "/lightis/range"
+            
+        case .coocs: return "/coocs"
+        case .coocsrange: return "/coocs/range"
+            
+        case .recent(let count): return "/basic/recent/\(count)"
+        }
+    }
 }
-
 
 enum VGMethod: String {
     case get = "GET"

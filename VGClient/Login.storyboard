@@ -194,59 +194,7 @@
                             </button>
                             <view hidden="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="NW0-OJ-GiH" userLabel="CoverView">
                                 <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
-                                <subviews>
-                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="SYM-RD-jRl" userLabel="View0">
-                                        <rect key="frame" x="20" y="64" width="335" height="60"/>
-                                        <color key="backgroundColor" red="0.90196079019999997" green="0.90196079019999997" blue="0.90196079019999997" alpha="1" colorSpace="calibratedRGB"/>
-                                        <constraints>
-                                            <constraint firstAttribute="height" constant="60" id="y4P-f4-cVL"/>
-                                        </constraints>
-                                    </view>
-                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="kz2-dY-ops" userLabel="View2">
-                                        <rect key="frame" x="20" y="352" width="335" height="1"/>
-                                        <color key="backgroundColor" red="0.90196079019999997" green="0.90196079019999997" blue="0.90196079019999997" alpha="1" colorSpace="calibratedRGB"/>
-                                        <constraints>
-                                            <constraint firstAttribute="height" constant="1" id="xCh-up-51s"/>
-                                        </constraints>
-                                    </view>
-                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="e0a-uZ-imf" userLabel="View3">
-                                        <rect key="frame" x="20" y="361" width="335" height="200"/>
-                                        <color key="backgroundColor" red="0.90196079019999997" green="0.90196079019999997" blue="0.90196079019999997" alpha="1" colorSpace="calibratedRGB"/>
-                                        <constraints>
-                                            <constraint firstAttribute="height" constant="200" id="DAk-Yc-m1d"/>
-                                        </constraints>
-                                    </view>
-                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="zkM-De-5S6" userLabel="View4">
-                                        <rect key="frame" x="20" y="569" width="335" height="1"/>
-                                        <color key="backgroundColor" red="0.90196079019999997" green="0.90196079019999997" blue="0.90196079019999997" alpha="1" colorSpace="calibratedRGB"/>
-                                    </view>
-                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="XTU-zI-YwN" userLabel="View1">
-                                        <rect key="frame" x="20" y="144" width="335" height="200"/>
-                                        <color key="backgroundColor" red="0.90196079019999997" green="0.90196079019999997" blue="0.90196079019999997" alpha="1" colorSpace="calibratedRGB"/>
-                                        <constraints>
-                                            <constraint firstAttribute="height" constant="200" id="Lhh-w8-QIc"/>
-                                        </constraints>
-                                    </view>
-                                </subviews>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                <constraints>
-                                    <constraint firstItem="SYM-RD-jRl" firstAttribute="centerX" secondItem="NW0-OJ-GiH" secondAttribute="centerX" id="3bi-VY-2kp"/>
-                                    <constraint firstItem="zkM-De-5S6" firstAttribute="height" secondItem="kz2-dY-ops" secondAttribute="height" id="6u0-Ap-E4A"/>
-                                    <constraint firstAttribute="trailing" secondItem="kz2-dY-ops" secondAttribute="trailing" constant="20" id="CCU-Lb-gGy"/>
-                                    <constraint firstItem="XTU-zI-YwN" firstAttribute="top" secondItem="SYM-RD-jRl" secondAttribute="bottom" constant="20" id="IWF-TY-yaF"/>
-                                    <constraint firstItem="kz2-dY-ops" firstAttribute="leading" secondItem="NW0-OJ-GiH" secondAttribute="leading" constant="20" id="LbJ-1y-f5z"/>
-                                    <constraint firstItem="e0a-uZ-imf" firstAttribute="top" secondItem="kz2-dY-ops" secondAttribute="bottom" constant="8" id="Mwc-ib-1Os"/>
-                                    <constraint firstItem="zkM-De-5S6" firstAttribute="width" secondItem="kz2-dY-ops" secondAttribute="width" id="Qbg-t9-Uml"/>
-                                    <constraint firstItem="zkM-De-5S6" firstAttribute="leading" secondItem="kz2-dY-ops" secondAttribute="leading" id="SSb-Rd-6wf"/>
-                                    <constraint firstItem="XTU-zI-YwN" firstAttribute="centerX" secondItem="NW0-OJ-GiH" secondAttribute="centerX" id="UwD-lm-Gjo"/>
-                                    <constraint firstItem="SYM-RD-jRl" firstAttribute="leading" secondItem="NW0-OJ-GiH" secondAttribute="leading" constant="20" id="XdY-PN-HPp"/>
-                                    <constraint firstItem="e0a-uZ-imf" firstAttribute="leading" secondItem="NW0-OJ-GiH" secondAttribute="leading" constant="20" id="Yaw-pN-YOI"/>
-                                    <constraint firstItem="kz2-dY-ops" firstAttribute="top" secondItem="XTU-zI-YwN" secondAttribute="bottom" constant="8" id="a7M-2r-4hE"/>
-                                    <constraint firstItem="e0a-uZ-imf" firstAttribute="centerX" secondItem="NW0-OJ-GiH" secondAttribute="centerX" id="amW-1p-3hu"/>
-                                    <constraint firstItem="zkM-De-5S6" firstAttribute="top" secondItem="e0a-uZ-imf" secondAttribute="bottom" constant="8" id="jGq-SY-HY1"/>
-                                    <constraint firstItem="SYM-RD-jRl" firstAttribute="top" secondItem="NW0-OJ-GiH" secondAttribute="top" constant="64" id="kvu-Wc-CkA"/>
-                                    <constraint firstItem="XTU-zI-YwN" firstAttribute="leading" secondItem="NW0-OJ-GiH" secondAttribute="leading" constant="20" id="wIo-XD-yYx"/>
-                                </constraints>
                             </view>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>

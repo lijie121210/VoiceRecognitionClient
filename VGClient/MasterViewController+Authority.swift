@@ -31,6 +31,10 @@ extension MasterViewController {
         if PermissionDefaultValue.isRequestedPermission {
             /// 去掉注释可以使得设备的集合视图完全显示，而不会滚动。
             expandScrollViewHeight()
+            
+            MeasurementManager.default.integrate { res in
+                print(res)
+            }
         } else {
             /// 显示申请授权的页面
             requestPermission()

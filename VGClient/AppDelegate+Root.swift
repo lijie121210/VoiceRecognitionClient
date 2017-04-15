@@ -11,7 +11,7 @@ import UIKit
 
 /// AppDelegate extension : switch root view controller of key window
 
-public protocol SwitchRootController {
+protocol SwitchRootController {
     
     func shouldSwitchRootControllerToLogin()
     
@@ -21,9 +21,9 @@ public protocol SwitchRootController {
 extension AppDelegate: SwitchRootController {
     
     /// 切换到主视图控制器
-    public func shouldSwitchRootCOntrollerToMaster() {
+    func shouldSwitchRootCOntrollerToMaster() {
         
-        guard let master = UIStoryboard(name: "Master", bundle: nil).instantiateInitialViewController() as? MasterViewController else {
+        guard let master = UIStoryboard(name: "Main", bundle: nil).instantiateInitialViewController() as? UINavigationController else {
             return
         }
         
@@ -33,7 +33,7 @@ extension AppDelegate: SwitchRootController {
             window = UIWindow(frame: UIScreen.main.bounds)
         }
         
-        if let root = window!.rootViewController, root is MasterViewController {
+        if let root = window!.rootViewController, root is UINavigationController {
             return
         }
         
@@ -42,7 +42,7 @@ extension AppDelegate: SwitchRootController {
     }
 
     /// 切换到登录页面
-    public func shouldSwitchRootControllerToLogin() {
+    func shouldSwitchRootControllerToLogin() {
         
         guard let login = UIStoryboard(name: "Login", bundle: nil).instantiateInitialViewController() as? LoginViewController else {
             return

@@ -83,6 +83,31 @@ public enum MeasurementType: Int, Equatable {
         }
     }
     
+    var origin: String {
+        switch self {
+        case .airHumidity:      return "airHumidity"
+        case .airTemperature:   return "airTemperature"
+        case .soilHumidity:     return "soilHumidity"
+        case .soilTemperature:  return "soilTemperature"
+        case .co2Concentration: return "co2Concentration"
+        case .lightIntensity:   return "lightIntensity"
+        case .integrated:       return "integrated"
+        }
+    }
+    
+    init?(origin: String) {
+        switch origin {
+        case "airHumidity": self = MeasurementType.airHumidity
+        case "airTemperature": self = MeasurementType.airTemperature
+        case "soilHumidity": self = MeasurementType.soilHumidity
+        case "soilTemperature": self = MeasurementType.soilTemperature
+        case "co2Concentration": self = MeasurementType.co2Concentration
+        case "lightIntensity": self = MeasurementType.lightIntensity
+        case "integrated": self = MeasurementType.integrated
+        default: return nil
+        }
+    }
+    
     /// 使用监测信息种类可以直接获得单位
 
     var unit: MeasurementUnit {

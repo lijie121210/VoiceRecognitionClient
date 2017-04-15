@@ -14,18 +14,6 @@ struct MeasurementTypePickerData {
     
     private var data: [String]
     
-    init() {
-        data = [String]()
-        
-        stride(from: 0, through: 5, by: 1).forEach {
-            if let t = MeasurementType(rawValue: $0) {
-                data.append(t.textDescription)
-            }
-        }
-    }
-    
-    /// public api
-    
     var count: Int {
         return data.count
     }
@@ -36,5 +24,15 @@ struct MeasurementTypePickerData {
     
     subscript(index: Int) -> String {
         return data[index]
+    }
+    
+    init() {
+        data = [String]()
+        
+        stride(from: 0, through: 5, by: 1).forEach {
+            if let t = MeasurementType(rawValue: $0) {
+                data.append(t.textDescription)
+            }
+        }
     }
 }

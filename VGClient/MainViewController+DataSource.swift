@@ -17,69 +17,36 @@ extension MainViewController: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         
         if collectionView == self.measurementCollectionView {
-            return (DataManager.default.fake_data[0] as AnyObject).count
-        }
-        
+            return latestMeasurements.count
+        }        
         if collectionView == self.accessoryCollectionView {
             return (DataManager.default.fake_data[2] as AnyObject).count
         }
-        
         return 0
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        
-        
         if collectionView == measurementCollectionView {
+            /// measurement collection view
+            let data = latestMeasurements[indexPath.item]
+            let mcell = collectionView.dequeueReusableCell(withReuseIdentifier: "MeasurementCCell", for: indexPath) as! MeasurementCCell
+            mcell.imageView.image = data.itemImage
+            mcell.titleLabel.text = data.itemType.textDescription
+            mcell.timeLabel.text = data.updateDate
+            mcell.valueLabel.text = String(format: "%.2f", data.value)
+            mcell.unitLabel.text = data.itemUnit.rawValue
             
-            /// monitoring information collection view
-            
-            let data = (DataManager.default.fake_data[0] as! [MeasurementData])[indexPath.item]
-            
-            let micell = collectionView.dequeueReusableCell(withReuseIdentifier: "MInfoCell", for: indexPath) as! MInfoCell
-            
-            micell.imageView.image = data.itemImage
-            
-            micell.titleLabel.text = data.itemType.textDescription
-            
-            micell.timeLabel.text = data.updateDate
-            
-            micell.valueLabel.text = String(data.value)
-            
-            micell.unitLabel.text = data.itemUnit.rawValue
-            
-            return micell
-            
-        }
-//        else if collectionView == dataCurveCollectionView {
-//            
-//            /// data curve collection view
-//            
-//            let data = (DataManager.default.fake_data[1] as! [MeasurementCurveData])[indexPath.item]
-//            
-//            let dccell = collectionView.dequeueReusableCell(withReuseIdentifier: "DataCurveCell", for: indexPath) as! DataCurveCell
-//            
-//            dccell.update(data: data)
-//            
-//            return dccell
-//            
-//        }
-        else {
-            
+            return mcell
+        } else {
+            /// accessory collection view
             let data = (DataManager.default.fake_data[2] as! [AccessoryData])[indexPath.item]
-            
             let accell = collectionView.dequeueReusableCell(withReuseIdentifier: "\(AccessoryCell.self)", for: indexPath) as! AccessoryCell
-            
-//            accell.update(data: data, delegate: self)
+            accell.update(data: data, delegate: self)
             
             /// 编辑状态
-            
             accell.alpha = isEditing ? 0.6 : 1.0
             
             return accell
-            
         }
-        
     }
-    
 }

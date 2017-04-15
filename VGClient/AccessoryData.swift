@@ -93,14 +93,14 @@ public extension AccessoryType {
     
     public static var singleActionTypes:[AccessoryType] {
         
-        return [.ventilator, .warmingLamp, .fillLight]
+        return [.ventilator, .warmingLamp, .fillLight, .wateringPump]
     }
     
     /// 这些设备的操作则稍微复杂
     
     public static var multipleActionTypes: [AccessoryType] {
         
-        return [.rollingMachine, .wateringPump]
+        return [.rollingMachine]
     }
     
     public var isSingleActionTypes: Bool {

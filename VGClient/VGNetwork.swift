@@ -59,4 +59,12 @@ final class VGNetwork: NSObject {
     func integrate(completionHandler: @escaping VGRequestHandler) {
         request.get(route: .integrate, handler: completionHandler)
     }
+    
+    func recent(count: Int, completionHandler: @escaping VGRequestHandler) {
+        request.get(route: .recent(count), handler: completionHandler)
+    }
+    
+    func range() {
+        
+    }
 }
