@@ -372,6 +372,100 @@ class MainViewController: UIViewController {
     }
     
     
+    
+    
+//    /// 录制到数据之后，开始进行识别
+//    
+//    func recognizeWithHMM(data: AudioData, completion: @escaping (String?) -> ()) {
+//        
+//        /// check data
+//        guard let data = data.data else {
+//            return completion(nil)
+//        }
+//        
+//        /// check connection
+//        guard clientSocket.connect() else {
+//            return completion(nil)
+//        }
+//        
+//        /// write to socket
+//        clientSocket.write(data: data, type: .audio, recognition: completion)
+//    }
+//    
+//    func startRecognition(data: AudioData) {
+//        
+//        /// will mutate the translation property.
+//        var data = data
+//        
+//        /// loading indicatior
+//        let orbit = OrbitAlertController.show(with: "正在上传...", on: self)
+//        
+//        /// failed!
+//        let recognizeFailed = {
+//            
+//            DispatchQueue.main.async {
+//                orbit?.update(prompt: "未完成!")
+//                DispatchQueue.main.asyncAfter(deadline: .now() + 2.0, execute: {
+//                    OrbitAlertController.dismiss()
+//                })
+//            }
+//            
+//            /// 清理数据
+//            //            AudioOperator.delete(recordedItem: data.localURL)
+//        }
+//        
+//        /// successed!
+//        let recognizeSuccessed = { (text: String) in
+//            DispatchQueue.main.async {
+//                
+//                orbit?.update(prompt: "完成!")
+//                DispatchQueue.main.asyncAfter(deadline: .now() + 1.0, execute: {
+//                    OrbitAlertController.dismiss()
+//                })
+//                
+//                data.translation = text
+//                
+//                self.dataSource.append(data: data)
+//                
+//                self.recordList?.insert(data: data)
+//            }
+//        }
+//        
+//        /// recognition result callback
+//        let handleResult = { (text: String?) in
+//            
+//            if let text = text {
+//                
+//                recognizeSuccessed(text)
+//            } else {
+//                
+//                recognizeFailed()
+//            }
+//        }
+//        
+//        switch AudioDefaultValue.speechRecognitionEngine {
+//            
+//        case .hmm:
+//            
+//            recognizeWithHMM(data: data, completion: handleResult)
+//            
+//        case .siri:
+//            
+//            if #available(iOS 10.0, *) {
+//                
+//                AudioOperator.recognize(speech: data.localURL, completion: handleResult)
+//            } else {
+//                
+//                recognizeWithHMM(data: data, completion: handleResult)
+//            }
+//        }
+//        
+//    }
+//    
+    
+    
+    
+    
     // MARK: - SettingViewControllerDelegate
     
     /* 该界面可能更改设置，于是实现设置更改的代理人，可以接受在该页面更改设置时的通知.

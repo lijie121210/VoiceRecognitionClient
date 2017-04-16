@@ -26,8 +26,16 @@ final class MThresholdManager {
         }
         let fetch: [MThresholdItem] = CoreDataManager.default.fetch()
         
-        guard let item: MThresholdItem = fetch.first else { return nil }
-        
-        return item
+        if let item: MThresholdItem = fetch.first {
+            return item
+        } else {
+            let item = CoreDataManager.default.insertEntity(MThresholdItem.self)
+            item.effective_high_time = "20"
+            item.effective_low_time = "8"
+            item.low = 15
+            item.high = 30
+            CoreDataManager.default.saveContext()
+            return item
+        }
     }
 }

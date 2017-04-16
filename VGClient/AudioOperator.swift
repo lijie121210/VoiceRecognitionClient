@@ -21,16 +21,37 @@ extension Notification.Name {
 }
 
 
-protocol AudioOperatorDelegate: class {
+final class AudioRecordResult: NSObject {
     
-    func audioOperator(_ audioOperator: AudioOperator, didFinishRecording data: AudioData)
+    var filename: String
+    var duration: TimeInterval
+    var recordDate: Date
+    var translation: String? = nil
     
+    init(filename: String, duration: TimeInterval, recordDate: Date, translation: String? = nil) {
+        self.filename = filename
+        self.duration = duration
+        self.recordDate = recordDate
+        self.translation = translation
+        super.init()
+    }
+    
+}
+
+@objc protocol AudioOperatorDelegate: class {
+    @objc optional
+    func audioOperator(_ audioOperator: AudioOperator, didFinishRecording data: AudioRecordResult)
+    
+    @objc optional
     func audioOperator(_ audioOperator: AudioOperator, didFailRecording error: Error)
     
+    @objc optional
     func audioOperator(_ audioOperator: AudioOperator, recordingTime time: TimeInterval, andPower power: Float)
     
+    @objc optional
     func audioOperatorDidFinishPlaying(_ audioOperator: AudioOperator)
     
+    @objc optional
     func audioOperator(_ audioOperator: AudioOperator, playingTime time: TimeInterval, andPower power: Float)
 }
 
@@ -155,7 +176,7 @@ final class AudioOperator: NSObject, AVAudioRecorderDelegate, AVAudioPlayerDeleg
         DispatchQueue.main.async {
             let power = r.averagePower(forChannel: 0)
             let time = r.currentTime
-            self.delegate?.audioOperator(self, recordingTime: time, andPower: power)
+            self.delegate?.audioOperator?(self, recordingTime: time, andPower: power)
         }
     }
     
@@ -201,7 +222,7 @@ final class AudioOperator: NSObject, AVAudioRecorderDelegate, AVAudioPlayerDeleg
         DispatchQueue.main.async {
             let power = p.averagePower(forChannel: 0)
             let time = p.currentTime
-            self.delegate?.audioOperator(self, playingTime: time, andPower: power)
+            self.delegate?.audioOperator?(self, playingTime: time, andPower: power)
         }
     }
     
@@ -261,12 +282,13 @@ final class AudioOperator: NSObject, AVAudioRecorderDelegate, AVAudioPlayerDeleg
         print(self, #function, recorder.currentTime)
         DispatchQueue.main.async {
             if let name = self.filename, flag == true {
-                let data = AudioData(filename: name,
+                let data = AudioRecordResult(filename: name,
                                      duration: self.currentTime,
                                      recordDate: Date(timeIntervalSince1970: self.startTime))
-                self.delegate?.audioOperator(self, didFinishRecording: data)
+                self.delegate?.audioOperator?(self, didFinishRecording: data)
             } else {
-                self.delegate?.audioOperator(self, didFailRecording: VGError.recordFailure)
+                self.cancelRecording()
+                self.delegate?.audioOperator?(self, didFailRecording: VGError.recordFailure)
             }
         }
     }
@@ -274,13 +296,14 @@ final class AudioOperator: NSObject, AVAudioRecorderDelegate, AVAudioPlayerDeleg
     func audioRecorderBeginInterruption(_ recorder: AVAudioRecorder) {
         cancelRecording()
         DispatchQueue.main.async {
-            self.delegate?.audioOperator(self, didFailRecording: VGError.recordFailure)
+            self.delegate?.audioOperator?(self, didFailRecording: VGError.recordFailure)
         }
     }
     
     func audioRecorderEncodeErrorDidOccur(_ recorder: AVAudioRecorder, error: Error?) {
+        cancelRecording()
         DispatchQueue.main.async {
-            self.delegate?.audioOperator(self, didFailRecording: error ?? VGError.recordFailure)
+            self.delegate?.audioOperator?(self, didFailRecording: error ?? VGError.recordFailure)
         }
     }
     
@@ -289,20 +312,20 @@ final class AudioOperator: NSObject, AVAudioRecorderDelegate, AVAudioPlayerDeleg
     
     func audioPlayerDidFinishPlaying(_ player: AVAudioPlayer, successfully flag: Bool) {
         DispatchQueue.main.async {
-            self.delegate?.audioOperatorDidFinishPlaying(self)
+            self.delegate?.audioOperatorDidFinishPlaying?(self)
         }
     }
     
     func audioPlayerBeginInterruption(_ player: AVAudioPlayer) {
         cancelPlaying()
         DispatchQueue.main.async {
-            self.delegate?.audioOperatorDidFinishPlaying(self)
+            self.delegate?.audioOperatorDidFinishPlaying?(self)
         }
     }
     
     func audioPlayerDecodeErrorDidOccur(_ player: AVAudioPlayer, error: Error?) {
         DispatchQueue.main.async {
-            self.delegate?.audioOperatorDidFinishPlaying(self)
+            self.delegate?.audioOperatorDidFinishPlaying?(self)
         }
     }
     

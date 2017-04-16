@@ -12,7 +12,7 @@ import UIKit
 ///
 /// `Note` this class use as a view only.
 /// It will not trigger viewWillAppear or viewDidAppear
-class ListenViewController: UIViewController {
+class ListenViewController: UIViewController, AudioOperatorDelegate {
 
     // MARK: - outlet
     
@@ -22,70 +22,45 @@ class ListenViewController: UIViewController {
     
     // MARK: - Properties
     
-    var audioOperator: AudioOperator!
+    let audioOperator: AudioOperator = AudioOperator()
     
+    
+    // MARK: - View Controller
+
     deinit {
         print(self, #function)
     }
     
-    /// 开始监听录音幅度变化
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        
+        titleLabel.text = "--"
+    }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
-        DataManager.default.addObserver(self,
-                                        forKeyPath: #keyPath(DataManager.averagePower),
-                                        options: [.new],
-                                        context: nil)
-        
+        start()
     }
-
-    /// 更新标题
 
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         
-        if DataManager.default.isRecording {
-            
+        if audioOperator.isRecording {
             titleLabel.text = "正在聆听"
         } else {
-            
             titleLabel.text = "无法聆听"
         }
     }
     
-    /// 移除监听录音幅度变化
-
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
         
-        DataManager.default.removeObserver(self,
-                                           forKeyPath: #keyPath(DataManager.averagePower),
-                                           context: nil)
-        
-    }
-    
-    /// 监听事件
-    
-    override func observeValue(forKeyPath keyPath: String?, of object: Any?, change: [NSKeyValueChangeKey : Any]?, context: UnsafeMutableRawPointer?) {
-        
-        if
-            let path = keyPath, path == #keyPath(DataManager.averagePower),
-            let power = change?[.newKey] as? Float {
-            
-            let level = pow(10, power / 50.0)
-            let level2 = pow(10, power / 40.0)
-            
-            waveViews.forEach { $0.level = $0.tag == 2 ? level : level2 }
-            
-            return
-        }
-        
-        super.observeValue(forKeyPath: keyPath, of: object, change: change, context: context)
+        audioOperator.releaseResource()
     }
     
     
-    /// 关闭
+    // MARK: - User Interaction
     
     @IBAction func done(_ sender: Any) {
         
@@ -93,8 +68,7 @@ class ListenViewController: UIViewController {
             dismiss(animated: true, completion: nil)
         }
         
-        
-        
+        audioOperator.stopRecording()
     }
     @IBAction func close(_ sender: Any) {
         
@@ -102,9 +76,47 @@ class ListenViewController: UIViewController {
             dismiss(animated: true, completion: nil)
         }
         
+        audioOperator.cancelRecording()
         
-        
+        titleLabel.text = "取消"
     }
     
+    
+    // MARK: - AudioOperatorDelegate
+    
+    func audioOperator(_ audioOperator: AudioOperator, didFinishRecording data: AudioRecordResult) {
+        print(self, #function)
+        print(data.filename)
+        print(data.duration)
+        print(data.recordDate)
+        
+        titleLabel.text = "完成"
+    }
+    
+    func audioOperator(_ audioOperator: AudioOperator, recordingTime time: TimeInterval, andPower power: Float) {
+        
+        let level = pow(10, power / 50.0)
+        let level2 = pow(10, power / 40.0)
+        
+        waveViews.forEach { $0.level = $0.tag == 2 ? level : level2 }
+    }
+    
+    func audioOperator(_ audioOperator: AudioOperator, didFailRecording error: Error) {
+        titleLabel.text = "无法聆听"
+    }
+    
+    // MARK: - Helper
+    
+    func start() {
+        let name = "listen.wav"
+        
+        let localURL = FileManager.dataURL(with: name)
+        
+        do {
+            try audioOperator.startRecording(filename: name, storageURL: localURL)
+        } catch {
+            
+        }
+    }
 }
- 
+
