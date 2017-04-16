@@ -75,6 +75,7 @@
 		C869EACE1EA2FAF10042B591 /* MeasurementDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = C869EACD1EA2FAF10042B591 /* MeasurementDataSource.swift */; };
 		C869EAD01EA2FB360042B591 /* AccessoryType.swift in Sources */ = {isa = PBXBuildFile; fileRef = C869EACF1EA2FB360042B591 /* AccessoryType.swift */; };
 		C869EAD51EA302AD0042B591 /* MThresholdManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = C869EAD41EA302AD0042B591 /* MThresholdManager.swift */; };
+		C8B24DA61EA36A2800D2DCAA /* MasterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C8B24DA51EA36A2800D2DCAA /* MasterViewController.swift */; };
 		C8B400591E8DEBE30052E5FF /* PermissionRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = C8B400581E8DEBE30052E5FF /* PermissionRequest.swift */; };
 		C8B4005B1E8E005F0052E5FF /* prdes.plist in Resources */ = {isa = PBXBuildFile; fileRef = C8B4005A1E8E005F0052E5FF /* prdes.plist */; };
 		C8F8D1F71E8649A20035A19F /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C8F8D1F61E8649A20035A19F /* LoginViewController.swift */; };
@@ -194,6 +195,7 @@
 		C869EACD1EA2FAF10042B591 /* MeasurementDataSource.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MeasurementDataSource.swift; sourceTree = "<group>"; };
 		C869EACF1EA2FB360042B591 /* AccessoryType.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AccessoryType.swift; sourceTree = "<group>"; };
 		C869EAD41EA302AD0042B591 /* MThresholdManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MThresholdManager.swift; sourceTree = "<group>"; };
+		C8B24DA51EA36A2800D2DCAA /* MasterViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MasterViewController.swift; sourceTree = "<group>"; };
 		C8B400581E8DEBE30052E5FF /* PermissionRequest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PermissionRequest.swift; sourceTree = "<group>"; };
 		C8B4005A1E8E005F0052E5FF /* prdes.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = prdes.plist; sourceTree = "<group>"; };
 		C8F8D1F61E8649A20035A19F /* LoginViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
@@ -279,6 +281,7 @@
 				C8F8D2181E88FB220035A19F /* Regular.swift */,
 				C8F8D2021E8667C20035A19F /* TimeIntervalEx.swift */,
 				C8F8D2041E8668260035A19F /* DateEx.swift */,
+				C8B24DA51EA36A2800D2DCAA /* MasterViewController.swift */,
 			);
 			name = Helper;
 			sourceTree = "<group>";
@@ -937,6 +940,7 @@
 				C8F8D20D1E8793840035A19F /* AppDelegate+Root.swift in Sources */,
 				C855F8701E9484DA00A338C9 /* VGNetwork.swift in Sources */,
 				C869EAD51EA302AD0042B591 /* MThresholdManager.swift in Sources */,
+				C8B24DA61EA36A2800D2DCAA /* MasterViewController.swift in Sources */,
 				180B3BBB1E73AEC500E13309 /* MeasurementCurveData.swift in Sources */,
 				C8F8D2151E88F5400035A19F /* UIViewController+Warning.swift in Sources */,
 				C855F8841E967D9200A338C9 /* LineChartView.swift in Sources */,
