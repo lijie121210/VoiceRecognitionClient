@@ -33,6 +33,12 @@ class MainViewController: UIViewController {
     
     @IBOutlet weak var settingButton: UIButton!
     
+    /// 刷新
+    @IBOutlet weak var refreshContainer: RectCornerView!
+   
+    @IBOutlet weak var refreshButton: UIButton!
+    
+    
     /// 监测数据显示
     @IBOutlet weak var measurementInfoLabel: UILabel!
     
@@ -41,6 +47,8 @@ class MainViewController: UIViewController {
     @IBOutlet weak var measurementRefreshContainer: RectCornerView!
     
     @IBOutlet weak var measurementRefresh: UIButton!
+    
+    @IBOutlet weak var activityIndicator: UIActivityIndicatorView!
     
     /// 绘图显示
     @IBOutlet weak var curveContainer: UIView!
@@ -78,6 +86,8 @@ class MainViewController: UIViewController {
     
     // MARK - Properties
     
+    var isShowingViewController: Bool = false
+    
     var latestMeasurements: [MeasurementData] {
         return MeasurementManager.default.dataSource.latest
     }
@@ -96,6 +106,8 @@ class MainViewController: UIViewController {
         }
         
         measurementCollectionView.register(UINib(nibName: "MeasurementCCell", bundle: nil), forCellWithReuseIdentifier: "MeasurementCCell")
+        
+        updateViewFromSettings()
     }
     
     /// 这些方法都可能调用多次
@@ -103,9 +115,16 @@ class MainViewController: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
+        navigationController?.isNavigationBarHidden = true
+        
         if PermissionDefaultValue.isRequestedPermission {
-            scrollView.alpha = 1.0
             
+            /// 显示了其他视图后返回该页面，什么也不需要做
+            if isShowingViewController {
+                return
+            }
+            
+            scrollView.alpha = 1.0
             measurementRefreshContainer.isHidden = true
         } else {
             scrollView.alpha = 0.0
@@ -114,10 +133,15 @@ class MainViewController: UIViewController {
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-        
+
         if PermissionDefaultValue.isRequestedPermission {
+            /// 显示了其他视图后返回该页面，改变标记。
+            if isShowingViewController {
+                isShowingViewController = false
+                return
+            }
             /// 加载数据
-            loadData()
+            loadData(before: beforeLoading, after: afterLoading)
         } else {
             /// 显示申请授权的页面
             requestPermission()
@@ -132,7 +156,6 @@ class MainViewController: UIViewController {
     
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
-        
         /// 移除接受通知
         NotificationCenter.default.removeObserver(self,
                                                   name: .UIApplicationWillEnterForeground,
@@ -150,27 +173,77 @@ class MainViewController: UIViewController {
 
     // In a storyboard-based application, you will often want to do a little preparation before navigation
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        super.prepare(for: segue, sender: sender)
         
+        /// 准备 编辑／添加 设备
+        if let des = segue.destination as? AccessoryViewController {
+            /// 设置控制器代理
+            des.delegate = self
+            /// 添加
+            guard
+                let id = segue.identifier, id == "Accessory",
+                let sender = sender as? [String:Any],
+                let editing = sender["editing"] as? Bool, editing == true else {
+                    return
+            }
+            des.currentIndexPath = sender["indexPath"] as? IndexPath
+            des.currentAccessory = sender["data"] as? AccessoryData
+        }
+        
+        /// 注册为设置界面的代理
+        if let id = segue.identifier, id == "Setting", let des = segue.destination as? SettingViewController {
+            des.delegate = self
+        }
     }
     
     
     // MARK: - User Interaction
     
     @IBAction func didTapHouses(_ sender: Any) {
-    
+        warning(duration: 2.0, message: "只有一个大棚，无法切换")
     }
     
     @IBAction func didTapSetting(_ sender: Any) {
-        
+        /// segue Setting
     }
     
+    /// 刷新按钮
+    @IBAction func didTapRefresh(_ sender: Any) {
+        loadData(before: beforeRefresh, after: afterLoading)
+    }
+    
+    /// 重试按钮
     @IBAction func didTapMeasurementRefresh(_ sender: Any) {
-        loadData()
+        loadData(before: beforeLoading, after: afterLoading)
     }
     
     @IBAction func didTapAnalysis(_ sender: Any) {
+        /// segue Analysis
+        isShowingViewController = true
     }
     
+    @IBAction func didTapAccessoryEditButton(_ sender: Any) {
+        /// 开始编辑
+        let startEditing = {
+            self.isEditing = true
+            self.accessoryEditButton.setImage(UIImage(named: "done"), for: .normal)
+            
+            /// 除了在这里修改，还要在CollectionView数据源代理方法里面做判断
+            self.accessoryCollectionView.visibleCells.forEach { $0.alpha = 0.6 }
+        }
+        /// 编辑完成
+        let endEditing = {
+            self.isEditing = false
+            self.accessoryEditButton.setImage(UIImage(named: "edit"), for: .normal)
+            self.accessoryCollectionView.visibleCells.forEach { $0.alpha = 1.0 }
+        }
+        
+        isEditing ? endEditing() : startEditing()
+    }
+    
+    @IBAction func didTapAccessoryAddButton(_ sender: Any) {
+        /// segue Accessory
+    }
     
     
     // MARK: - Helper
@@ -191,32 +264,51 @@ class MainViewController: UIViewController {
     }
     
     
-    
-    
     /// 可以显示视图了，首先加载数据
-    func loadData() {
-        OrbitAlertController.show(with: "请求数据", on: self)
-        
+    /// - parameter before: 请求前执行的代码
+    /// - parameter after: 请求后执行的代码
+    func loadData(before: () -> Void, after: @escaping (Bool) -> Void) {
+        before()
         MeasurementManager.default.initialLoading { (finish) in
             DispatchQueue.main.async {
-                OrbitAlertController.dismiss()
-                self.afterLoading()
+                after(finish)
             }
         }
     }
     
-    func afterLoading() {
+    /// 请求前执行
+    func beforeLoading() {
+        measurementRefreshContainer.isHidden = false
+        measurementRefreshContainer.removeShadow()
+        measurementRefreshContainer.fillColor = .clear
+        measurementRefresh.setTitle("载入数据", for: .normal)
+        measurementRefresh.isEnabled = false
+        activityIndicator.startAnimating()
+    }
+    func beforeRefresh() {
+        OrbitAlertController.show(with: "载入数据", on: self)
+    }
+    
+    /// 请求后执行
+    func afterLoading(finish: Bool) {
+        OrbitAlertController.dismiss()
+        activityIndicator.stopAnimating()
         if latestMeasurements.isEmpty {
-            self.measurementRefreshContainer.isHidden = false
+            measurementRefreshContainer.isHidden = false
+            measurementRefreshContainer.addShadow()
+            measurementRefreshContainer.fillColor = .white
+            measurementRefresh.setTitle("载入错误，再试一次", for: .normal)
+            measurementRefresh.isEnabled = true
         } else {
-            self.measurementRefreshContainer.isHidden = true
-            self.measurementCollectionView.reloadData()
+            measurementRefreshContainer.isHidden = true
+            measurementCollectionView.reloadData()
         }
-        
-//        updateLineChartView(index: 0)
+
+        /// 绘制曲线
         updateLineChartView()
     }
     
+    /// 绘制全部曲线
     func updateLineChartView() {
         let data = MeasurementManager.default.dataSource.passiveCharts()
         
@@ -232,23 +324,17 @@ class MainViewController: UIViewController {
         
         lineChart.reloadView()
 
-        let config = data[0].config
         let lineChartView = lineChart.chart!
-        lineChartView.animation.enabled = config.isAnimatable
-        lineChartView.area = config.isArea
-        lineChartView.x.labels.visible = config.isXLabelsVisible
-        lineChartView.y.labels.visible = config.isYLabelsVisible
-        lineChartView.x.grid.count = config.xGridCount
-        lineChartView.y.grid.count = config.yGridCount
-        lineChartView.colors = config.colors
-        lineChartView.x.axis.inset = 30
-        lineChartView.y.axis.inset = 30
         
+        config(lineChartView, config: data[0].config)
+
         data.forEach { (item) in
             lineChartView.addLine(item.columns.map { $0.value })
         }
     }
     
+    /// 绘制第`index`条曲线
+    /// - parameter index: 指定曲线的数据索引。
     func updateLineChartView(index: Int) {
         guard let data = MeasurementManager.default.dataSource.passiveCharts(index: index) else {
             chartTitleLabel.text = " -- "
@@ -261,11 +347,19 @@ class MainViewController: UIViewController {
 
         lineChart.reloadView()
 
-        let config = data.config
         let labels = data.columns.map { $0.prompt }
         let lines = data.columns.map { $0.value }
         
         let lineChartView = lineChart.chart!
+        
+        config(lineChartView, config: data.config)
+        
+        lineChartView.x.labels.values = labels
+        lineChartView.addLine(lines)
+    }
+    
+    /// 配置参数
+    func config(_ lineChartView: LineChart, config: PassiveChartData.Config) {
         lineChartView.animation.enabled = config.isAnimatable
         lineChartView.area = config.isArea
         lineChartView.x.labels.visible = config.isXLabelsVisible
@@ -273,10 +367,8 @@ class MainViewController: UIViewController {
         lineChartView.x.grid.count = config.xGridCount
         lineChartView.y.grid.count = config.yGridCount
         lineChartView.colors = config.colors
-        lineChartView.x.axis.inset = 30
-        lineChartView.y.axis.inset = 30
-        lineChartView.x.labels.values = labels
-        lineChartView.addLine(lines)
+        lineChartView.x.axis.inset = config.xAxisInset
+        lineChartView.y.axis.inset = config.yAxisInset
     }
     
     
@@ -286,18 +378,14 @@ class MainViewController: UIViewController {
      * 如果想得到在任何界面设置修改的通知，需要在通知中心注册
      */
     func setting(controller: SettingViewController, didChangeValueOf keyPath: AudioDefaultValue.KeyPath, to newValue: Any) {
-        
         guard keyPath == .isHiddenBackgroundImage, let isHidden = newValue as? Bool else {
             return
         }
-        
         updateViewFromSettings(isHidden: isHidden)
     }
     
     func updateViewFromSettings(isHidden: Bool = AudioDefaultValue.isHiddenBackgroundImage) {
-        
         backgroundImageView.isHidden = isHidden
-        
     }
     
     
@@ -314,21 +402,13 @@ class MainViewController: UIViewController {
         
         var data = accdatas[i]
         
-        
         /// 编辑
-        
         if collectionView == accessoryCollectionView, isEditing {
-            
-            let id = "\(AccessoryViewController.self)"
-            
-            performSegue(withIdentifier: id, sender: ["editing":true, "indexPath": indexPath, "data":data])
-            
+            performSegue(withIdentifier: "Accessory", sender: ["editing":true, "indexPath": indexPath, "data":data])
             return
         }
         
-        
         /// 操作
-        
         guard data.type.isSingleActionTypes else { return }
         
         ///
@@ -393,8 +473,6 @@ class MainViewController: UIViewController {
         ///
         
         update(collectionView: accessoryCollectionView, indexPaths: [indexPath], orbit: orbit)
-        
-        
     }
     
     

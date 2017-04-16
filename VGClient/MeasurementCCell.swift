@@ -33,6 +33,8 @@ class MeasurementCCell: UICollectionViewCell {
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code
+        
+        thresholdLabel.text = "阈值"
     }
 
 }

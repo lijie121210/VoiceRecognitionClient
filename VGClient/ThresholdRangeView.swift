@@ -70,6 +70,10 @@ class ThresholdRangeView: UIView {
         return (frame.height - lineWidth) * 0.5
     }
     
+    private var middleX: CGFloat {
+        return (frame.width * 0.5)
+    }
+    
     // MARK: - Init
     
     override init(frame: CGRect) {
@@ -94,26 +98,38 @@ class ThresholdRangeView: UIView {
             addSubview(lab)
             return lab
         }
-        
         let llab = alabel(text: lowText)
         let hlab = alabel(text: highText)
         
+        let v = UIView(frame: CGRect.zero)
+        v.translatesAutoresizingMaskIntoConstraints = false
+        addSubview(v)
+        
         let w = textWidth
-        let c = middleY
+        let cy = middleY
         let l = length
         
-        let top = c + 2.0 * lineWidth + 4.0
-        let lowleading = l + 1.5 * lineWidth - w * 0.5
-        let highleading = 2 * l + 4.5 * lineWidth - w * 0.5
+        let top = cy + 2.0 * lineWidth + 4.0
+        let d = l * 0.5 - w
         
-        let metrics = ["ll":lowleading, "t":top, "hl":highleading]
-        let views = ["lv":llab, "hv":hlab]
+        let metrics = ["d":d, "t":top, "o":0]
+        let views = ["lv":llab, "hv":hlab, "v":v]
+        
+        
+        
+        addConstraints([
+            NSLayoutConstraint(item: self, attribute: .centerX, relatedBy: .equal, toItem: v, attribute: .centerX, multiplier: 1, constant: 0),
+            NSLayoutConstraint(item: self, attribute: .centerY, relatedBy: .equal, toItem: v, attribute: .centerY, multiplier: 1, constant: 0),
+            NSLayoutConstraint(item: v, attribute: .width, relatedBy: .equal, toItem: nil, attribute: .notAnAttribute, multiplier: 1, constant: 1),
+            NSLayoutConstraint(item: v, attribute: .height, relatedBy: .equal, toItem: nil, attribute: .notAnAttribute, multiplier: 1, constant: 1)
+            ]
+        )
         
         addConstraints(
-            NSLayoutConstraint.constraints(withVisualFormat: "H:|-(ll)-[lv]", options: [], metrics: metrics, views: views) +
-            NSLayoutConstraint.constraints(withVisualFormat: "H:|-(hl)-[hv]", options: [], metrics: metrics, views: views) +
-            NSLayoutConstraint.constraints(withVisualFormat: "V:|-(t)-[lv]", options: [], metrics: metrics, views: views) +
-            NSLayoutConstraint.constraints(withVisualFormat: "V:|-(t)-[hv]", options: [], metrics: metrics, views: views)
+            NSLayoutConstraint.constraints(withVisualFormat: "H:[lv]-(d)-[v]", options: [], metrics: metrics, views: views) +
+            NSLayoutConstraint.constraints(withVisualFormat: "H:[v]-(d)-[hv]", options: [], metrics: metrics, views: views) +
+            NSLayoutConstraint.constraints(withVisualFormat: "V:|-(t)-[lv]-(o)-|", options: [], metrics: metrics, views: views) +
+            NSLayoutConstraint.constraints(withVisualFormat: "V:|-(t)-[hv]-(o)-|", options: [], metrics: metrics, views: views)
         )
         
         lowLabel = llab

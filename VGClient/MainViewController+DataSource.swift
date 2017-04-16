@@ -36,6 +36,22 @@ extension MainViewController: UICollectionViewDataSource {
             mcell.valueLabel.text = String(format: "%.2f", data.value)
             mcell.unitLabel.text = data.itemUnit.rawValue
             
+            if let item = MThresholdManager.default.threshold(accordingTo: data) {
+                mcell.rangeView.lowText = "\(item.low)"
+                mcell.rangeView.highText = "\(item.high)"
+                
+                switch data.value {
+                case -40..<item.low         : mcell.rangeView.maskPosition = -1
+                case item.low...item.high   : mcell.rangeView.maskPosition = 0
+                case item.high...100        : mcell.rangeView.maskPosition = 1
+                default                     : mcell.rangeView.maskPosition = 2
+                }
+            } else {
+                mcell.rangeView.lowText = "--"
+                mcell.rangeView.highText = "--"
+                mcell.rangeView.maskPosition = 0
+            }
+            
             return mcell
         } else {
             /// accessory collection view

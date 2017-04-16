@@ -93,13 +93,10 @@ class AccessoryViewController: UIViewController, UIPickerViewDataSource, UIPicke
     }
     
     @IBAction func didTapDeleteButton(_ sender: Any) {
-        
         /// 肯定是要消失界面了
-
         defer {
             dismiss(animated: true, completion: nil)
         }
-        
         
         /// 删除一个存在的设备
         
@@ -114,16 +111,21 @@ class AccessoryViewController: UIViewController, UIPickerViewDataSource, UIPicke
     }
     
     
-    
-    ///
-    
+    // MARK: - Properties
     
     let pickerData = AccessoryPicker()
     
     var currentAccessory: AccessoryData? = nil
+    
     var currentIndexPath: IndexPath? = nil
     
     weak var delegate: AccessoryOperationDelegate?
+    
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        
+        view.backgroundColor = UIColor(white: 0.8, alpha: 0.6)
+    }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
@@ -147,9 +149,7 @@ class AccessoryViewController: UIViewController, UIPickerViewDataSource, UIPicke
             selectType()
         }
         
-        
     }
-    
     
     /// 选中正在编辑的类型
     
@@ -162,10 +162,7 @@ class AccessoryViewController: UIViewController, UIPickerViewDataSource, UIPicke
     }
     
     
-    
-    
     /// UIPickerViewDataSource
-
     
     func numberOfComponents(in pickerView: UIPickerView) -> Int {
         
@@ -181,8 +178,6 @@ class AccessoryViewController: UIViewController, UIPickerViewDataSource, UIPicke
 
         }
     }
-    
-    
     
     
     /// UIPickerViewDelegate
@@ -234,7 +229,5 @@ class AccessoryViewController: UIViewController, UIPickerViewDataSource, UIPicke
         ///
         
         titleLabel.text = pickerData.title.rightTitles[row]
-
     }
-    
 }

@@ -12,7 +12,6 @@ class AnalysisController: UIViewController {
     
     // MARK: - outlet
     
-    @IBOutlet weak var dismissControl: ArrowControl!
     @IBOutlet weak var measurementTypeTF: MeasurementPickerTextField!
     @IBOutlet weak var fromDatePickerTF: DatePickerTextField!
     @IBOutlet weak var toDatePickerTF: DatePickerTextField!
@@ -37,6 +36,12 @@ class AnalysisController: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
+        /// 显示导航条
+        navigationController?.isNavigationBarHidden = false
+        navigationItem.leftBarButtonItem?.title = "首页"
+        title = "数据分析"
+        
+        /// 显示默认图
         lineChartView.reloadView()
         guard let chart = lineChartView.chart else {
             return
@@ -49,11 +54,6 @@ class AnalysisController: UIViewController {
 
     
     // MARK: - User Interaction
-
-    @IBAction func didTapDismissControl(_ sender: Any) {
-        dismissControl.offset = 0
-        dismiss(animated: true, completion: nil)
-    }
     
     @IBAction func didTapAnalysisButton(_ sender: Any) {
         guard

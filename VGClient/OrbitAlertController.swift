@@ -58,6 +58,7 @@ class OrbitAlertController: UIViewController {
     }
     
     class func dismiss() {
+        if instances.isEmpty { return }
         instances.forEach {
             $0.dismiss(animated: true, completion: nil)
         }

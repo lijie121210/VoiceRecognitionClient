@@ -32,10 +32,7 @@ class SettingViewController: UIViewController {
     
     // 检查自己的presentingViewController是否实现SettingViewControllerDelegate，如果实现了，则将其视为代理对象；
     // 不需要设置该属性。
-    weak var delegate: SettingViewControllerDelegate? {
-        
-        return self.presentingViewController as? SettingViewControllerDelegate
-    }
+    weak var delegate: SettingViewControllerDelegate?
     
     override func unwind(for unwindSegue: UIStoryboardSegue, towardsViewController subsequentVC: UIViewController) {
         super.unwind(for: unwindSegue, towardsViewController: subsequentVC)

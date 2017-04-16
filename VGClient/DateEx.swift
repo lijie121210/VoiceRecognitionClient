@@ -61,4 +61,15 @@ extension String {
         }
         return date.timeIntervalSince1970
     }
+    
+    
+    func dateComponents() -> DateComponents? {
+        guard let date = date() else {
+            return nil
+        }
+        
+        let com = Calendar.current.dateComponents([.year, .month, .day, .hour, .minute, .second], from: date)
+        
+        return com
+    }
 }

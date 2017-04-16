@@ -23,14 +23,7 @@ extension Notification.Name {
 
 
 
-/// pcm little-endian 16khz 16bit mono
-fileprivate let AudioSettings: [String: AnyObject] = [AVLinearPCMIsFloatKey: NSNumber(value: false),
-                                                  AVLinearPCMIsBigEndianKey: NSNumber(value: false),
-                                                  AVLinearPCMBitDepthKey: NSNumber(value: 16),
-                                                  AVFormatIDKey: NSNumber(value: kAudioFormatLinearPCM),
-                                                  AVNumberOfChannelsKey: NSNumber(value: 1),
-                                                  AVSampleRateKey: NSNumber(value: 16000),
-                                                  AVEncoderAudioQualityKey: NSNumber(value: AVAudioQuality.high.rawValue)]
+
 
 ///
 public class AudioOperator: NSObject, AVAudioRecorderDelegate, AVAudioPlayerDelegate {
@@ -40,6 +33,15 @@ public class AudioOperator: NSObject, AVAudioRecorderDelegate, AVAudioPlayerDele
     fileprivate var recorder: AVAudioRecorder?
     fileprivate var player: AVAudioPlayer?
 
+    /// pcm little-endian 16khz 16bit mono
+    fileprivate let AudioSettings: [String: Any] = [AVLinearPCMIsFloatKey: NSNumber(value: false),
+                                                    AVLinearPCMIsBigEndianKey: NSNumber(value: false),
+                                                    AVLinearPCMBitDepthKey: NSNumber(value: 16),
+                                                    AVFormatIDKey: NSNumber(value: kAudioFormatLinearPCM),
+                                                    AVNumberOfChannelsKey: NSNumber(value: 1),
+                                                    AVSampleRateKey: NSNumber(value: 16000),
+                                                    AVEncoderAudioQualityKey: NSNumber(value: AVAudioQuality.high.rawValue)]
+    
     public var isRecording: Bool {
         if let r = recorder {
             return r.isRecording
@@ -138,11 +140,10 @@ extension AudioOperator {
         }
         
         /// create new timer
-        let event = eventHandler
         let queue = DispatchQueue(label: "com.vg.mointor", attributes: .concurrent)
         let timer = DispatchSource.makeTimerSource(queue: queue)
         timer.scheduleRepeating(deadline: .now(), interval: .milliseconds(200), leeway: .milliseconds(50))
-        timer.setEventHandler(handler: event)
+        timer.setEventHandler(handler: eventHandler)
         
         /// start the timer
         timer.resume()

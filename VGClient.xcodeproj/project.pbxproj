@@ -77,6 +77,9 @@
 		C867017A1EA1BEED001E20B4 /* MainViewController+Layout.swift in Sources */ = {isa = PBXBuildFile; fileRef = C86701791EA1BEED001E20B4 /* MainViewController+Layout.swift */; };
 		C867017C1EA1D2A7001E20B4 /* PassiveChartData.swift in Sources */ = {isa = PBXBuildFile; fileRef = C867017B1EA1D2A7001E20B4 /* PassiveChartData.swift */; };
 		C867017E1EA24FF6001E20B4 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = C867017D1EA24FF6001E20B4 /* Main.storyboard */; };
+		C869EACE1EA2FAF10042B591 /* MeasurementDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = C869EACD1EA2FAF10042B591 /* MeasurementDataSource.swift */; };
+		C869EAD01EA2FB360042B591 /* AccessoryType.swift in Sources */ = {isa = PBXBuildFile; fileRef = C869EACF1EA2FB360042B591 /* AccessoryType.swift */; };
+		C869EAD51EA302AD0042B591 /* MThresholdManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = C869EAD41EA302AD0042B591 /* MThresholdManager.swift */; };
 		C8B400591E8DEBE30052E5FF /* PermissionRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = C8B400581E8DEBE30052E5FF /* PermissionRequest.swift */; };
 		C8B4005B1E8E005F0052E5FF /* prdes.plist in Resources */ = {isa = PBXBuildFile; fileRef = C8B4005A1E8E005F0052E5FF /* prdes.plist */; };
 		C8F8D1F71E8649A20035A19F /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C8F8D1F61E8649A20035A19F /* LoginViewController.swift */; };
@@ -198,6 +201,9 @@
 		C86701791EA1BEED001E20B4 /* MainViewController+Layout.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "MainViewController+Layout.swift"; sourceTree = "<group>"; };
 		C867017B1EA1D2A7001E20B4 /* PassiveChartData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PassiveChartData.swift; sourceTree = "<group>"; };
 		C867017D1EA24FF6001E20B4 /* Main.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Main.storyboard; sourceTree = "<group>"; };
+		C869EACD1EA2FAF10042B591 /* MeasurementDataSource.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MeasurementDataSource.swift; sourceTree = "<group>"; };
+		C869EACF1EA2FB360042B591 /* AccessoryType.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AccessoryType.swift; sourceTree = "<group>"; };
+		C869EAD41EA302AD0042B591 /* MThresholdManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MThresholdManager.swift; sourceTree = "<group>"; };
 		C8B400581E8DEBE30052E5FF /* PermissionRequest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PermissionRequest.swift; sourceTree = "<group>"; };
 		C8B4005A1E8E005F0052E5FF /* prdes.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = prdes.plist; sourceTree = "<group>"; };
 		C8F8D1F61E8649A20035A19F /* LoginViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
@@ -291,6 +297,7 @@
 			isa = PBXGroup;
 			children = (
 				189418BD1E5159AF00207358 /* CoreDataManager.swift */,
+				C869EAD41EA302AD0042B591 /* MThresholdManager.swift */,
 				1894188F1E4EDEB000207358 /* VGClient.xcdatamodeld */,
 			);
 			name = Stores;
@@ -320,7 +327,8 @@
 			children = (
 				C8B400561E8DEA5D0052E5FF /* User */,
 				180B3BB71E739CC200E13309 /* Audio Data */,
-				C8B400571E8DEA6F0052E5FF /* Data */,
+				C869EAD11EA2FC360042B591 /* Accessory Data */,
+				C8B400571E8DEA6F0052E5FF /* Measurement Data */,
 				185500361E5982A600DADEF7 /* AudioOperator.swift */,
 				189418CF1E51E60E00207358 /* AudioClient.swift */,
 				18D27B461E6D45B200488F80 /* AudioDefaultValue.swift */,
@@ -499,6 +507,15 @@
 			name = Analysis;
 			sourceTree = "<group>";
 		};
+		C869EAD11EA2FC360042B591 /* Accessory Data */ = {
+			isa = PBXGroup;
+			children = (
+				C869EACF1EA2FB360042B591 /* AccessoryType.swift */,
+				180B3BBC1E73BEA200E13309 /* AccessoryData.swift */,
+			);
+			name = "Accessory Data";
+			sourceTree = "<group>";
+		};
 		C8B400561E8DEA5D0052E5FF /* User */ = {
 			isa = PBXGroup;
 			children = (
@@ -508,19 +525,19 @@
 			name = User;
 			sourceTree = "<group>";
 		};
-		C8B400571E8DEA6F0052E5FF /* Data */ = {
+		C8B400571E8DEA6F0052E5FF /* Measurement Data */ = {
 			isa = PBXGroup;
 			children = (
 				C86701751EA1A77C001E20B4 /* MeasurementType.swift */,
 				C855F8781E94E20B00A338C9 /* MeasurementTypePickerData.swift */,
 				180B3BB81E739D3900E13309 /* MeasurementData.swift */,
 				C867017B1EA1D2A7001E20B4 /* PassiveChartData.swift */,
+				C869EACD1EA2FAF10042B591 /* MeasurementDataSource.swift */,
 				180B3BBA1E73AEC500E13309 /* MeasurementCurveData.swift */,
-				180B3BBC1E73BEA200E13309 /* AccessoryData.swift */,
 				180B3BBE1E73F92800E13309 /* DataManager.swift */,
 				C855F8811E95E35400A338C9 /* MeasurementManager.swift */,
 			);
-			name = Data;
+			name = "Measurement Data";
 			sourceTree = "<group>";
 		};
 		C8F8D1F81E8649A80035A19F /* Master */ = {
@@ -917,6 +934,7 @@
 				18381A421E76366B00AE8D98 /* RandomNumber.swift in Sources */,
 				C8F8D2031E8667C20035A19F /* TimeIntervalEx.swift in Sources */,
 				1880FF4A1E724991000A0D1C /* ArrowControl.swift in Sources */,
+				C869EAD01EA2FB360042B591 /* AccessoryType.swift in Sources */,
 				1880FF3A1E70DE45000A0D1C /* OrbitAlertController.swift in Sources */,
 				C8F8D2191E88FB220035A19F /* Regular.swift in Sources */,
 				180B3BC11E74FF5D00E13309 /* LineChart.swift in Sources */,
@@ -926,6 +944,7 @@
 				180B3BBD1E73BEA200E13309 /* AccessoryData.swift in Sources */,
 				189418911E4EDEB000207358 /* VGClient.xcdatamodeld in Sources */,
 				1880FF3E1E710300000A0D1C /* SettingViewController.swift in Sources */,
+				C869EACE1EA2FAF10042B591 /* MeasurementDataSource.swift in Sources */,
 				180B3BB91E739D3900E13309 /* MeasurementData.swift in Sources */,
 				18381A481E76597300AE8D98 /* MasterViewController+Action.swift in Sources */,
 				C855F8821E95E35400A338C9 /* MeasurementManager.swift in Sources */,
@@ -936,6 +955,7 @@
 				189418D01E51E60E00207358 /* AudioClient.swift in Sources */,
 				C8F8D20D1E8793840035A19F /* AppDelegate+Root.swift in Sources */,
 				C855F8701E9484DA00A338C9 /* VGNetwork.swift in Sources */,
+				C869EAD51EA302AD0042B591 /* MThresholdManager.swift in Sources */,
 				180B3BBB1E73AEC500E13309 /* MeasurementCurveData.swift in Sources */,
 				C8F8D2151E88F5400035A19F /* UIViewController+Warning.swift in Sources */,
 				C855F8841E967D9200A338C9 /* LineChartView.swift in Sources */,

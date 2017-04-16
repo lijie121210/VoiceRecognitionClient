@@ -14,9 +14,15 @@ import UIKit
 /// It will not trigger viewWillAppear or viewDidAppear
 class ListenViewController: UIViewController {
 
+    // MARK: - outlet
+    
     @IBOutlet weak var titleLabel: UILabel!
     
     @IBOutlet var waveViews: [WaveView]!
+    
+    // MARK: - Properties
+    
+    var audioOperator: AudioOperator!
     
     deinit {
         print(self, #function)
