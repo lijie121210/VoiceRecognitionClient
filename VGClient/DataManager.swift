@@ -158,58 +158,25 @@ class DataManager: NSObject {
                      completionHandler: ((AudioOperator, Bool, AudioData?) -> ())? = nil,
                      failureHandler: ((AudioOperator, Error?) -> ())? = nil) -> Bool {
         
-        if let record = record {
-            
-            record.releaseResource()
-            
-            self.record = nil
-        }
-        
-        self.record = AudioOperator( averagePowerReport: { [weak self] (oper, power) in
-            
-            averagePowerReport?(oper, power)
-            
-            self?.averagePower = power
-            
-        }, timeIntervalReport: { [weak self] (oper, time) in
-                
-            timeIntervalReport?(oper, time)
-            
-            self?.timeInterval = time
-                
-        }, completionHandler: { (oper, finish, data) in
-            
-            completionHandler?(oper, finish, data)
-            
-        }, failureHandler: { (oper, error) in
-            
-            failureHandler?(oper, error)
-            
-            print(self, #function, error?.localizedDescription ?? "unknown record error")
-        })
         
 //        let name = "\(Date.currentName).wav"
         
         let name = "listen.wav"
         
         let localURL = FileManager.dataURL(with: name)
-        
-        let start = self.record!.startRecording(filename: name, storageURL: localURL)
-        
-        guard start else {
-            return false
-        }
-        
+//        
+//        let start = self.record!.startRecording(filename: name, storageURL: localURL)
+//        
         NotificationCenter.default.post(name: .recordbegin, object: nil)
         
-        return start
+        return true
     }
     
     func cancelRecording() {
         
         if let record = record {
             
-            record.cancelRecord()
+            record.cancelRecording()
             
             record.releaseResource()
             

@@ -364,9 +364,7 @@
 				C8F8D21D1E890E680035A19F /* Authority */,
 				C8F8D2201E8A4F7D0035A19F /* Record */,
 				C855F87C1E94EC3200A338C9 /* Analysis */,
-				C86701691EA0C282001E20B4 /* MainViewController.swift */,
-				C867016B1EA0F161001E20B4 /* MainViewController+DataSource.swift */,
-				C86701791EA1BEED001E20B4 /* MainViewController+Layout.swift */,
+				C869EAD61EA33EED0042B591 /* Main */,
 			);
 			name = Controllers;
 			sourceTree = "<group>";
@@ -514,6 +512,16 @@
 				180B3BBC1E73BEA200E13309 /* AccessoryData.swift */,
 			);
 			name = "Accessory Data";
+			sourceTree = "<group>";
+		};
+		C869EAD61EA33EED0042B591 /* Main */ = {
+			isa = PBXGroup;
+			children = (
+				C86701691EA0C282001E20B4 /* MainViewController.swift */,
+				C867016B1EA0F161001E20B4 /* MainViewController+DataSource.swift */,
+				C86701791EA1BEED001E20B4 /* MainViewController+Layout.swift */,
+			);
+			name = Main;
 			sourceTree = "<group>";
 		};
 		C8B400561E8DEA5D0052E5FF /* User */ = {

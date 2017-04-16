@@ -9,4 +9,9 @@
 enum VGError: Error {
     
     case badParameter
+    
+    case recordFailure
+    
+    case playFailure
+
 }

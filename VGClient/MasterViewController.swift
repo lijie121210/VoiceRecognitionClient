@@ -175,173 +175,9 @@ extension MasterViewController {
 }
 
 
-/// Communication with Recordlist
-extension MasterViewController {
-
-    func deletingItem(at index: IndexPath, with data: AudioData, completion: @escaping (Bool) -> ()) {
-        
-        dataSource.remove(at: index.item) { finish in
-            DispatchQueue.main.async {
-                completion(finish)
-            }
-        }
-    }
-    
-    func playItem(at index: IndexPath, with data: AudioData) -> Bool {
-        
-        if !AudioOperator.canRecord {
-            return false
-        }
-        setupAudioOperatorAsPlayer()
-        
-        let start = audioOperator.startPlaying(url: data.localURL)
-        
-        if !start {
-            return false
-        }
-        
-        return true
-    }
-    
-    func stopPlayItem(at index: IndexPath, with data: AudioData) {
-        
-        audioOperator.stopPlaying()
-    }
-    
-    func sendItem(at index: IndexPath, with data: AudioData) {
-        
-        guard let data = data.data else {
-            return
-        }
-        
-        send(data: data)
-    }
-    
-    func send(data: Data) {
-        
-        
-    }
-}
-
-
-/// Communication with Dashboard
-extension MasterViewController {
-    
-    func shouldStartRecording() -> Bool {
-        
-        if !AudioOperator.canRecord {
-            return false
-        }
-        
-        if let audioOperator = audioOperator, audioOperator.isPlaying {
-            recordList?.playDidComplete()
-        }
-        
-        setupAudioOperatorAsRecorder()
-        
-        let name = "\(Date.currentName).wav"
-        
-        let localURL = FileManager.dataURL(with: name)
-        
-        let start = audioOperator.startRecording(filename: name, storageURL: localURL)
-        
-        if !start {
-            return false
-        }
-        
-        recordDidStart()
-        
-        return true
-    }
-    
-    func attemptToCancelRecording() {
-        
-        /// trigger no delegate and block
-        audioOperator.cancelRecord()
-        
-        self.recordDidEnd()
-    }
-    
-    func attemptToStopRecording() {
-        
-        /// The next operation should handle in completion handler.
-        audioOperator.stopRecording()
-    }
-    
-    /// this method will try to send current data of data source.
-    func attemptToSendRecord() {
-        
-        if audioOperator.isRecording {
-            
-            audioOperator.stopRecording()
-        }
-        
-        DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
-            
-            guard let data = self.dataSource.currentData?.data else {
-                print(self, #function, "No data found")
-                return
-            }
-            
-            self.send(data: data)
-        }
-    }
-    
-}
-
-
-
 
 /// Handle record callback
 extension MasterViewController {
-    
-    /// convenience methods
-    
-    func setupAudioOperatorAsRecorder() {
-        
-        if let audioOperator = audioOperator {
-            audioOperator.releaseResource()
-            self.audioOperator = nil
-        }
-        
-        audioOperator = AudioOperator(averagePowerReport: { (_, power) in
-            
-        }, timeIntervalReport: { (_, time) in
-            
-            //
-            
-        }, completionHandler: { (_, _, data) in
-            
-            self.recordDidEnd()
-            
-            guard let data = data else { return }
-            
-            self.startRecognition(data: data)
-            
-        }, failureHandler: { (_, error) in
-            
-            //
-            
-            self.recordDidEnd()
-            
-            print(self, #function, error?.localizedDescription ?? "unknown record error")
-        })
-    }
-    
-    func recordDidStart() {
-        
-        DispatchQueue.main.asyncAfter(deadline: .now()) {
-            
-            self.recordList?.isActionEnabled = false
-        }
-    }
-    func recordDidEnd() {
-        
-        DispatchQueue.main.asyncAfter(deadline: .now()) {
-            
-            self.recordList?.isActionEnabled = true
-        }
-    }
     
     
     /// 录制到数据之后，开始进行识别
@@ -381,7 +217,7 @@ extension MasterViewController {
             }
             
             /// 清理数据
-            AudioOperator.delete(recordedItem: data.localURL)
+//            AudioOperator.delete(recordedItem: data.localURL)
         }
         
         /// successed!
@@ -435,33 +271,6 @@ extension MasterViewController {
     
 }
 
-
-/// handle player
-extension MasterViewController {
-    
-    func setupAudioOperatorAsPlayer() {
-        
-        if let audioOperator = audioOperator {
-            audioOperator.releaseResource()
-            self.audioOperator = nil
-        }
-        
-        audioOperator = AudioOperator(averagePowerReport: { (_, power) in
-            
-        }, timeIntervalReport: { (_, time) in
-            
-            self.recordList?.update(playState: time)
-            
-        }, completionHandler: { (_, finish, _) in
-            
-            self.recordList?.playDidComplete()
-            
-        }, failureHandler: { (_, error) in
-            
-            self.recordList?.playDidComplete()
-        })
-    }
-}
 
 
 

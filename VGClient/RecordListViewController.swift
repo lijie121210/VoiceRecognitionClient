@@ -168,15 +168,15 @@ extension RecordListViewController: UICollectionViewDelegate, UICollectionViewDe
             return
         }
         
-        master.deletingItem(at: index, with: dataSource[index.item]) { finish in
-            if !finish {
-                return print("fail to remove <\(index)>")
-            }
-            
-            self.dataSource.remove(at: index.item)
-            
-            self.recordCollectionView.deleteItems(at: [index])
-        }
+//        master.deletingItem(at: index, with: dataSource[index.item]) { finish in
+//            if !finish {
+//                return print("fail to remove <\(index)>")
+//            }
+//            
+//            self.dataSource.remove(at: index.item)
+//            
+//            self.recordCollectionView.deleteItems(at: [index])
+//        }
     }
     
     @objc fileprivate func playRecord(sender: Any, with event: UIEvent?) {
@@ -195,13 +195,13 @@ extension RecordListViewController: UICollectionViewDelegate, UICollectionViewDe
 
         if let playingIndex = playingIndex, playingIndex == index {
             
-            master.stopPlayItem(at: index, with: dataSource[index.item])
+//            master.stopPlayItem(at: index, with: dataSource[index.item])
 
         } else {
 
-            let start = master.playItem(at: index, with: dataSource[index.item])
+//            let start = master.playItem(at: index, with: dataSource[index.item])
             
-            guard start else { return }
+//            guard start else { return }
             
             /// set this value should after asked master!
             playingIndex = index
@@ -210,8 +210,6 @@ extension RecordListViewController: UICollectionViewDelegate, UICollectionViewDe
             cell.update(playImage: .stop)
             cell.update(playProgress: 0.01)
         }
-        
-        
     }
     
     @objc fileprivate func sendRecord(sender: Any, with event: UIEvent?) {
@@ -220,7 +218,7 @@ extension RecordListViewController: UICollectionViewDelegate, UICollectionViewDe
             return
         }
         
-        master.sendItem(at: index, with: dataSource[index.item])
+//        master.sendItem(at: index, with: dataSource[index.item])
     }
     
 }
