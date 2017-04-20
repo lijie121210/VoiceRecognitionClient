@@ -26,5 +26,13 @@
 		<key>description</key>
 		<string>语音识别功能需要能够使用您的Speech框架，通过该框架，将为您提供语音识别功能；另外我们还会使用我们自建的语音识别引擎为您服务。n请授权。</string>
 	</dict>
+	<dict>
+		<key>type</key>
+		<integer>2</integer>
+		<key>assets</key>
+		<string>notification</string>
+		<key>description</key>
+		<string>使用通知权限将允许应用在应用没有被打开时及时通知您最新状况，包括报警信息，调节设备执行结果等。</string>
+	</dict>
 </array>
 </plist>

@@ -22,6 +22,7 @@ final class MeasurementManager {
     
     var accessories: [AccessoryData] = []
     
+    
     // MARK: - api
     
     func initialLoading(handler: @escaping (Bool) -> Void) {
@@ -60,6 +61,11 @@ final class MeasurementManager {
     func range(type: MeasurementType, fromDate: String, toDate: String, handler: () -> Void) {
         
     }
+    
+    func refreshAll(handler: @escaping (Bool) -> Void) {
+        recent(count: 6, handler: handler)
+    }
+    
     
     
     // MARK: - Helper

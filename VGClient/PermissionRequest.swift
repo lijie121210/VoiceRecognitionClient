@@ -10,7 +10,7 @@ import Foundation
 import UIKit
 import AVFoundation
 import Speech
-
+import UserNotifications
 
 /// 从本地plist文件中读取信息
 ///
@@ -22,14 +22,16 @@ struct PermissionPropertyList {
     let speechAssets: UIImage
     let speechDescription: String
     
+    let notificationAssets: UIImage
+    let notificationDescription: String
+    
     let checkAssets: UIImage
     let checkDescription: String
     
     init?() {
         
         /// read plist file
-        guard
-            let url = Bundle.main.url(forResource: "prdes", withExtension: "plist"),
+        guard let url = Bundle.main.url(forResource: "prdes", withExtension: "plist"),
             let data = try? Data(contentsOf: url),
             let plist = try? PropertyListSerialization.propertyList(from: data, options: .mutableContainersAndLeaves, format: nil),
             let result = plist as? [[String:Any]] else {
@@ -49,8 +51,7 @@ struct PermissionPropertyList {
         }
         
         /// parse record description
-        guard
-            let rdes = microphone["description"] as? String,
+        guard let rdes = microphone["description"] as? String,
             let rimgName = microphone["assets"] as? String,
             let rimg = UIImage(named: rimgName) else {
                 return nil
@@ -73,8 +74,7 @@ struct PermissionPropertyList {
         }
         
         /// parse speech description
-        guard
-            let sdes = speech["description"] as? String,
+        guard let sdes = speech["description"] as? String,
             let simgName = speech["assets"] as? String,
             let simg = UIImage(named: simgName) else {
                 return nil
@@ -82,6 +82,26 @@ struct PermissionPropertyList {
         
         speechAssets = simg
         speechDescription = sdes.replacingOccurrences(of: "n", with: "\n")
+        
+        let notificationdic = result.filter { (res) -> Bool in
+            if let type = res["type"] as? Int {
+                return type == 2
+            }
+            return false
+        }
+        
+        guard let notification = notificationdic.first else {
+            return nil
+        }
+        
+        guard let ndes = notification["description"] as? String,
+            let nimgName = notification["assets"] as? String,
+            let nimg = UIImage(named: nimgName) else {
+                return nil
+        }
+        
+        notificationAssets = nimg
+        notificationDescription = ndes.replacingOccurrences(of: "n", with: "\n")
         
         /// get check dictionary
         let checkdic = result.filter { (res) -> Bool in
@@ -116,9 +136,7 @@ struct PermissionDefaultValue {
     
     /// 是否已经显示过申请授权的页面；只显示一次；
     static var isRequestedPermission: Bool {
-        
         get {
-            
             guard let val = UserDefaults.standard.value(forKey: authKey) as? NSNumber else {
                 return false
             }
@@ -126,7 +144,6 @@ struct PermissionDefaultValue {
             return val.boolValue
         }
         set {
-            
             UserDefaults.standard.set(NSNumber(value: newValue), forKey: authKey)
             UserDefaults.standard.synchronize()
         }
@@ -141,7 +158,6 @@ final class PermissionRequest: NSObject {
     static let `default`: PermissionRequest = PermissionRequest()
     
     private override init() {
-                
         super.init()
     }
     
@@ -172,4 +188,18 @@ final class PermissionRequest: NSObject {
         SFSpeechRecognizer.requestAuthorization(handler)
     }
     
+    /// 申请通知权限
+    func requestNotificationAuthorization(_ handler: @escaping (Bool) -> Swift.Void) {
+        if #available(iOS 10.0, *) {
+            UNUserNotificationCenter.current().requestAuthorization(options: [.alert, .sound,.badge]) { (granted, error) in
+                handler(granted)
+            }
+        } else {
+            let application = UIApplication.shared
+            let settings = UIUserNotificationSettings(types: [.alert,.sound,.badge], categories: nil)
+            application.registerUserNotificationSettings(settings)
+            /// application.registerForRemoteNotifications()
+            handler(true)
+        }
+    }
 }

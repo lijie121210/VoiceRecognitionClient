@@ -42,6 +42,8 @@ enum VGRoute {
     
     case recent(Int)
     
+    case sample(MeasurementType)
+    
     var rawValue: String {
         switch self {
         case .integrate: return "/basic/integrated"
@@ -68,6 +70,13 @@ enum VGRoute {
         case .coocsrange: return "/coocs/range"
             
         case .recent(let count): return "/basic/recent/\(count)"
+            
+        case .sample(let t):
+            if t == .integrated {
+                return "/basic/sample"
+            } else {
+                return "/\(t.textDescription)/sample"
+            }
         }
     }
 }

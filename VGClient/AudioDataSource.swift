@@ -69,39 +69,39 @@ public class AudioDataSource {
     /// Load data from local database. need to dispatch to main in completion.
     public func loadLocalData(completion: @escaping ([AudioData]) -> ()) {
         
-        CoreDataManager.default.asyncFetch(completion: { (finish, items: [AudioRecordItem]) in
-            
-            let workitem = {
-                let result = items.map { AudioData(filename: $0.filename!,
-                                                   duration: $0.duration,
-                                                   recordDate: $0.createDate! as Date,
-                                                   translation: $0.translation) }
-                
-                self.datas.append(contentsOf: result)
-                
-                completion(result)
-            }
-            
-            self.dispatchOnQueue(execute: workitem)
-        })
+//        CoreDataManager.default.asyncFetch(completion: { (finish, items: [AudioRecordItem]) in
+//            
+//            let workitem = {
+//                let result = items.map { AudioData(filename: $0.filename!,
+//                                                   duration: $0.duration,
+//                                                   recordDate: $0.createDate! as Date,
+//                                                   translation: $0.translation) }
+//                
+//                self.datas.append(contentsOf: result)
+//                
+//                completion(result)
+//            }
+//            
+//            self.dispatchOnQueue(execute: workitem)
+//        })
     }
     
     /// The code will be executed synchronously, and the self.datas will be set after execution.
     public func loadLocalData() {
         
-        let workitem = {
-            
-            let items: [AudioRecordItem] = CoreDataManager.default.fetch()
-            
-            let result = items.map { AudioData(filename: $0.filename!,
-                                               duration: $0.duration,
-                                               recordDate: $0.createDate! as Date,
-                                               translation: $0.translation) }
-            
-            self.datas.append(contentsOf: result)
-        }
-        
-        syncDispatchOnQueue(execute: workitem)
+//        let workitem = {
+//            
+//            let items: [AudioRecordItem] = CoreDataManager.default.fetch()
+//            
+//            let result = items.map { AudioData(filename: $0.filename!,
+//                                               duration: $0.duration,
+//                                               recordDate: $0.createDate! as Date,
+//                                               translation: $0.translation) }
+//            
+//            self.datas.append(contentsOf: result)
+//        }
+//        
+//        syncDispatchOnQueue(execute: workitem)
     }
     
     public func append(data: AudioData) {
@@ -112,7 +112,7 @@ public class AudioDataSource {
             
             self.datas.append(data)
             
-            CoreDataManager.default.insert(data: data)
+//            CoreDataManager.default.insert(data: data)
         }
         
         syncDispatchOnQueue(execute: workitem)

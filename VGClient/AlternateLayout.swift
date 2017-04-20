@@ -65,7 +65,7 @@ class AlternateLayout: UICollectionViewLayout {
     
     var numberOfColumns = 2
     
-    var cellPadding: CGFloat = 10.0
+    var cellPadding: CGFloat = 4.0
     
     
     //3. Array to keep a cache of attributes.

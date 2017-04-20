@@ -125,39 +125,6 @@ class CoreDataManager: NSObject {
         }
     }
     
-    @available(iOS, introduced: 9.0, deprecated: 9.0, message: " context thread ")
-    func append(data: AudioData) {
-        
-        let item = CoreDataManager.default.insertEntity(AudioRecordItem.self)
-        item.createDate = data.recordDate as NSDate
-        item.duration = data.duration
-        item.filename = data.filename
-        item.translation = data.translation
-
-        saveContext()
-    }
-    
-    /// insert a AudioRecordItem record
-
-    func insert(data: AudioData) {
-        
-        let context = managedObjectContext
-        context.perform {
-            
-            let item = self.insertEntity(AudioRecordItem.self, context: context)
-            item.createDate = data.recordDate as NSDate
-            item.duration = data.duration
-            item.filename = data.filename
-            item.translation = data.translation
-            
-            do {
-                try context.save()
-            } catch {
-                print(self, #function, error.localizedDescription)
-            }
-        }
-    }
-    
     /// Remove a AudioRecordItem record
     
     @discardableResult
@@ -169,7 +136,7 @@ class CoreDataManager: NSObject {
         context.performAndWait {
             do {
                 let request = NSFetchRequest<AudioRecordItem>(entityName: "AudioRecordItem")
-                request.predicate = NSPredicate(format: "createDate = %@", data.recordDate as NSDate)
+                request.predicate = NSPredicate(format: "recordDate = %@", data.recordDate as NSDate)
                 
                 /// fetch
                 let result = try context.fetch( request )
@@ -246,10 +213,8 @@ class CoreDataManager: NSObject {
     }
     
     func asyncFetch<T: NSManagedObject>(completion: @escaping (Bool, [T]) -> ()) {
-        
         let request = NSFetchRequest<T>(entityName: "\(T.self)")
         let context = managedObjectContext
-        
         context.perform {
             do {
                 completion(true, try context.fetch( request ))
@@ -258,6 +223,43 @@ class CoreDataManager: NSObject {
                 completion(false, [])
             }
         }
+    }
+    
+    
+    
+    ///
+    
+    @discardableResult
+    func remove(data: AudioRecordItem) -> Bool {
+        
+        var res = true
+        
+        let context = managedObjectContext
+        context.performAndWait {
+            do {
+                let request = NSFetchRequest<AudioRecordItem>(entityName: "AudioRecordItem")
+                
+                guard let date = data.recordDate else {
+                    res = false
+                    return
+                }
+                
+                request.predicate = NSPredicate(format: "recordDate = %@", date)
+                
+                /// fetch
+                let result = try context.fetch(request)
+                
+                /// delete
+                result.forEach { context.delete( $0 ) }
+                
+                /// save
+                try context.save()
+            } catch {
+                res = false
+            }
+        }
+        
+        return res
     }
     
 }

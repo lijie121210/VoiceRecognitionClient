@@ -59,12 +59,8 @@ public func ==(lhs: ArrowPoint, rhs: ArrowPoint) -> Bool {
     /// 调整区域的大小
     @IBInspectable open var radius: CGFloat = 15.0
     
-    
     /// 调整线段的长度
     @IBInspectable open var offset: CGFloat = 10.0
-    
-    
-    
     
     /// 检查尺寸设置
     open var isFrameValide: Bool {
@@ -72,15 +68,12 @@ public func ==(lhs: ArrowPoint, rhs: ArrowPoint) -> Bool {
         return frame.size.width >= radius * 2 && frame.size.height >= radius * 2
     }
     
-    
     /// 背景区域
     open var aera: CGRect {
         
         return CGRect(x: frame.size.width * 0.5 - 1, y: frame.size.height * 0.5 - 1, width: 2, height: 2)
             .insetBy(dx: -radius, dy: -radius)
     }
-    
-    
     
     
     /// 绘制背景圆
@@ -100,6 +93,12 @@ public func ==(lhs: ArrowPoint, rhs: ArrowPoint) -> Bool {
         
         ctx.saveGState()
     }
+    
+//    open override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+//        super.touchesBegan(touches, with: event)
+//        
+//        sendActions(for: .touchDown)
+//    }
 }
 
 
@@ -252,6 +251,8 @@ public struct ArrowPoint: Equatable {
         ctx.strokePath()
         
     }
+    
+    
 
 }
 

@@ -9,26 +9,41 @@
 import Foundation
 import UIKit
 
+
+/// Returns a Boolean value indicating whether two values are equal.
+///
+/// Equality is the inverse of inequality. For any values `a` and `b`,
+/// `a == b` implies that `a != b` is `false`.
+///
+/// - Parameters:
+///   - lhs: A value to compare.
+///   - rhs: Another value to compare.
+func ==(lhs: AccessoryAction, rhs: AccessoryAction) -> Bool {
+    
+    switch (lhs, rhs) {
+        
+    case (.open, .open), (.close, .close), (.stop, .stop): return true
+        
+    case let (.timing(a), .timing(b)): return a == b
+        
+    default: return false
+    }
+}
+
+
 /// 附件类型
 ///
-public enum AccessoryType: Int, Equatable {
-    
+enum AccessoryType: Int, Equatable {
     /// 卷帘机 curtain
     case rollingMachine
-    
     /// 浇灌泵
     case wateringPump
-    
     /// 通风机
     case ventilator
-    
     /// 增温灯
     case warmingLamp
-    
     /// 补光灯
     case fillLight
-    
-    
 }
 
 /// 增加一个默认名称
@@ -61,24 +76,19 @@ extension AccessoryType {
 
 /// 附件类型的简单分类
 ///
-public extension AccessoryType {
+extension AccessoryType {
     
     /// 这些设备的操作都是简单的 【 开 | 关 】
-    
-    public static var singleActionTypes:[AccessoryType] {
-        
+    static var singleActionTypes:[AccessoryType] {
         return [.ventilator, .warmingLamp, .fillLight, .wateringPump]
     }
     
     /// 这些设备的操作则稍微复杂
-    
-    public static var multipleActionTypes: [AccessoryType] {
-        
+    static var multipleActionTypes: [AccessoryType] {
         return [.rollingMachine]
     }
     
-    public var isSingleActionTypes: Bool {
-        
+    var isSingleActionTypes: Bool {
         return AccessoryType.singleActionTypes.contains(self)
     }
 }
@@ -88,7 +98,6 @@ public extension AccessoryType {
 extension AccessoryType {
     
     var icon: String {
-        
         return "\(self)"
     }
 }
@@ -97,7 +106,7 @@ extension AccessoryType {
 
 /// 附件状态
 ///
-public enum AccessoryStatus: Int {
+enum AccessoryStatus: Int {
     
     case unknown
     
@@ -126,7 +135,7 @@ extension AccessoryStatus {
 
 /// 附件操作
 ///
-public enum AccessoryAction: Equatable {
+enum AccessoryAction: Equatable {
     
     case close
     

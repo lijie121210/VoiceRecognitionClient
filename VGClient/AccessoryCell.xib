@@ -19,7 +19,7 @@
                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                 <subviews>
                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="967-QJ-y0E" customClass="RectCornerView" customModule="VGClient" customModuleProvider="target">
-                        <rect key="frame" x="0.0" y="0.5" width="277" height="266"/>
+                        <rect key="frame" x="0.0" y="0.0" width="277" height="266"/>
                         <subviews>
                             <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="zRT-Yk-vr8">
                                 <rect key="frame" x="8" y="8" width="40" height="40"/>
@@ -40,7 +40,7 @@
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="power" highlightedImage="timer" translatesAutoresizingMaskIntoConstraints="NO" id="piK-SN-hi9">
+                            <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="switcher" highlightedImage="timer" translatesAutoresizingMaskIntoConstraints="NO" id="piK-SN-hi9">
                                 <rect key="frame" x="255" y="244" width="20" height="20"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="20" id="CUP-gZ-q0S"/>
@@ -53,14 +53,23 @@
                                     <button opaque="NO" contentMode="center" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="A20-23-7lG">
                                         <rect key="frame" x="0.0" y="2" width="87" height="36"/>
                                         <state key="normal" image="open"/>
+                                        <connections>
+                                            <action selector="didTapOpenButton:" destination="gTV-IL-0wX" eventType="touchUpInside" id="qEa-RI-udf"/>
+                                        </connections>
                                     </button>
                                     <button opaque="NO" contentMode="center" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="EqD-t6-X4P">
                                         <rect key="frame" x="87" y="2" width="87" height="36"/>
                                         <state key="normal" image="stop"/>
+                                        <connections>
+                                            <action selector="didTapStopButton:" destination="gTV-IL-0wX" eventType="touchUpInside" id="jY2-w0-7Bg"/>
+                                        </connections>
                                     </button>
                                     <button opaque="NO" contentMode="center" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="0c5-Ke-Tqo">
                                         <rect key="frame" x="174" y="2" width="87" height="36"/>
                                         <state key="normal" image="close"/>
+                                        <connections>
+                                            <action selector="didTapCloseButton:" destination="gTV-IL-0wX" eventType="touchUpInside" id="IZv-A1-znD"/>
+                                        </connections>
                                     </button>
                                 </subviews>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
@@ -119,14 +128,25 @@
                 <constraint firstItem="967-QJ-y0E" firstAttribute="centerX" secondItem="gTV-IL-0wX" secondAttribute="centerX" id="wY4-zZ-6S8"/>
             </constraints>
             <size key="customSize" width="277" height="266"/>
+            <connections>
+                <outlet property="actionIndicatorImageView" destination="piK-SN-hi9" id="6Uk-Wz-Wsf"/>
+                <outlet property="actionStack" destination="1vP-Wm-Df1" id="5Sh-tu-Djc"/>
+                <outlet property="closeButton" destination="0c5-Ke-Tqo" id="QLx-DX-yFz"/>
+                <outlet property="container" destination="967-QJ-y0E" id="PVt-a2-iwi"/>
+                <outlet property="imageView" destination="zRT-Yk-vr8" id="nGX-f2-gw3"/>
+                <outlet property="infoLabel" destination="TXA-PR-O9c" id="m5j-tG-SNz"/>
+                <outlet property="openButton" destination="A20-23-7lG" id="6qU-vT-bQH"/>
+                <outlet property="stopButton" destination="EqD-t6-X4P" id="OmS-6Q-oge"/>
+                <outlet property="titleLabel" destination="cb0-TL-qeN" id="x1a-cI-1iP"/>
+            </connections>
             <point key="canvasLocation" x="147.5" y="162"/>
         </collectionViewCell>
     </objects>
     <resources>
         <image name="close" width="36" height="36"/>
         <image name="open" width="36" height="36"/>
-        <image name="power" width="20" height="20"/>
         <image name="stop" width="36" height="36"/>
+        <image name="switcher" width="19" height="20"/>
         <image name="timer" width="20" height="20"/>
     </resources>
 </document>

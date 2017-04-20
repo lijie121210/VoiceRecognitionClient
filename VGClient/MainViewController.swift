@@ -105,9 +105,16 @@ class MainViewController: UIViewController {
             layout.delegate = self
         }
         
-        measurementCollectionView.register(UINib(nibName: "MeasurementCCell", bundle: nil), forCellWithReuseIdentifier: "MeasurementCCell")
+        /// Register MeasurementCCell.xib
+        measurementCollectionView.register(MeasurementCCell.nib, forCellWithReuseIdentifier: MeasurementCCell.reuseid)
+        accessoryCollectionView.register(AccessoryCell.nib, forCellWithReuseIdentifier: AccessoryCell.reuseid)
+        accessoryCollectionView.contentInset = UIEdgeInsets(top: 0, left: 0, bottom: 60, right: 0)
         
+        /// Read Settings
         updateViewFromSettings()
+        
+        /// Default status
+        initialViewStatus()
     }
     
     /// 这些方法都可能调用多次
@@ -117,35 +124,25 @@ class MainViewController: UIViewController {
         
         navigationController?.isNavigationBarHidden = true
         
-        if PermissionDefaultValue.isRequestedPermission {
-            
-            /// 显示了其他视图后返回该页面，什么也不需要做
-            if isShowingViewController {
-                return
-            }
-            
-            scrollView.alpha = 1.0
-            measurementRefreshContainer.isHidden = true
-        } else {
-            scrollView.alpha = 0.0
+        /// 显示了其他视图后返回该页面，什么也不需要做
+        if isShowingViewController {
+            return
         }
+        
+        measurementRefreshContainer.isHidden = true
     }
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
 
-        if PermissionDefaultValue.isRequestedPermission {
-            /// 显示了其他视图后返回该页面，改变标记。
-            if isShowingViewController {
-                isShowingViewController = false
-                return
-            }
-            /// 加载数据
-            loadData(before: beforeLoading, after: afterLoading)
-        } else {
-            /// 显示申请授权的页面
-            requestPermission()
+        /// 显示了其他视图后返回该页面，改变标记。
+        if isShowingViewController {
+            isShowingViewController = false
+            return
         }
+        
+        /// 加载数据
+        loadData(before: beforeLoading, after: afterLoading)
         
         /// 接受开始录音的通知
         NotificationCenter.default.addObserver(self,
@@ -166,6 +163,17 @@ class MainViewController: UIViewController {
         super.didReceiveMemoryWarning()
         
         
+    }
+    
+    
+    // MARK: - Views
+    
+    func initialViewStatus() {
+        measurementInfoLabel.text = "环境状态"
+        measurementRefresh.setTitle("载入错误，再试一次", for: .normal)
+        curveInfoLabel.text = "最近变化曲线"
+        chartTitleLabel.text = " -- "
+        chartPromptLabel.text = "无数据"
     }
     
 
@@ -192,6 +200,10 @@ class MainViewController: UIViewController {
         
         /// 注册为设置界面的代理
         if let id = segue.identifier, id == "Setting", let des = segue.destination as? SettingViewController {
+            des.delegate = self
+        }
+        
+        if let id = segue.identifier, id == "Listen", let des = segue.destination as? ListenViewController {
             des.delegate = self
         }
     }
@@ -226,6 +238,7 @@ class MainViewController: UIViewController {
         /// 开始编辑
         let startEditing = {
             self.isEditing = true
+            self.accessoryAddButton.isEnabled = false
             self.accessoryEditButton.setImage(UIImage(named: "done"), for: .normal)
             
             /// 除了在这里修改，还要在CollectionView数据源代理方法里面做判断
@@ -234,6 +247,7 @@ class MainViewController: UIViewController {
         /// 编辑完成
         let endEditing = {
             self.isEditing = false
+            self.accessoryAddButton.isEnabled = true
             self.accessoryEditButton.setImage(UIImage(named: "edit"), for: .normal)
             self.accessoryCollectionView.visibleCells.forEach { $0.alpha = 1.0 }
         }
@@ -250,7 +264,6 @@ class MainViewController: UIViewController {
 
     /// 跳转申请权限的界面
     func requestPermission() {
-        
         guard let authority = UIStoryboard(name: "Authority", bundle: nil).instantiateInitialViewController() else {
             return
         }
@@ -312,24 +325,24 @@ class MainViewController: UIViewController {
     func updateLineChartView() {
         let data = MeasurementManager.default.dataSource.passiveCharts()
         
+        lineChart.reloadView()
+
         if data.isEmpty {
             chartTitleLabel.text = " -- "
             chartPromptLabel.text = "无数据"
             chartPromptLabel.isHidden = false
-            return
-        }
-        
-        chartTitleLabel.text = "综合"
-        chartPromptLabel.isHidden = true
-        
-        lineChart.reloadView()
-
-        let lineChartView = lineChart.chart!
-        
-        config(lineChartView, config: data[0].config)
-
-        data.forEach { (item) in
-            lineChartView.addLine(item.columns.map { $0.value })
+        } else {
+            chartTitleLabel.text = "综合"
+            chartPromptLabel.text = nil
+            chartPromptLabel.isHidden = true
+            
+            let lineChartView = lineChart.chart!
+            
+            config(lineChartView, config: data[0].config)
+            
+            data.forEach { (item) in
+                lineChartView.addLine(item.columns.map { $0.value })
+            }
         }
     }
     
@@ -371,99 +384,20 @@ class MainViewController: UIViewController {
         lineChartView.y.axis.inset = config.yAxisInset
     }
     
-    
-    
-    
-//    /// 录制到数据之后，开始进行识别
-//    
-//    func recognizeWithHMM(data: AudioData, completion: @escaping (String?) -> ()) {
-//        
-//        /// check data
-//        guard let data = data.data else {
-//            return completion(nil)
-//        }
-//        
-//        /// check connection
-//        guard clientSocket.connect() else {
-//            return completion(nil)
-//        }
-//        
-//        /// write to socket
-//        clientSocket.write(data: data, type: .audio, recognition: completion)
-//    }
-//    
-//    func startRecognition(data: AudioData) {
-//        
-//        /// will mutate the translation property.
-//        var data = data
-//        
-//        /// loading indicatior
-//        let orbit = OrbitAlertController.show(with: "正在上传...", on: self)
-//        
-//        /// failed!
-//        let recognizeFailed = {
-//            
-//            DispatchQueue.main.async {
-//                orbit?.update(prompt: "未完成!")
-//                DispatchQueue.main.asyncAfter(deadline: .now() + 2.0, execute: {
-//                    OrbitAlertController.dismiss()
-//                })
-//            }
-//            
-//            /// 清理数据
-//            //            AudioOperator.delete(recordedItem: data.localURL)
-//        }
-//        
-//        /// successed!
-//        let recognizeSuccessed = { (text: String) in
-//            DispatchQueue.main.async {
-//                
-//                orbit?.update(prompt: "完成!")
-//                DispatchQueue.main.asyncAfter(deadline: .now() + 1.0, execute: {
-//                    OrbitAlertController.dismiss()
-//                })
-//                
-//                data.translation = text
-//                
-//                self.dataSource.append(data: data)
-//                
-//                self.recordList?.insert(data: data)
-//            }
-//        }
-//        
-//        /// recognition result callback
-//        let handleResult = { (text: String?) in
-//            
-//            if let text = text {
-//                
-//                recognizeSuccessed(text)
-//            } else {
-//                
-//                recognizeFailed()
-//            }
-//        }
-//        
-//        switch AudioDefaultValue.speechRecognitionEngine {
-//            
-//        case .hmm:
-//            
-//            recognizeWithHMM(data: data, completion: handleResult)
-//            
-//        case .siri:
-//            
-//            if #available(iOS 10.0, *) {
-//                
-//                AudioOperator.recognize(speech: data.localURL, completion: handleResult)
-//            } else {
-//                
-//                recognizeWithHMM(data: data, completion: handleResult)
-//            }
-//        }
-//        
-//    }
-//    
-    
-    
+    /// 执行某项任务结束后，刷新数据源。
+    func update(_ collectionView: UICollectionView, indexPaths:[IndexPath], orbit: OrbitAlertController?, after: DispatchTime = .now() + 1.0) {
+        DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
+            orbit?.update(prompt: "完成")
+        }
+        DispatchQueue.main.asyncAfter(deadline: .now() + 2.5, execute: {
+            orbit?.dismiss(animated: true, completion: nil)
+        })
+        DispatchQueue.main.asyncAfter(deadline: .now() + 3.5, execute: {
+            collectionView.performBatchUpdates({
+                collectionView.reloadItems(at: indexPaths)
+            }, completion: nil)
+        })
+    }
     
     
     // MARK: - SettingViewControllerDelegate
@@ -471,14 +405,17 @@ class MainViewController: UIViewController {
     /* 该界面可能更改设置，于是实现设置更改的代理人，可以接受在该页面更改设置时的通知.
      * 如果想得到在任何界面设置修改的通知，需要在通知中心注册
      */
-    func setting(controller: SettingViewController, didChangeValueOf keyPath: AudioDefaultValue.KeyPath, to newValue: Any) {
-        guard keyPath == .isHiddenBackgroundImage, let isHidden = newValue as? Bool else {
-            return
+    func setting(controller: SettingViewController, didChangeValueOf keyPath: String, to newValue: Any) {
+        if keyPath == VGDefaultValue.KeyPath.isHiddenBackgroundImage, let isHidden = newValue as? Bool {
+            updateViewFromSettings(isHidden: isHidden)
         }
-        updateViewFromSettings(isHidden: isHidden)
+        if keyPath == SettingViewControllerDidTapCheckRecordListKey {
+            isShowingViewController = true
+            performSegue(withIdentifier: "RecordList", sender: nil)
+        }
     }
     
-    func updateViewFromSettings(isHidden: Bool = AudioDefaultValue.isHiddenBackgroundImage) {
+    func updateViewFromSettings(isHidden: Bool = VGDefaultValue.isHiddenBackgroundImage) {
         backgroundImageView.isHidden = isHidden
     }
     
@@ -490,11 +427,9 @@ class MainViewController: UIViewController {
         
         guard collectionView == accessoryCollectionView else { return }
         
-        guard var accdatas = DataManager.default.fake_data[2] as? [AccessoryData] else { return }
-        
         let i = indexPath.item
         
-        var data = accdatas[i]
+        var data = AccessoryManager.default.accessoryDatas[i]
         
         /// 编辑
         if collectionView == accessoryCollectionView, isEditing {
@@ -517,13 +452,11 @@ class MainViewController: UIViewController {
         
         ///
         
-        accdatas.replaceSubrange((i..<i+1), with: [data])
-        
-        DataManager.default.fake_data.replaceSubrange((2..<3), with: [accdatas])
+        AccessoryManager.default.accessoryDatas.replaceSubrange((i..<i+1), with: [data])
         
         ///
         
-        update(collectionView: accessoryCollectionView, indexPaths: [indexPath], orbit: orbit)
+        update(accessoryCollectionView, indexPaths: [indexPath], orbit: orbit)
     }
     
     
@@ -532,17 +465,13 @@ class MainViewController: UIViewController {
     ///  点击了三联操作的某个按钮
     func cell(_ cell: AccessoryCell, isTapped action: AccessoryAction) {
         
-        guard
-            let indexPath = accessoryCollectionView.indexPath(for: cell),
-            
-            var accdatas = DataManager.default.fake_data[2] as? [AccessoryData] else {
-                
-                return
+        guard let indexPath = accessoryCollectionView.indexPath(for: cell)else {
+            return
         }
         
         let i = indexPath.item
         
-        var data = accdatas[i]
+        var data = AccessoryManager.default.accessoryDatas[i]
         
         ///
         
@@ -560,40 +489,11 @@ class MainViewController: UIViewController {
         case .open,.timing(_): data.state = .opened
         }
         
-        accdatas.replaceSubrange((i..<i+1), with: [data])
-        
-        DataManager.default.fake_data.replaceSubrange((2..<3), with: [accdatas])
+        AccessoryManager.default.accessoryDatas.replaceSubrange((i..<i+1), with: [data])
         
         ///
         
-        update(collectionView: accessoryCollectionView, indexPaths: [indexPath], orbit: orbit)
-    }
-    
-    
-    fileprivate func update(collectionView: UICollectionView, indexPaths:[IndexPath], orbit: OrbitAlertController?, after: DispatchTime = .now() + 1.0) {
-        
-        DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
-            
-            orbit?.update(prompt: "执行成功")
-            
-            DispatchQueue.main.asyncAfter(deadline: .now() + 1.0, execute: {
-                
-                orbit?.dismiss(animated: true, completion: nil)
-            })
-            
-            ///
-            
-            DispatchQueue.main.asyncAfter(deadline: .now() + 1.5, execute: {
-                
-                collectionView.performBatchUpdates({
-                    
-                    collectionView.reloadItems(at: indexPaths)
-                    
-                }, completion: nil)
-                
-            })
-            
-        }
+        update(accessoryCollectionView, indexPaths: [indexPath], orbit: orbit)
     }
     
     
@@ -601,60 +501,50 @@ class MainViewController: UIViewController {
     // MARK: - AccessoryOperationDelegate
     
     func accessoryViewController(_ controller: AccessoryViewController, attemptToAdd data: AccessoryData) {
-        
-        guard var accdatas = DataManager.default.fake_data[2] as? [AccessoryData] else {
-            
+        guard AccessoryManager.default.insertAtFront(data) else {
+            warning(duration: 2.0, message: "无法添加<\(data.name)>, 同名设备已存在")
             return
         }
         
-        accdatas.insert(data, at: 0)
-        
-        DataManager.default.fake_data.replaceSubrange((2..<3), with: [accdatas])
-        
         accessoryCollectionView.performBatchUpdates({
-            
             self.accessoryCollectionView.insertItems(at: [IndexPath(item: 0, section: 0)])
-            
         }, completion: nil)
     }
     
     func accessoryViewController(_ controller: AccessoryViewController, attemptToEdit data: AccessoryData, at indexPath: IndexPath?) {
+        guard let i = indexPath?.item else { return }
         
-        guard var accdatas = DataManager.default.fake_data[2] as? [AccessoryData], let i = indexPath?.item else {
-            
+        guard AccessoryManager.default.replace(data, at: i) else {
+            warning(duration: 2.0, message: "无法编辑<\(data.name)>, 同名设备已存在")
             return
         }
         
-        accdatas.replaceSubrange((i..<i+1), with: [data])
-        
-        DataManager.default.fake_data.replaceSubrange((2..<3), with: [accdatas])
-        
         accessoryCollectionView.performBatchUpdates({
-            
             self.accessoryCollectionView.reloadItems(at: [indexPath!])
-            
         }, completion: nil)
-        
-        
     }
     
     func accessoryViewController(_ controller: AccessoryViewController, attemptToDelete data: AccessoryData, at indexPath: IndexPath?) {
+        guard let indexPath = indexPath else { return }
         
-        guard var accdatas = DataManager.default.fake_data[2] as? [AccessoryData], let i = indexPath?.item else {
-            
+        guard AccessoryManager.default.remove(data) else {
+            warning(duration: 2.0, message: "无法移除<\(data.name)>, 设备不存在")
             return
         }
         
-        accdatas.remove(at: i)
-        
-        DataManager.default.fake_data.replaceSubrange((2..<3), with: [accdatas])
-        
         accessoryCollectionView.performBatchUpdates({
-            
-            self.accessoryCollectionView.deleteItems(at: [indexPath!])
-            
+            self.accessoryCollectionView.deleteItems(at: [indexPath])
         }, completion: nil)
         
+    }
+    
+    
+    // MARK: - ListenViewControllerDelegate
+    
+    func listen(_ vc: ListenViewController, didRecognizedSpeech result: String) {
+        vc.dismiss(animated: true) { 
+            self.didRecognizedSpeech(result: result)
+        }
     }
     
     // MARK: - UIScrollView Delegate
@@ -687,5 +577,5 @@ class MainViewController: UIViewController {
 }
 
 
-extension MainViewController: SettingViewControllerDelegate, UICollectionViewDelegate, AccessoryCellDelegate, AccessoryOperationDelegate { }
+extension MainViewController: SettingViewControllerDelegate, UICollectionViewDelegate, AccessoryCellDelegate, AccessoryOperationDelegate, ListenViewControllerDelegate { }
 

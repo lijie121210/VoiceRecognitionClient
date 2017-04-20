@@ -11,8 +11,7 @@
 
 import UIKit
 
-@IBDesignable
-open class WaveView: UIView {
+@IBDesignable open class WaveView: UIView {
 
     @IBInspectable open var numberOfWaves: Int = 5
     
@@ -192,13 +191,11 @@ open class WaveView: UIView {
     }
     
     deinit {
-        
-        print(self, #function)
+        print("WaveView", #function)
         
         if let link = displayLink {
             link.invalidate()
+            displayLink = nil
         }
-        
-        displayLink = nil
     }
 }

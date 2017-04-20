@@ -11,36 +11,41 @@ import UserNotifications
 import UIKit
 
 
-struct VGNotificationManager {
+struct VGNotification {
     
+    var title: String
+    var body: String
+    var lunchImageName: String
     
-    func schedule(title: String, body: String, userInfo: [AnyHashable : Any], minute: Int? = 0) {
+    func schedule(minute: Int, userInfo: [AnyHashable : Any] = [:]) {
         if #available(iOS 10.0, *) {
             let content = UNMutableNotificationContent()
             content.title = title
             content.body = body
             content.sound = UNNotificationSound.default()
+            content.launchImageName = lunchImageName
+            content.userInfo = userInfo
             
-            var date = Date(timeIntervalSinceNow: TimeInterval(minute! * 60))
+            let date = Date(timeIntervalSinceNow: TimeInterval(minute * 60))
             let dateComponents = Calendar.current.dateComponents([.year,.month,.day,.month,.hour,.minute,.second], from: date)
             let trigger = UNCalendarNotificationTrigger(dateMatching: dateComponents, repeats: false)
             let request = UNNotificationRequest(identifier: Date().description, content: content, trigger: trigger)
-            
             let center = UNUserNotificationCenter.current()
+            if let navi = UIApplication.shared.keyWindow?.rootViewController as? UINavigationController,
+                let del = navi.topViewController as? UNUserNotificationCenterDelegate {
+                center.delegate = del
+            }
             center.add(request, withCompletionHandler: { (error) in
                 print(self, #function, error?.localizedDescription ?? "no error")
             })
         } else {
             let notification = UILocalNotification()
-            notification.fireDate = Date(timeIntervalSinceNow: TimeInterval(minute! * 60))
+            notification.fireDate = Date(timeIntervalSinceNow: TimeInterval(minute * 60))
             notification.alertBody = body
             notification.alertTitle = title
             notification.soundName = UILocalNotificationDefaultSoundName
             UIApplication.shared.scheduleLocalNotification(notification)
-        }
-        
-        
-        
+        } 
     }
     
     

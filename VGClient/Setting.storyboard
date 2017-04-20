@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="12118" systemVersion="16A323" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="67G-cA-UF0">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="12118" systemVersion="16E195" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="67G-cA-UF0">
     <device id="retina4_7" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
@@ -22,7 +22,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Eci-OW-99D" customClass="RectCornerView" customModule="VGClient" customModuleProvider="target">
-                                <rect key="frame" x="16" y="295" width="343" height="280"/>
+                                <rect key="frame" x="16" y="327" width="343" height="280"/>
                                 <subviews>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="隐藏背景图片" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="buk-Tz-nQl">
                                         <rect key="frame" x="20" y="185" width="104" height="21"/>
@@ -80,28 +80,19 @@
                                     </label>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="hMF-eG-cja" customClass="ArrowControl" customModule="VGClient" customModuleProvider="target">
                                         <rect key="frame" x="263" y="119.5" width="60" height="44"/>
-                                        <subviews>
-                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="aeb-oH-Iph">
-                                                <rect key="frame" x="0.0" y="0.0" width="60" height="44"/>
-                                                <connections>
-                                                    <segue destination="XlZ-ZV-Phs" kind="presentation" id="vyZ-ao-LAl"/>
-                                                </connections>
-                                            </button>
-                                        </subviews>
                                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                         <constraints>
                                             <constraint firstAttribute="width" constant="60" id="XVA-mT-mXO"/>
-                                            <constraint firstItem="aeb-oH-Iph" firstAttribute="width" secondItem="hMF-eG-cja" secondAttribute="width" id="cvl-AE-HoH"/>
                                             <constraint firstAttribute="height" constant="44" id="hEs-JF-wA8"/>
-                                            <constraint firstItem="aeb-oH-Iph" firstAttribute="centerY" secondItem="hMF-eG-cja" secondAttribute="centerY" id="oe9-Ss-FjA"/>
-                                            <constraint firstItem="aeb-oH-Iph" firstAttribute="centerX" secondItem="hMF-eG-cja" secondAttribute="centerX" id="tgh-RB-XVS"/>
-                                            <constraint firstItem="aeb-oH-Iph" firstAttribute="height" secondItem="hMF-eG-cja" secondAttribute="height" id="yfD-iC-gr8"/>
                                         </constraints>
                                         <userDefinedRuntimeAttributes>
                                             <userDefinedRuntimeAttribute type="number" keyPath="direction">
                                                 <integer key="value" value="2"/>
                                             </userDefinedRuntimeAttribute>
                                         </userDefinedRuntimeAttributes>
+                                        <connections>
+                                            <action selector="didTapCheckRecordList:" destination="67G-cA-UF0" eventType="touchDown" id="mR6-Ok-BjL"/>
+                                        </connections>
                                     </view>
                                 </subviews>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -139,36 +130,18 @@
                                     <userDefinedRuntimeAttribute type="boolean" keyPath="isBottomLeftCorner" value="YES"/>
                                 </userDefinedRuntimeAttributes>
                             </view>
-                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="xZT-9V-mvq" customClass="RectCornerView" customModule="VGClient" customModuleProvider="target">
-                                <rect key="frame" x="16" y="591" width="343" height="60"/>
-                                <subviews>
-                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="q16-0C-byf">
-                                        <rect key="frame" x="8" y="0.0" width="327" height="60"/>
-                                        <fontDescription key="fontDescription" type="system" pointSize="22"/>
-                                        <state key="normal" title="确    定"/>
-                                        <connections>
-                                            <action selector="didTapCancelSettingButton:" destination="67G-cA-UF0" eventType="touchUpInside" id="We4-hI-zfQ"/>
-                                        </connections>
-                                    </button>
-                                </subviews>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="xZT-9V-mvq" customClass="RCView" customModule="VGClient" customModuleProvider="target">
+                                <rect key="frame" x="16" y="615" width="343" height="44"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <constraints>
-                                    <constraint firstItem="q16-0C-byf" firstAttribute="height" secondItem="xZT-9V-mvq" secondAttribute="height" id="0Bk-I8-7UY"/>
-                                    <constraint firstItem="q16-0C-byf" firstAttribute="centerY" secondItem="xZT-9V-mvq" secondAttribute="centerY" id="O18-Qu-hNw"/>
-                                    <constraint firstAttribute="height" constant="60" id="hU3-Tw-vcI"/>
-                                    <constraint firstItem="q16-0C-byf" firstAttribute="leading" secondItem="xZT-9V-mvq" secondAttribute="leading" constant="8" id="vZh-b2-159"/>
-                                    <constraint firstItem="q16-0C-byf" firstAttribute="centerX" secondItem="xZT-9V-mvq" secondAttribute="centerX" id="w8y-s8-uBF"/>
+                                    <constraint firstAttribute="height" constant="44" id="hU3-Tw-vcI"/>
                                 </constraints>
                                 <userDefinedRuntimeAttributes>
-                                    <userDefinedRuntimeAttribute type="boolean" keyPath="isBottomRightCorner" value="YES"/>
-                                    <userDefinedRuntimeAttribute type="boolean" keyPath="isBottomLeftCorner" value="YES"/>
-                                    <userDefinedRuntimeAttribute type="number" keyPath="cornerRadiusX">
-                                        <real key="value" value="20"/>
-                                    </userDefinedRuntimeAttribute>
-                                    <userDefinedRuntimeAttribute type="number" keyPath="cornerRadiusY">
-                                        <real key="value" value="20"/>
-                                    </userDefinedRuntimeAttribute>
+                                    <userDefinedRuntimeAttribute type="image" keyPath="image" value="done"/>
                                 </userDefinedRuntimeAttributes>
+                                <connections>
+                                    <action selector="didTapCancelSettingButton:" destination="67G-cA-UF0" eventType="touchUpInside" id="7ru-O2-041"/>
+                                </connections>
                             </view>
                         </subviews>
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="0.10000000000000001" colorSpace="calibratedRGB"/>
@@ -176,16 +149,17 @@
                         <constraints>
                             <constraint firstItem="Eci-OW-99D" firstAttribute="leading" secondItem="Mjx-iy-r8Q" secondAttribute="leadingMargin" id="3cQ-fH-KEx"/>
                             <constraint firstItem="xZT-9V-mvq" firstAttribute="leading" secondItem="Mjx-iy-r8Q" secondAttribute="leadingMargin" id="4Rl-9a-qZH"/>
-                            <constraint firstItem="xZT-9V-mvq" firstAttribute="top" secondItem="Eci-OW-99D" secondAttribute="bottom" constant="16" id="I3a-gT-6lB"/>
+                            <constraint firstItem="xZT-9V-mvq" firstAttribute="top" secondItem="Eci-OW-99D" secondAttribute="bottom" constant="8" id="I3a-gT-6lB"/>
                             <constraint firstItem="xZT-9V-mvq" firstAttribute="centerX" secondItem="Mjx-iy-r8Q" secondAttribute="centerX" id="oX5-s1-daS"/>
                             <constraint firstItem="Eci-OW-99D" firstAttribute="centerX" secondItem="Mjx-iy-r8Q" secondAttribute="centerX" id="yNj-YS-YjP"/>
-                            <constraint firstItem="kkg-Ks-YBb" firstAttribute="top" secondItem="xZT-9V-mvq" secondAttribute="bottom" constant="16" id="z2a-6n-O06"/>
+                            <constraint firstItem="kkg-Ks-YBb" firstAttribute="top" secondItem="xZT-9V-mvq" secondAttribute="bottom" constant="8" id="z2a-6n-O06"/>
                         </constraints>
                         <connections>
                             <outletCollection property="gestureRecognizers" destination="9LX-a8-8QU" appends="YES" id="W2S-nx-yZN"/>
                         </connections>
                     </view>
                     <connections>
+                        <outlet property="checkRecordList" destination="hMF-eG-cja" id="Hjn-0j-tjF"/>
                         <outlet property="containerView" destination="Eci-OW-99D" id="bUt-X3-clo"/>
                         <outlet property="isHiddenBackgroundImageSwitch" destination="A5x-jL-Cww" id="gAD-r1-lLk"/>
                         <outlet property="speechRecognitionEngineSegmentedControl" destination="4Tr-Dh-8kA" id="NCT-hU-RCg"/>
@@ -200,13 +174,8 @@
             </objects>
             <point key="canvasLocation" x="936.79999999999995" y="1597.1514242878561"/>
         </scene>
-        <!--RecordListViewController-->
-        <scene sceneID="770-jZ-RZc">
-            <objects>
-                <viewControllerPlaceholder storyboardName="RecordList" referencedIdentifier="RecordListViewController" id="XlZ-ZV-Phs" sceneMemberID="viewController"/>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="lK0-mg-bJA" userLabel="First Responder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="1599" y="1597"/>
-        </scene>
     </scenes>
+    <resources>
+        <image name="done" width="25" height="25"/>
+    </resources>
 </document>

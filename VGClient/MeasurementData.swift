@@ -43,7 +43,7 @@ extension MeasurementData {
         
         for (key, value) in json {
             guard
-                let type = MeasurementType(origin: key),
+                let type = MeasurementType(description: key),
                 let value = value as? [String:Any],
                 let time = value["time"] as? String,
                 let val = value["value"] as? Double else { continue }
@@ -64,7 +64,7 @@ extension MeasurementData {
         
         for (key, value) in jsonobj {
             guard
-                let type = MeasurementType(origin: key),
+                let type = MeasurementType(description: key),
                 let array = value as? [Any] else {
                     continue
             }

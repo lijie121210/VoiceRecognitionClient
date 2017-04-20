@@ -20,6 +20,7 @@ class LineChartView: UIView {
             chart = nil
         }
         chart = LineChart()
+        chart?.backgroundColor = .clear
         chart?.translatesAutoresizingMaskIntoConstraints = false
         addSubview(chart!)
         layout(lineChart: chart!)

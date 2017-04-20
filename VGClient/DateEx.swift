@@ -37,6 +37,14 @@ public extension Date {
                                              timeStyle: .long)
             .replacingOccurrences(of: "GMT+8", with: "")
     }
+    
+    func utc8() -> String {
+        let format = DateFormatter()
+        format.timeZone = TimeZone(identifier: "UTC+8")
+        format.dateFormat = "yyyy-MM-dd HH:mm:ss"
+        let str = format.string(from: self)
+        return str
+    }
 }
 
 enum DateConvertError: Error {

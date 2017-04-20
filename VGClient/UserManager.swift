@@ -20,7 +20,7 @@ final class UserManager: NSObject {
     
     var currentUser: VGUser? {
         
-        return VGUserDefaultValue.currentUser
+        return VGDefaultValue.currentUser
     }
     
     
@@ -54,7 +54,7 @@ final class UserManager: NSObject {
                 /// 能创建成功，说明数据解析没问题，直接保存数据就好了
                 let _ = try VGUser(data: data)
                 
-                VGUserDefaultValue.save(user: data)
+                VGDefaultValue.save(user: data)
                 
                 completion(true)
             } catch {

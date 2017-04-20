@@ -14,6 +14,7 @@ enum ThresholdMaskPosition: Int {
     case high = 1
 }
 
+@IBDesignable
 class ThresholdRangeView: UIView {
 
     // MARK: - Properties
@@ -78,13 +79,17 @@ class ThresholdRangeView: UIView {
     
     override init(frame: CGRect) {
         super.init(frame: frame)
-        
+        backgroundColor = .clear
         initial()
     }
     
     required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
-        
+        backgroundColor = .clear
+    }
+    
+    override func awakeFromNib() {
+        super.awakeFromNib()
         initial()
     }
     
@@ -114,9 +119,7 @@ class ThresholdRangeView: UIView {
         
         let metrics = ["d":d, "t":top, "o":0]
         let views = ["lv":llab, "hv":hlab, "v":v]
-        
-        
-        
+                
         addConstraints([
             NSLayoutConstraint(item: self, attribute: .centerX, relatedBy: .equal, toItem: v, attribute: .centerX, multiplier: 1, constant: 0),
             NSLayoutConstraint(item: self, attribute: .centerY, relatedBy: .equal, toItem: v, attribute: .centerY, multiplier: 1, constant: 0),

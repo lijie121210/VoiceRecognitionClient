@@ -13,12 +13,7 @@ extension MainViewController: AlternateLayoutDelegate {
     
     /// 计算每一个cell的高度，这里只用类型区分
     func collectionView(_ collectionView: UICollectionView, heightForItem atIndexPath: IndexPath, withWidth: CGFloat) -> CGFloat {
-        
-        guard let accdatas = DataManager.default.fake_data[2] as? [AccessoryData] else {
-            return 0
-        }
-        
-        return accdatas[atIndexPath.item].type.isSingleActionTypes ? 130 : 170
+        return AccessoryManager.default.accessoryDatas[atIndexPath.item].type.isSingleActionTypes ? 130 : 170
     }
 }
 

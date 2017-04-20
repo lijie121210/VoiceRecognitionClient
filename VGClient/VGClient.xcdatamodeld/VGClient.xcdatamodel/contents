@@ -1,10 +1,11 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="12141" systemVersion="16E195" minimumToolsVersion="Automatic" sourceLanguage="Swift" userDefinedModelVersionIdentifier="">
     <entity name="AudioRecordItem" representedClassName="AudioRecordItem" syncable="YES" codeGenerationType="class">
-        <attribute name="createDate" optional="YES" attributeType="Date" usesScalarValueType="NO" syncable="YES"/>
+        <attribute name="data" optional="YES" attributeType="Binary" allowsExternalBinaryDataStorage="YES" syncable="YES"/>
         <attribute name="duration" optional="YES" attributeType="Double" defaultValueString="0.0" usesScalarValueType="YES" syncable="YES"/>
-        <attribute name="filename" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="recordDate" optional="YES" attributeType="Date" usesScalarValueType="NO" indexed="YES" syncable="YES"/>
         <attribute name="translation" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="url" optional="YES" attributeType="String" syncable="YES"/>
     </entity>
     <entity name="MThresholdItem" representedClassName="MThresholdItem" syncable="YES" codeGenerationType="class">
         <attribute name="effective_high_time" optional="YES" attributeType="String" syncable="YES"/>
@@ -14,7 +15,7 @@
         <attribute name="type" optional="YES" attributeType="String" syncable="YES"/>
     </entity>
     <elements>
-        <element name="AudioRecordItem" positionX="-63" positionY="-18" width="128" height="105"/>
-        <element name="MThresholdItem" positionX="-63" positionY="9" width="128" height="120"/>
+        <element name="AudioRecordItem" positionX="-63" positionY="-18" width="128" height="120"/>
+        <element name="MThresholdItem" positionX="-65" positionY="-192" width="128" height="120"/>
     </elements>
 </model>

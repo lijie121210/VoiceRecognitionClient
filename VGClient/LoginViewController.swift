@@ -73,12 +73,23 @@ class LoginViewController: UIViewController, UITextFieldDelegate, KeyboardManage
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         
-        /// 触发指纹识别
-        if let _ = UserManager.default.currentUser {
-            
-            touchIDAuthenticate()
+        if PermissionDefaultValue.isRequestedPermission {
+            /// 显示了其他视图后返回该页面，改变标记。
+//            if isShowingViewController {
+//                isShowingViewController = false
+//                return
+//            }
+            /// 触发指纹识别
+            if let _ = UserManager.default.currentUser {
+                touchIDAuthenticate()
+            }
+        } else {
+            /// 显示申请授权的页面
+            guard let authority = UIStoryboard(name: "Authority", bundle: nil).instantiateInitialViewController() else {
+                return
+            }
+            show(authority, sender: nil)
         }
-        
     }
 
 

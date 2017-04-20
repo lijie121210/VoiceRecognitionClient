@@ -21,22 +21,8 @@ extension Notification.Name {
 }
 
 
-final class AudioRecordResult: NSObject {
-    
-    var filename: String
-    var duration: TimeInterval
-    var recordDate: Date
-    var translation: String? = nil
-    
-    init(filename: String, duration: TimeInterval, recordDate: Date, translation: String? = nil) {
-        self.filename = filename
-        self.duration = duration
-        self.recordDate = recordDate
-        self.translation = translation
-        super.init()
-    }
-    
-}
+
+
 
 @objc protocol AudioOperatorDelegate: class {
     @objc optional
@@ -74,7 +60,10 @@ final class AudioOperator: NSObject, AVAudioRecorderDelegate, AVAudioPlayerDeleg
     // MARK: - Properties
 
     /// hold the timer for updating recorder / player meters.
-    fileprivate var updatingTimer: DispatchSourceTimer
+
+    private let queue: DispatchQueue
+
+    fileprivate var updatingTimer: DispatchSourceTimer?
     
     fileprivate var recorder: AVAudioRecorder?
     
@@ -85,9 +74,10 @@ final class AudioOperator: NSObject, AVAudioRecorderDelegate, AVAudioPlayerDeleg
     var filename: String?
     var storageURL: URL?
     var startTime: TimeInterval = 0.0
+    /// 记录录制时长
     var currentTime: TimeInterval = 0.0
-    var endTime: TimeInterval = 0.0
 
+    
     // MARK: - Init
     
     deinit {
@@ -96,17 +86,13 @@ final class AudioOperator: NSObject, AVAudioRecorderDelegate, AVAudioPlayerDeleg
     
     override init() {
         
-        let queue = DispatchQueue(label: "com.vg.mointor", attributes: .concurrent)
-        updatingTimer = DispatchSource.makeTimerSource(queue: queue)
-        updatingTimer.scheduleRepeating(deadline: .now(), interval: .milliseconds(200), leeway: .milliseconds(50))
+        queue = DispatchQueue(label: "com.vg.mointor")
         
         super.init()
-        
-        
     }
     
+    
     static func delete(recordedItem localURL: URL) throws {
-        
         try FileManager.default.removeItem(at: localURL)
     }
     
@@ -139,7 +125,7 @@ final class AudioOperator: NSObject, AVAudioRecorderDelegate, AVAudioPlayerDeleg
         startTime = Date().timeIntervalSince1970
         currentTime = 0.0
         let res = recorder!.record()
-        resumeTimer(eventHandler: DispatchWorkItem(block: recordingUpdation))
+        resumeTimer(recordingUpdation)
         return res
     }
     
@@ -148,11 +134,9 @@ final class AudioOperator: NSObject, AVAudioRecorderDelegate, AVAudioPlayerDeleg
     /// after that, it will stop the recorder and trigger the delegate method of the recorder.
     func stopRecording() {
         suspendTimer()
-        
         if let r = recorder, r.isRecording {
-            r.stop()
             currentTime = r.currentTime
-            endTime = Date().timeIntervalSince1970
+            r.stop()
         }
         
     }
@@ -170,7 +154,7 @@ final class AudioOperator: NSObject, AVAudioRecorderDelegate, AVAudioPlayerDeleg
         }
     }
     
-    fileprivate func recordingUpdation() {
+    func recordingUpdation() {
         guard let r = recorder, r.isRecording else { return }
         r.updateMeters()
         DispatchQueue.main.async {
@@ -195,7 +179,7 @@ final class AudioOperator: NSObject, AVAudioRecorderDelegate, AVAudioPlayerDeleg
         stopPlaying()
         player = try AVAudioPlayer(contentsOf: url)
         player!.delegate = self
-        resumeTimer(eventHandler: DispatchWorkItem(block: playingUpdation))
+        resumeTimer(playingUpdation)
         return player!.play()
     }
     
@@ -214,9 +198,7 @@ final class AudioOperator: NSObject, AVAudioRecorderDelegate, AVAudioPlayerDeleg
         }
     }
     
-    /** Event handler for playing
-     */
-    fileprivate func playingUpdation() {
+    func playingUpdation() {
         guard let p = self.player, p.isPlaying == true else { return }
         p.updateMeters()
         DispatchQueue.main.async {
@@ -231,21 +213,50 @@ final class AudioOperator: NSObject, AVAudioRecorderDelegate, AVAudioPlayerDeleg
     
     /// 是否更新计时器被取消了
     var isUpdatingTimerCancelled: Bool {
-        return updatingTimer.isCancelled
+        if let timer = updatingTimer {
+            return timer.isCancelled
+        } else {
+            return true
+        }
     }
     
     /// Event runs on a background thread,
     /// and wakes those delegate or blocks on main thread.
-    fileprivate func resumeTimer(eventHandler: DispatchWorkItem) {
-        updatingTimer.suspend()
-        updatingTimer.setEventHandler(handler: eventHandler)
-        updatingTimer.resume()
+    func resumeTimer(_ eventHandler: @escaping () -> Void) {
+        suspendTimer()
+        
+        updatingTimer = DispatchSource.makeTimerSource(queue: queue)
+        updatingTimer!.scheduleRepeating(deadline: .now(), interval: .milliseconds(500), leeway: .milliseconds(100))
+        updatingTimer!.setEventHandler(handler: DispatchWorkItem(block: eventHandler))
+        updatingTimer!.resume()
     }
     
     /// Suspend updating timer
-    fileprivate func suspendTimer() {
-        updatingTimer.suspend()
+    func suspendTimer() {
+        updatingTimer?.cancel()
+        updatingTimer = nil
     }
+    
+    func releaseResource() {
+        suspendTimer()
+        
+        if let r = recorder {
+            r.delegate = nil
+            if r.isRecording {
+                r.stop()
+            }
+            recorder = nil
+        }
+        if let p = player {
+            p.delegate = nil
+            if p.isPlaying {
+                p.stop()
+            }
+            player = nil
+        }
+    }
+    
+    /// AudioSession
     
     /// Set AVAudioSession active or inactive.
     static func activeAudioSession() throws {
@@ -279,12 +290,11 @@ final class AudioOperator: NSObject, AVAudioRecorderDelegate, AVAudioPlayerDeleg
     // MARK: - AVAudioRecorderDelegate
     
     func audioRecorderDidFinishRecording(_ recorder: AVAudioRecorder, successfully flag: Bool) {
-        print(self, #function, recorder.currentTime)
         DispatchQueue.main.async {
             if let name = self.filename, flag == true {
                 let data = AudioRecordResult(filename: name,
-                                     duration: self.currentTime,
-                                     recordDate: Date(timeIntervalSince1970: self.startTime))
+                                             duration: self.currentTime,
+                                             recordDate: Date(timeIntervalSince1970: self.startTime))
                 self.delegate?.audioOperator?(self, didFinishRecording: data)
             } else {
                 self.cancelRecording()
@@ -328,27 +338,6 @@ final class AudioOperator: NSObject, AVAudioRecorderDelegate, AVAudioPlayerDeleg
             self.delegate?.audioOperatorDidFinishPlaying?(self)
         }
     }
-    
-    func releaseResource() {
-        
-        updatingTimer.cancel()
-        
-        if let r = recorder {
-            r.delegate = nil
-            if r.isRecording {
-                r.stop()
-            }
-            recorder = nil
-        }
-        
-        if let p = player {
-            p.delegate = nil
-            if p.isPlaying {
-                p.stop()
-            }
-            player = nil
-        }
-    }
 }
 
 @available(iOS 10.0, *)
@@ -377,7 +366,6 @@ extension AudioOperator {
     
     /// 使用siri语音识别
     static func recognize(speech url: URL, progression: ((String?) -> ())? = nil, completion: @escaping (String?) -> () ) {
-        
         guard let recognizer = SFSpeechRecognizer() else {
             
             print(self, #function, "speech recognizer can not use in current locale.")
@@ -386,7 +374,7 @@ extension AudioOperator {
             
             return
         }
-        if !recognizer.isAvailable {
+        guard recognizer.isAvailable else {
             
             print(self, #function, "speech recognizer is not Available.")
             
@@ -394,6 +382,7 @@ extension AudioOperator {
             
             return
         }
+        
         let request = SFSpeechURLRecognitionRequest(url: url)
         
         recognizer.recognitionTask(with: request) { (result: SFSpeechRecognitionResult?, error) in
@@ -410,14 +399,19 @@ extension AudioOperator {
             print(self, #function, "result: ", result.bestTranscription.formattedString)
             
             if result.isFinal {
-                
                 completion(result.bestTranscription.formattedString)
             } else {
-                
                 progression?(result.bestTranscription.formattedString)
             }
         }
         
         
+    }
+    
+    
+}
+
+extension AudioOperator {
+    static func recognizeHMM(speech url: URL, completion: @escaping (String?) -> () ) {
     }
 }

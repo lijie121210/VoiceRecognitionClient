@@ -9,6 +9,11 @@
 import UIKit
 import Foundation
 
+/// 名称应是唯一的，其他项其实没有必要比较。
+///
+func ==(lhs: AccessoryData, rhs: AccessoryData) -> Bool {
+    return lhs.name == rhs.name && lhs.type == rhs.type
+}
 
 public struct PickerTitle {
     
@@ -17,6 +22,7 @@ public struct PickerTitle {
     public var rightTitles: [String]
     
 }
+
 
 public struct AccessoryPicker {
     
@@ -44,17 +50,21 @@ public struct AccessoryPicker {
 
 
 /// 一个附件的数据结构
-public struct AccessoryData {
+struct AccessoryData: Equatable {
     
-    public let type: AccessoryType
+    let type: AccessoryType
     
-    public var state: AccessoryStatus
+    var state: AccessoryStatus
 
-    public var name: String
+    var name: String
     
-    public var image: UIImage? { return UIImage(named: type.icon) }
+    var isTimed: Bool = false
+    
+    var image: UIImage? {
+        return UIImage(named: type.icon)
+    }
 
-    public init(type: AccessoryType, state: AccessoryStatus, name: String? = nil) {
+    init(type: AccessoryType, state: AccessoryStatus, name: String? = nil) {
         self.type = type
         self.name = name ?? type.name
         self.state = state
@@ -63,25 +73,6 @@ public struct AccessoryData {
 
 
 
-/// Returns a Boolean value indicating whether two values are equal.
-///
-/// Equality is the inverse of inequality. For any values `a` and `b`,
-/// `a == b` implies that `a != b` is `false`.
-///
-/// - Parameters:
-///   - lhs: A value to compare.
-///   - rhs: Another value to compare.
-public func ==(lhs: AccessoryAction, rhs: AccessoryAction) -> Bool {
-    
-    switch (lhs, rhs) {
-        
-    case (.open, .open), (.close, .close), (.stop, .stop): return true
-        
-    case let (.timing(a), .timing(b)): return a == b
-        
-    default: return false
-    }
-}
 
 
 

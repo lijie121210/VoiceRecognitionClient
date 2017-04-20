@@ -102,38 +102,6 @@ extension VGUser{
 
 
 
-/// 管理用户的本地存储
-///
-public struct VGUserDefaultValue {
-    
-    static let currentUserKey = "KTYlpek89UIK"
-    
-    static var currentUser: VGUser? {
-        get {
-            /// 解析
-            guard let data = UserDefaults.standard.value(forKey: currentUserKey) as? Data else {
-                return nil
-            }
-            /// 创建返回
-            return try? VGUser(data: data)
-        }
-    }
-    
-    static func save(user data: Data?) {
-        if let data = data {
-            UserDefaults.standard.set(data, forKey: currentUserKey)
-        } else {
-            UserDefaults.standard.set(nil, forKey: currentUserKey)
-        }
-        UserDefaults.standard.synchronize()
-    }
-    
-}
-
-
-
-
-
 
 
 

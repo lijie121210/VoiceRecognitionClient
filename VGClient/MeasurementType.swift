@@ -83,7 +83,7 @@ public enum MeasurementType: Int, Equatable {
         }
     }
     
-    var origin: String {
+    var description: String {
         switch self {
         case .airHumidity:      return "airHumidity"
         case .airTemperature:   return "airTemperature"
@@ -95,17 +95,33 @@ public enum MeasurementType: Int, Equatable {
         }
     }
     
-    init?(origin: String) {
-        switch origin {
-        case "airHumidity": self = MeasurementType.airHumidity
-        case "airTemperature": self = MeasurementType.airTemperature
-        case "soilHumidity": self = MeasurementType.soilHumidity
-        case "soilTemperature": self = MeasurementType.soilTemperature
-        case "co2Concentration": self = MeasurementType.co2Concentration
-        case "lightIntensity": self = MeasurementType.lightIntensity
-        case "integrated": self = MeasurementType.integrated
+    init?(description: String) {
+        switch description {
+        case "airHumidity":         self = MeasurementType.airHumidity
+        case "airTemperature":      self = MeasurementType.airTemperature
+        case "soilHumidity":        self = MeasurementType.soilHumidity
+        case "soilTemperature":     self = MeasurementType.soilTemperature
+        case "co2Concentration":    self = MeasurementType.co2Concentration
+        case "lightIntensity":      self = MeasurementType.lightIntensity
+        case "integrated":          self = MeasurementType.integrated
         default: return nil
         }
+    }
+    
+    var shortDescription: String {
+        switch self {
+        case .airHumidity:      return "airh"
+        case .airTemperature:   return "airt"
+        case .soilHumidity:     return "soilh"
+        case .soilTemperature:  return "soilt"
+        case .lightIntensity:   return "lighti"
+        case .co2Concentration: return "cooc"
+        case .integrated:       return "all"
+        }
+    }
+    
+    var tablename: String {
+        return "\(shortDescription)s"
     }
     
     /// 使用监测信息种类可以直接获得单位
@@ -113,10 +129,10 @@ public enum MeasurementType: Int, Equatable {
     var unit: MeasurementUnit {
         switch self {
         case .airTemperature, .soilTemperature: return .temperature
-        case .airHumidity, .soilHumidity: return .humidity
-        case .lightIntensity: return .intensity
-        case .co2Concentration: return .concentration
-        case .integrated: return .none
+        case .airHumidity, .soilHumidity:       return .humidity
+        case .lightIntensity:                   return .intensity
+        case .co2Concentration:                 return .concentration
+        case .integrated:                       return .none
         }
     }
     
@@ -130,6 +146,6 @@ public enum MeasurementType: Int, Equatable {
             return "blinkmic"
         }
         
-        return "\(self)"
+        return self.description
     }
 }

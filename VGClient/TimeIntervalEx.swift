@@ -10,11 +10,11 @@ import Foundation
 
 
 /// A formatted output style to show audio data duration.
-public extension TimeInterval {
+extension TimeInterval {
     
     /// 用迭代重写!
     
-    public var timeDescription: String {
+    var timeDescription: String {
         
         if self < 0 {
             return "--:--"
@@ -74,6 +74,12 @@ public extension TimeInterval {
         }
         
         return res
+    }
+    
+    var minutesDescription: String {
+        let des = timeDescription
+        let e = des.index(des.endIndex, offsetBy: -5)
+        return des.substring(from: e)
     }
     
 }

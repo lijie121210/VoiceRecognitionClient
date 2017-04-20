@@ -38,3 +38,14 @@ class MeasurementCCell: UICollectionViewCell {
     }
 
 }
+
+extension MeasurementCCell {
+    
+    static var reuseid: String {
+        return "MeasurementCCell"
+    }
+    
+    static var nib: UINib {
+        return UINib(nibName: "MeasurementCCell", bundle: nil)
+    }
+}

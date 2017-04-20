@@ -14,4 +14,7 @@ enum VGError: Error {
     
     case playFailure
 
+    case recognizeFailure
+    
+    case dbFetchFailure
 }

@@ -65,7 +65,7 @@ struct MeasurementDataSource {
         }
         
         for (key, value) in jsonobj {
-            guard let type = MeasurementType(origin: key), let array = value as? [Any] else {
+            guard let type = MeasurementType(description: key), let array = value as? [Any] else {
                 continue
             }
             var tmp = [MeasurementData]()

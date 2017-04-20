@@ -43,38 +43,7 @@ public extension AudioData {
 }
 
 
-/// Manage local directory.
-public extension FileManager {
-    
-    /// folder name.
-    public static let dataDirectoryName = "audio_record_files"
-    
-    /// folder url path.
-    public static var dataStorageDirectory: URL {
-        
-        let documentDirectory = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first!
-        return documentDirectory.appendingPathComponent(dataDirectoryName)
-    }
-    
-    /// folder creation.
-    public static func initAudioDataStorageDirectory() {
-        
-        if FileManager.default.fileExists(atPath: dataStorageDirectory.path) {
-            return
-        }
-        do {
-            try FileManager.default.createDirectory(at: dataStorageDirectory, withIntermediateDirectories: false, attributes: nil)
-        } catch {
-            print(#function, error.localizedDescription)
-        }
-    }
-    
-    /// specified data url path in the folder.
-    public static func dataURL(with fileName: String) -> URL {
-        
-        return dataStorageDirectory.appendingPathComponent(fileName)
-    }
-}
+
 
 
 
